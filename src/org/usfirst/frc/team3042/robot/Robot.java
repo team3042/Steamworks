@@ -5,11 +5,9 @@ import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team3042.robot.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,8 +39,7 @@ public class Robot extends IterativeRobot {
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
         
 		autonomousChooser = new SendableChooser();
-        autonomousChooser.addDefault("Default (Do Nothing)", 0);
-        autonomousChooser.addObject("Autonomous 1", 1);
+        autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
     }
      
@@ -66,14 +63,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	Robot.logger.log("Autonomous Init", 1);
     	
-    	int autonomousCommandNumber = (int) autonomousChooser.getSelected();
-    	switch (autonomousCommandNumber) {
-        case 0:  autonomousCommand = new AutoMode_DoNothing();
-                 break;
-        case 1:  //autonomousCommand = new exampleCommand();
-    			//uncomment above line once you have an autonomous command to run.
-             break;
-    	}
+    	autonomousCommand = (Command) autonomousChooser.getSelected();
     	
     	
     	// schedule the autonomous command (example)
@@ -111,10 +101,6 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }
-    
-    public enum Alliance {
-    	RED_ALLIANCE, BLUE_ALLIANCE;
     }
     
 }

@@ -2,8 +2,8 @@ package org.usfirst.frc.team3042.robot.commands;
 
 import org.usfirst.frc.team3042.robot.Robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.MotionProfileStatus;
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.MotionProfileStatus;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -26,8 +26,8 @@ public class Auto_Drive extends Command {
 	
 	double wheelbaseWidth;// = measurement based on the robot
 	
-	AutoType autoType;
 	//AutoType enum found at bottom of class
+	AutoType autoType;
 	
 	AutoTrajectory_MotionProfile motionProfileLeft;
 	AutoTrajectory_MotionProfile motionProfileRight;
