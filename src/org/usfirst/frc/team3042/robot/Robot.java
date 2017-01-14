@@ -1,10 +1,13 @@
 
 package org.usfirst.frc.team3042.robot;
 
+import org.spectrum3847.RIOdroid.RIOadb;
+import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -37,6 +40,21 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
+        
+        RIOdroid.initUSB();
+        RIOadb.init();      //Start up ADB deamon and get an instance of jadb
+        Timer.delay(1);
+        System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
+        System.out.println("Kill adb" + RIOdroid.executeCommand("adb kill-server"));
+        System.out.println("start adb" + RIOdroid.executeCommand("adb start-server"));
+        System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
+        System.out.println("All to gether: " + RIOdroid.executeCommand("adb kill-server; adb start-server; adb devices"));
+        
+        System.out.println(RIOadb.clearNetworkPorts());
+        Timer.delay(1);
+        System.out.println("FOWARD ADB: " + RIOadb.forward(3800,8080));
+        Timer.delay(1);
+        System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(8080,3800));
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
