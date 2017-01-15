@@ -6,16 +6,16 @@ import java.net.SocketException;
 
 import org.spectrum3847.RIOdroid.RIOadb;
 
-public class TestServer{
+public class TestServer {
 	private static int port = 3042;
 	private ServerSocket socket;
-	public TestServer(){
+	public TestServer() {
 		RIOadb.init();      //Start up ADB deamon and get an instance of jadb
 		System.out.println(RIOadb.getDevicesList());
 		int numOfDevice = RIOadb.getDevicesList().size();
-		if(numOfDevice>0){
+		if(numOfDevice > 0) {
 			System.out.println("Going ahead with reverse port forwarding...");
-		    AdbCmds.adbReverseForward(port, port); //Forward our port to the phones port
+		    AdbUtils.adbReverseForward(port, port); //Forward our port to the phones port
 		    System.out.println("Ran reverse port forward command, going ahead with socket...");
 			try {
 				socket = new ServerSocket(port);
@@ -23,7 +23,7 @@ public class TestServer{
 				System.out.println("Error creating socket, possibly port already in use...");
 				e.printStackTrace();
 			}
-			if(socket!=null){
+			if(socket!=null) {
 				
 				System.out.println("Socket is instantiated, moving to accept connections...");
 				
@@ -41,11 +41,11 @@ public class TestServer{
 					e.printStackTrace();
 				}
 			}
-		}else{
+		} else {
 			System.out.println("No android devices found...");
 		}
 		
-		if(socket!=null){
+		if(socket!=null) {
 			try {
 				socket.close();
 			} catch (IOException e) {
