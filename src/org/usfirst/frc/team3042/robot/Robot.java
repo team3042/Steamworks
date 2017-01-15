@@ -4,7 +4,9 @@ package org.usfirst.frc.team3042.robot;
 import org.spectrum3847.RIOdroid.RIOadb;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
-import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+//import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3042.robot.vision.TestServer;
+import org.usfirst.frc.team3042.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,9 +25,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final DriveTrain driveTrain = new DriveTrain();
+	//public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 	public static Logger logger = new Logger(true, true, 3);
+	public static VisionServer visionServer;
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
@@ -45,16 +48,8 @@ public class Robot extends IterativeRobot {
         RIOadb.init();      //Start up ADB deamon and get an instance of jadb
         Timer.delay(1);
         System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
-        System.out.println("Kill adb" + RIOdroid.executeCommand("adb kill-server"));
-        System.out.println("start adb" + RIOdroid.executeCommand("adb start-server"));
-        System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
-        System.out.println("All to gether: " + RIOdroid.executeCommand("adb kill-server; adb start-server; adb devices"));
         
-        System.out.println(RIOadb.clearNetworkPorts());
-        Timer.delay(1);
-        System.out.println("FOWARD ADB: " + RIOadb.forward(3800,8080));
-        Timer.delay(1);
-        System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(8080,3800));
+        visionServer = VisionServer.getInstance();
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());

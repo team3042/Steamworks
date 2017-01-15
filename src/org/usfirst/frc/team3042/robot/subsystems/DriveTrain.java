@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-/**
- *
- */
+/*
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
 	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
@@ -221,14 +219,6 @@ public boolean isRightEncPresent() {
 	return !(rightEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
 }
 
-/*public double getGyro() {
-	return gyro.getAngle();
-}*/
-
-/*public void resetGyro() {
-	gyro.reset();
-}*/
-
 
 //Motion profile functions
 public void initMotionProfile() {
@@ -288,7 +278,4 @@ public void disableMotionProfile() {
 }
 }
 
-	
-
-
-
+*/

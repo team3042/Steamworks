@@ -15,12 +15,12 @@ public class DriveTrain_TankDrive extends Command{
     double maxAccel = 3.6; //motor power per second
     
     public DriveTrain_TankDrive(){
-    	requires(Robot.driveTrain);
+    	//requires(Robot.driveTrain);
     }
 
 	protected void initialize() {
 		Robot.logger.log("Initialize",1);
-		Robot.driveTrain.setMotors(0, 0);
+		//Robot.driveTrain.setMotors(0, 0);
 		time.start();
 	}
 
@@ -33,7 +33,7 @@ public class DriveTrain_TankDrive extends Command{
 		leftPower = restrictAccel(leftPower, LEFT);
         rightPower = restrictAccel(rightPower, RIGHT);
         
-        Robot.driveTrain.setMotors(leftPower,rightPower);
+        //Robot.driveTrain.setMotors(leftPower,rightPower);
 	}
 
 	protected boolean isFinished() {

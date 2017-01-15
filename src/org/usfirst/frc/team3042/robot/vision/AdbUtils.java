@@ -8,9 +8,13 @@ public class AdbUtils{
 	
 	public static String adbReverseForward(int remotePort, int localPort) {
 		try {
-			return RIOdroid.executeCommand("reverse tcp:" + remotePort + " tcp:" + localPort);
+			return RIOdroid.executeCommand("adb reverse tcp:" + remotePort + " tcp:" + localPort);
 		} catch(Exception e) {
 			return e.getMessage();	
 		}
+	}
+	
+	public static void restartApp() {
+		// TODO Restart app
 	}
 }

@@ -24,6 +24,7 @@ public class VisionServer implements Runnable {
 	private ServerSocket serverSocket;
 	double lastMessageReceivedTime = 0;
 	private boolean running = true;
+	private volatile boolean wantsAppRestart = false;
 	
 	private ArrayList<ServerThread> serverThreads = new ArrayList<>();
     private ArrayList<VisionUpdateReceiver> receivers = new ArrayList<>();
@@ -38,6 +39,12 @@ public class VisionServer implements Runnable {
 		}
 		return instance;
 	}
+	
+	private boolean connected = false;
+	
+	public boolean isConnected() {
+        return connected;
+    }
 	
 	// Thread to deal with sending heartbeat messages and receiving heartbeat and vision messages
 	protected class ServerThread implements Runnable {
@@ -131,6 +138,7 @@ public class VisionServer implements Runnable {
 			e.printStackTrace();
 		}
 		new Thread(this).start();
+		new Thread(new AppMaintainanceThread()).start();
 	}
 	
 	/**
@@ -177,6 +185,30 @@ public class VisionServer implements Runnable {
                 }
             }
 		}
+	}
+	
+	private class AppMaintainanceThread implements Runnable {
+		@Override
+        public void run() {
+            while (true) {
+                if (getTimestamp() - lastMessageReceivedTime > .1) {
+                    // camera disconnected
+                    AdbUtils.adbReverseForward(port, port);
+                    connected = false;
+                } else {
+                    connected = true;
+                }
+                if (wantsAppRestart) {
+                    AdbUtils.restartApp();
+                    wantsAppRestart = false;
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 	}
 	
 	private double getTimestamp() {
