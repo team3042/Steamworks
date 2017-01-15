@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.spectrum3847.RIOdroid.RIOadb;
+import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
@@ -26,6 +27,8 @@ public class VisionServer implements Runnable {
 	
 	private ArrayList<ServerThread> serverThreads = new ArrayList<>();
     private ArrayList<VisionUpdateReceiver> receivers = new ArrayList<>();
+    
+    VisionUpdate mostRecentUpdate = null;
 	
 	private static final int port = 3042;
 	
@@ -57,6 +60,7 @@ public class VisionServer implements Runnable {
             }
         }
 		
+		// Takes a message, sends it back if heartbeat, sends to recievers otherwise
 		public void handleMessage(VisionMessage message, double timestamp) {
             if ("targets".equals(message.getType())) {
                 VisionUpdate update = VisionUpdate.generateFromJsonString(timestamp, message.getMessage());
@@ -66,6 +70,8 @@ public class VisionServer implements Runnable {
                         receiver.gotUpdate(update);
                     }
                 }
+                
+                mostRecentUpdate = update;
             }
             if ("heartbeat".equals(message.getType())) {
                 send(HeartbeatMessage.getInstance());
@@ -126,6 +132,31 @@ public class VisionServer implements Runnable {
 		}
 		new Thread(this).start();
 	}
+	
+	/**
+     * If a VisionUpdate object (i.e. a target) is not in the list, add it.
+     * 
+     * @see VisionUpdate
+     */
+    public void addVisionUpdateReceiver(VisionUpdateReceiver receiver) {
+        if (!receivers.contains(receiver)) {
+            receivers.add(receiver);
+        }
+    }
+
+    public void removeVisionUpdateReceiver(VisionUpdateReceiver receiver) {
+        if (receivers.contains(receiver)) {
+            receivers.remove(receiver);
+        }
+    }
+    
+    public VisionUpdate getMostRecentUpdate() {
+    	if(mostRecentUpdate == null) {
+    		Robot.logger.log("No updates available", 2);
+    	}
+    	
+    	return mostRecentUpdate;
+    }
 	
 	@Override
 	public void run() {

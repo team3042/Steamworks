@@ -23,7 +23,7 @@ public class TestServer {
 				System.out.println("Error creating socket, possibly port already in use...");
 				e.printStackTrace();
 			}
-			if(socket!=null) {
+			if(socket != null) {
 				
 				System.out.println("Socket is instantiated, moving to accept connections...");
 				
@@ -45,7 +45,7 @@ public class TestServer {
 			System.out.println("No android devices found...");
 		}
 		
-		if(socket!=null) {
+		if(socket != null) {
 			try {
 				socket.close();
 			} catch (IOException e) {
