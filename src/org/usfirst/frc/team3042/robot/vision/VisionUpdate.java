@@ -65,11 +65,12 @@ public class VisionUpdate {
                 JSONObject target = (JSONObject) targetObj;
                 Optional<Double> x = parseDouble(target, "x");
                 Optional<Double> y = parseDouble(target, "y");
-                if (!(x.isPresent() && y.isPresent())) {
+                Optional<Double> distance = parseDouble(target, "distance");
+                if (!(x.isPresent() && y.isPresent() && distance.isPresent())) {
                     update.valid = false;
                     return update;
                 }
-                targetInfos.add(new TargetInfo(x.get(), y.get()));
+                targetInfos.add(new TargetInfo(x.get(), y.get(), distance.get()));
             }
             update.targets = targetInfos;
             update.valid = true;

@@ -5,11 +5,12 @@ package org.usfirst.frc.team3042.robot.vision;
  *
  */
 public class TargetInfo {
-	protected double x, y;
+	protected double x, y, distance;
 	
-	public TargetInfo(double x, double y) {
+	public TargetInfo(double x, double y, double distance) {
         this.x = x;
         this.y = y;
+        this.distance = distance;
     }
 	
 	public double getX() {
@@ -18,5 +19,9 @@ public class TargetInfo {
 
     public double getY() {
         return y;
+    }
+    
+    public double getDistance() {
+    	return distance;
     }
 }
