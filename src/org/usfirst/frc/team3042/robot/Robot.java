@@ -6,6 +6,7 @@ import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 //import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.vision.TestServer;
+import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Logger logger = new Logger(true, true, 3);
 	public static VisionServer visionServer;
+	public static TestUpdateReceiver testUpdateReceiver;
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
@@ -50,6 +52,8 @@ public class Robot extends IterativeRobot {
         System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
         
         visionServer = VisionServer.getInstance();
+        testUpdateReceiver = new TestUpdateReceiver();
+        visionServer.addVisionUpdateReceiver(testUpdateReceiver);
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
