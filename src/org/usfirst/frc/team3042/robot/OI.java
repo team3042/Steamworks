@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
+import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -24,6 +25,7 @@ public class OI {
 	public Object right_1;
 	
 	Button climberButton = new JoystickButton(joystickRight, 2);
+	Button shooterButton = new JoystickButton(joystickRight, 1);
 	
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -47,6 +49,7 @@ public class OI {
 	
 	public OI(){
 		climberButton.whileHeld(new Climber_Climb());
+		shooterButton.whileHeld(new Shooter_Shoot());
 	}
 }
 

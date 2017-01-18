@@ -4,6 +4,7 @@ package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
+	public static final Shooter shooter = new Shooter();
 	public static OI oi;
 	public static Logger logger = new Logger(true, true, 3);
 	
@@ -43,6 +45,11 @@ public class Robot extends IterativeRobot {
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+        
+        SmartDashboard.putNumber("Shooter P", 0);
+        SmartDashboard.putNumber("Shooter I", 0);
+        SmartDashboard.putNumber("Shooter D", 0);
+        SmartDashboard.putNumber("Shooter speed", 1000);
     }
      
     public void disabledInit(){
@@ -96,6 +103,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();  
         //Here is where you would put smart dashboard outputs, to put a number on the smart dashbard follow this format
         //SmartDashboard.putNumber("example number", number or variable here);
+        
     }
     
     /**

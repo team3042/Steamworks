@@ -27,4 +27,6 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 3;
 	
 	public static final int CLIMBER_TALON = 4;
+	
+	public static final int SHOOTER_TALON = 5;
 }
