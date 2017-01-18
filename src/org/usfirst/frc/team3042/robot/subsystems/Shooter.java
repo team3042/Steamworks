@@ -16,7 +16,7 @@ public class Shooter extends Subsystem {
 
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	  
-	double P = 0.0, I = 0.0, D = 0.0;
+	double P = 0.01, I = 0.0, D = 0.0;
 
 	public double shooterSpeed = 1000.0;
 	
@@ -30,7 +30,7 @@ public class Shooter extends Subsystem {
     }
 	
 	public void setPID(){
-		double P = SmartDashboard.getNumber("Shooter P", 0);
+		double P = SmartDashboard.getNumber("Shooter P", 0.01);
 		double I = SmartDashboard.getNumber("Shooter I", 0);
 		double D = SmartDashboard.getNumber("Shooter D", 0);
 		
