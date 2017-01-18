@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3042.robot;
 
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
+import org.usfirst.frc.team3042.robot.subsystems.Climber;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	public static final DriveTrain driveTrain = new DriveTrain();
+	public static final Climber climber = new Climber();
 	public static OI oi;
 	public static Logger logger = new Logger(true, true, 3);
 	

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 import org.usfirst.frc.team3042.robot.RobotMap;
+//import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -17,9 +18,9 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
  */
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
-	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
+	//CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
-	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
+	//CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;
@@ -55,10 +56,10 @@ public class DriveTrain extends Subsystem {
 	//Gyro will break the code if not commented out and not plugged in.
 	public DriveTrain() {
 		//Put the rear motors in follower mode
-		leftMotorRear.changeControlMode(TalonControlMode.Follower);
-    	leftMotorRear.set(leftMotorFront.getDeviceID());
-    	rightMotorRear.changeControlMode(TalonControlMode.Follower);
-    	rightMotorRear.set(rightMotorFront.getDeviceID());
+		//leftMotorRear.changeControlMode(TalonControlMode.Follower);
+    	//leftMotorRear.set(leftMotorFront.getDeviceID());
+    	//rightMotorRear.changeControlMode(TalonControlMode.Follower);
+    	//rightMotorRear.set(rightMotorFront.getDeviceID());
     	
     	leftMotorFront.reverseOutput(false);
     	leftMotorFront.setInverted(false);
@@ -221,13 +222,13 @@ public boolean isRightEncPresent() {
 	return !(rightEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
 }
 
-/*public double getGyro() {
-	return gyro.getAngle();
-}*/
+//public double getGyro() {
+//	return gyro.getAngle();
+//}
 
-/*public void resetGyro() {
-	gyro.reset();
-}*/
+//public void resetGyro() {
+//	gyro.reset();
+//}
 
 
 //Motion profile functions
