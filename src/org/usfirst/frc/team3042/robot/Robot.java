@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	//public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
-	public static Logger logger = new Logger(true, true, 3);
+	public static Logger logger;
 	public static VisionServer visionServer;
 	public static TestUpdateReceiver testUpdateReceiver;
 	
@@ -47,9 +47,6 @@ public class Robot extends IterativeRobot {
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
         
         RIOdroid.initUSB();
-        RIOadb.init();      //Start up ADB deamon and get an instance of jadb
-        Timer.delay(1);
-        System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
         
         visionServer = VisionServer.getInstance();
         testUpdateReceiver = new TestUpdateReceiver();

@@ -3,6 +3,8 @@ package org.usfirst.frc.team3042.robot.vision;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -129,6 +131,7 @@ public class VisionServer implements Runnable {
 	}
 	
 	private VisionServer() {
+		System.out.println("VisionServer initializing");
 		try {
 			// Creating a socket and setting up connection over adb to start tcp
 			serverSocket = new ServerSocket(port);
@@ -168,15 +171,18 @@ public class VisionServer implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("VisionServer thread starting");
 		while(running) {
 			// Creating new threads to communicate with server every 100 ms, which self-terminate after no messages are available
 			try {
+				System.out.println("Attempting to accept socket");
                 Socket p = serverSocket.accept();
+                System.out.println("Socket Accepted!");
                 ServerThread s = new ServerThread(p);
                 new Thread(s).start();
                 serverThreads.add(s);
             } catch (IOException e) {
-                System.err.println("Issue accepting socket connection!");
+                System.err.println("Issue accepting socket connection! "+e.getMessage());
             } finally {
                 try {
                     Thread.sleep(100);
