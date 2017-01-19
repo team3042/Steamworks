@@ -10,9 +10,9 @@ public class TestUpdateReceiver implements VisionUpdateReceiver {
 	public void gotUpdate(VisionUpdate update) {
 		List<TargetInfo> targets = update.getTargets();
 		
-		Robot.logger.log("Vision update received (Time: " + update.getCapturedAgoMs() + ")", 2);
+		System.out.println("Vision update received (Time: " + update.getCapturedAgoMs() + ")");
 		for(int i = 0; i < targets.size(); i++) {
-			Robot.logger.log("\tTarget recieved (x: " + targets.get(i).getX() + ", y: " + targets.get(i).getY() + ")", 3);
+			System.out.println("\tTarget recieved (x: " + targets.get(i).getX() + ", y: " + targets.get(i).getY() + ")");
 		}
 	}
 }

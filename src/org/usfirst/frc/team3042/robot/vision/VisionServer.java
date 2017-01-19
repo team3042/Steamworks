@@ -17,6 +17,9 @@ import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
 
 import edu.wpi.first.wpilibj.Timer;
+import vision.VisionUpdate;
+import vision.VisionUpdateReceiver;
+import vision.VisionServer.ServerThread;
 
 // Code taken from team 254 github
 
@@ -27,6 +30,7 @@ public class VisionServer implements Runnable {
 	double lastMessageReceivedTime = 0;
 	private boolean running = true;
 	private volatile boolean wantsAppRestart = false;
+	private Socket p;
 	
 	private ArrayList<ServerThread> serverThreads = new ArrayList<>();
     private ArrayList<VisionUpdateReceiver> receivers = new ArrayList<>();
@@ -72,10 +76,13 @@ public class VisionServer implements Runnable {
 		// Takes a message, sends it back if heartbeat, sends to recievers otherwise
 		public void handleMessage(VisionMessage message, double timestamp) {
             if ("targets".equals(message.getType())) {
+            	System.out.println("Received vision message");
                 VisionUpdate update = VisionUpdate.generateFromJsonString(timestamp, message.getMessage());
                 receivers.removeAll(Collections.singleton(null));
                 if (update.isValid()) {
+                	System.out.println("Vision update valid");
                     for (VisionUpdateReceiver receiver : receivers) {
+                    	System.out.println("Sent to receiver");
                         receiver.gotUpdate(update);
                     }
                 }
@@ -119,6 +126,8 @@ public class VisionServer implements Runnable {
                 System.out.println("Socket disconnected");
 			} catch (IOException e) {
                 System.err.println("Could not talk to socket");
+                socket = null;
+                p = null;
             }
 			if (socket != null) {
                 try {
@@ -163,7 +172,7 @@ public class VisionServer implements Runnable {
     
     public VisionUpdate getMostRecentUpdate() {
     	if(mostRecentUpdate == null) {
-    		Robot.logger.log("No updates available", 2);
+    		System.out.println("No updates available");
     	}
     	
     	return mostRecentUpdate;
@@ -172,17 +181,21 @@ public class VisionServer implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("VisionServer thread starting");
+
+        p = null;
 		while(running) {
 			// Creating new threads to communicate with server every 100 ms, which self-terminate after no messages are available
 			try {
-				System.out.println("Attempting to accept socket");
-                Socket p = serverSocket.accept();
-                System.out.println("Socket Accepted!");
+				if(p == null) {
+					System.out.println("Attempting to accept socket");
+					p = serverSocket.accept();
+					System.out.println("Socket Accepted!");
+				}
                 ServerThread s = new ServerThread(p);
                 new Thread(s).start();
                 serverThreads.add(s);
             } catch (IOException e) {
-                System.err.println("Issue accepting socket connection! "+e.getMessage());
+            	e.printStackTrace();
             } finally {
                 try {
                     Thread.sleep(100);
@@ -218,7 +231,7 @@ public class VisionServer implements Runnable {
 	}
 	
 	private double getTimestamp() {
-		return Timer.getFPGATimestamp();
+		return System.currentTimeMillis();
 	}
 
 }
