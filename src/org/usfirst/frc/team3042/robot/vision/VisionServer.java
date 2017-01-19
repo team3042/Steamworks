@@ -17,9 +17,6 @@ import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
 
 import edu.wpi.first.wpilibj.Timer;
-import vision.VisionUpdate;
-import vision.VisionUpdateReceiver;
-import vision.VisionServer.ServerThread;
 
 // Code taken from team 254 github
 

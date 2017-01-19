@@ -5,9 +5,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import vision.TargetInfo;
-import vision.VisionUpdate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
