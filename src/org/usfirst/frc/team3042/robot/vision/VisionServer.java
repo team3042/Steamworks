@@ -191,10 +191,13 @@ public class VisionServer implements Runnable {
                     System.out.println("Attempting to accept socket");
                     p = serverSocket.accept();
                     System.out.println("Socket Accepted!");
+                    
+                    ServerThread s = new ServerThread(p);
+                    new Thread(s).start();
+                    serverThreads.add(s);
+                    System.out.println("Created a new thread(total: " + serverThreads.size() + ")");
                 }
-                ServerThread s = new ServerThread(p);
-                new Thread(s).start();
-                serverThreads.add(s);
+                
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
