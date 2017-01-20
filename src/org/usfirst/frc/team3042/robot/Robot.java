@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
 	public static OI oi;
-	public static Logger logger = new Logger(true, true, 3);
+	public static Logger logger;
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Shooter P", 0);
         SmartDashboard.putNumber("Shooter I", 0);
         SmartDashboard.putNumber("Shooter D", 0);
+        SmartDashboard.putNumber("Shooter F", 0);
         SmartDashboard.putNumber("Shooter speed", 1000);
     }
      

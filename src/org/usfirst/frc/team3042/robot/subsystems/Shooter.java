@@ -16,39 +16,50 @@ public class Shooter extends Subsystem {
 
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	  
-	double P = 0.01, I = 0.0, D = 0.0;
+	private double kP = 0.01, kI = 0.0, kD = 0.0, kF = 0;
 
 	public double shooterSpeed = 1000.0;
 	
 	public Shooter(){
-		setPID();
-		InitEncoder();
+		
+		setPIDF();
+		initEncoder();
 	}
 	
 	public void initDefaultCommand() {
 		setDefaultCommand(new Shooter_Stop());
     }
 	
-	public void setPID(){
-		double P = SmartDashboard.getNumber("Shooter P", 0.01);
-		double I = SmartDashboard.getNumber("Shooter I", 0);
-		double D = SmartDashboard.getNumber("Shooter D", 0);
+	public void setPIDF(){
+		double P = SmartDashboard.getNumber("Shooter P", kP);
+		double I = SmartDashboard.getNumber("Shooter I", kI);
+		double D = SmartDashboard.getNumber("Shooter D", kD);
+		double F = SmartDashboard.getNumber("Shooter F", kF);
 		
-		shooterTalon.setPID(P, I, D);	
+		shooterTalon.setPID(P, I, D);
+		shooterTalon.setF(F);
 	}
 	
-	public void InitEncoder(){
+	public void initEncoder(){
 		shooterTalon.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
 		shooterTalon.configEncoderCodesPerRev(1024);
 		shooterTalon.reverseSensor(false);
 	}
 	
-	public void SetRPM(double speed){
+	private void setRPM(double speed){
 		shooterTalon.changeControlMode(TalonControlMode.Speed);
 		
 		shooterTalon.set(speed);
 	}
 	
+	public void shoot() {
+		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
+		
+		setRPM(velocity);
+	}
 	
+	public void stop() {
+		setRPM(0);
+	}
 }
 

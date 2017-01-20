@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Climber extends Subsystem {
+	
+	private double climbSpeed = 1.0;
 
     CANTalon climber = new CANTalon(RobotMap.CLIMBER_TALON);
 
@@ -19,9 +21,17 @@ public class Climber extends Subsystem {
         setDefaultCommand(new Climber_Stop());
     }
     
-    public void SetPower(double motorValue){
+    private void setPower(double motorValue){
     	motorValue = SafetyTest(motorValue);
     	climber.set(motorValue);
+    }
+    
+    public void climb() {
+    	setPower(climbSpeed);
+    }
+    
+    public void stop() {
+    	setPower(0);
     }
     
     private double SafetyTest(double motorValue){

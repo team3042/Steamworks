@@ -25,11 +25,11 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TALON_LEFT_REAR = 1;
 	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = 2;
 	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 3;
+	public static final int CLIMBER_TALON = 4;
+	public static final int SHOOTER_TALON = 5;
 	
 	public static final int DRIVETRAIN_SPIKE_RIGHT = 2;
 	public static final int DRIVETRAIN_SPIKE_LEFT = 1;
 	
-	public static final int CLIMBER_TALON = 4;
-	
-	public static final int SHOOTER_TALON = 5;
+	public static final int COMPRESSOR_PORT = 0;
 }

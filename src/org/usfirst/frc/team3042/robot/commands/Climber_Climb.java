@@ -17,8 +17,9 @@ public class Climber_Climb extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.climber.SetPower(1);
     	Robot.logger.log("Initialize", 1);
+    	
+    	Robot.climber.climb();
     }
 
     // Called repeatedly when this Command is scheduled to run

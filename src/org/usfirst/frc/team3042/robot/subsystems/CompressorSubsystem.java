@@ -12,7 +12,7 @@ public class CompressorSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
     // here. Call these from Commands.
-    Compressor compressor = new Compressor(0);
+    Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PORT);
    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
