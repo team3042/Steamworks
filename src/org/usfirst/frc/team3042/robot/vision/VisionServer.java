@@ -79,7 +79,7 @@ public class VisionServer implements Runnable {
                 if (update.isValid()) {
                 	System.out.println("Vision update valid");
                     for (VisionUpdateReceiver receiver : receivers) {
-                    	System.out.println("Sent to receiver");
+                        System.out.println("Sent to receiver");
                         receiver.gotUpdate(update);
                     }
                 }
