@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import org.spectrum3847.RIOdroid.RIOadb;
 import org.usfirst.frc.team3042.robot.Robot;
+import org.usfirst.frc.team3042.robot.vision.messages.CameraModeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
@@ -177,6 +178,20 @@ public class VisionServer implements Runnable {
 
         return mostRecentUpdate;
     }
+    
+    public void setCameraFront() {
+    	CameraModeMessage frontMessage = CameraModeMessage.getFrontFacingMessage();
+    	ServerThread mostRecentThread = serverThreads.get(serverThreads.size() - 1);
+    	
+    	mostRecentThread.send(frontMessage);
+    }
+    
+    public void setCameraRear() {
+    	CameraModeMessage rearMessage = CameraModeMessage.getRearFacingMessage();
+    	ServerThread mostRecentThread = serverThreads.get(serverThreads.size() - 1);
+    	
+    	mostRecentThread.send(rearMessage);
+    }
 
     @Override
     public void run() {
@@ -184,8 +199,7 @@ public class VisionServer implements Runnable {
 
         p = null;
         while (running) {
-            // Creating new threads to communicate with server every 100 ms,
-            // which self-terminate after no messages are available
+            // If socket is disconnected, attempt to reconnect and start new ServerThread
             try {
                 if (p == null) {
                     System.out.println("Attempting to accept socket");
