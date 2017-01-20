@@ -10,6 +10,7 @@ import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
@@ -22,6 +23,9 @@ public class DriveTrain extends Subsystem {
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
 	//CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
+	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SPIKE_RIGHT);
+	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SPIKE_LEFT);
+	
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;
     
@@ -33,6 +37,8 @@ public class DriveTrain extends Subsystem {
     private int rightEncSign;
     private int rightEncZero;
     private int leftEncZero;
+    
+    private boolean isHighGear = false;
    
     
     public double kP = 0, kI = 0, kD = 0;
@@ -156,6 +162,19 @@ private double safetyTest(double motorValue) {
     motorValue = (motorValue > 1) ? 1 : motorValue;
     
     return motorValue;
+}
+
+public void ShiftGear(){
+	if(isHighGear){
+		gearShiftRight.set(Relay.Value.kOn);
+		gearShiftLeft.set(Relay.Value.kOn);
+		isHighGear = false;
+	}
+	else{
+		gearShiftRight.set(Relay.Value.kOff);
+		gearShiftLeft.set(Relay.Value.kOff);
+		isHighGear = true;
+	}
 }
 
 public void offsetPosition(double left, double right) {
