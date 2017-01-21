@@ -4,6 +4,7 @@ package org.usfirst.frc.team3042.robot;
 import org.spectrum3847.RIOdroid.RIOadb;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
+import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 //import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.vision.TestServer;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static Logger logger;
 	public static VisionServer visionServer;
 	public static TestUpdateReceiver testUpdateReceiver;
+	public static LEDSwitch ledSwitch = new LEDSwitch();
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
