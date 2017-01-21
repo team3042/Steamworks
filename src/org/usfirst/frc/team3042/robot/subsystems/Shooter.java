@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
+	
+	private CANTalon agitateTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
 	private double kP = 0.01, kI = 0.0, kD = 0.0, kF = 0;
 
 	public double shooterSpeed = 1000.0;
-	
+	public boolean shooterOn = false;
 	public Shooter(){
 		
 		setPIDF();
@@ -55,11 +57,32 @@ public class Shooter extends Subsystem {
 	public void shoot() {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		
-		setRPM(velocity);
+		setRPM(SafetyTest(velocity));
+		
+		shooterOn = true;
 	}
 	
 	public void stop() {
 		setRPM(0);
+		
+		shooterOn = false;
 	}
+	
+	public void agitate(){
+		if(shooterOn == true){
+			
+			agitateTalon.set(.8);
+			
+			}else{
+			agitateTalon.set(0);
+		}
+	}
+	
+	private double SafetyTest(double motorValue){
+    	motorValue = (motorValue < -1) ? -1 : motorValue;
+        motorValue = (motorValue > 1) ? 1 : motorValue;
+        
+        return motorValue;
+    }
 }
 
