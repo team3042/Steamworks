@@ -2,8 +2,6 @@ package org.usfirst.frc.team3042.robot.vision;
 
 import java.util.List;
 
-import org.usfirst.frc.team3042.robot.Robot;
-
 public class TestUpdateReceiver implements VisionUpdateReceiver {
 
 	@Override

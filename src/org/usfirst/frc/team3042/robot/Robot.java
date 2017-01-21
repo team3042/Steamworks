@@ -1,11 +1,9 @@
 
 package org.usfirst.frc.team3042.robot;
 
-import org.spectrum3847.RIOdroid.RIOadb;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
-import org.usfirst.frc.team3042.robot.vision.TestServer;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
@@ -14,7 +12,6 @@ import org.usfirst.frc.team3042.robot.subsystems.Intake;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -38,9 +35,7 @@ public class Robot extends IterativeRobot {
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
-	public static final Intake intake = new Intake();	
-	public static OI oi;
-	public static Logger logger;
+	public static final Intake intake = new Intake();
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;

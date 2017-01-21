@@ -3,21 +3,16 @@ package org.usfirst.frc.team3042.robot.vision;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import org.spectrum3847.RIOdroid.RIOadb;
-import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.vision.messages.CameraModeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
-
-import edu.wpi.first.wpilibj.Timer;
 
 // Code taken from team 254 github
 
