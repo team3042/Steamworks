@@ -13,9 +13,6 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
 	//CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
@@ -143,7 +140,7 @@ public class DriveTrain extends Subsystem {
 		
 		setMotorsRaw(left, right);
 	}
-	
+
 	public void setMotorsRaw(double left, double right) {
 		left = safetyTest(left);
 		right = safetyTest(right);
@@ -304,8 +301,3 @@ public class DriveTrain extends Subsystem {
 		rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
 	}
 }
-
-	
-
-
-

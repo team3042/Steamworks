@@ -1,13 +1,20 @@
 
 package org.usfirst.frc.team3042.robot;
 
+import org.spectrum3847.RIOdroid.RIOadb;
+import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
+import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
+import org.usfirst.frc.team3042.robot.vision.TestServer;
+import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
+import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.subsystems.Intake;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -23,6 +30,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	public static OI oi;
+	public static Logger logger;
+	public static VisionServer visionServer;
+	public static TestUpdateReceiver testUpdateReceiver;
+	public static LEDSwitch ledSwitch = new LEDSwitch();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
@@ -43,6 +55,12 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
+        
+        RIOdroid.initUSB();
+        
+        visionServer = VisionServer.getInstance();
+        testUpdateReceiver = new TestUpdateReceiver();
+        visionServer.addVisionUpdateReceiver(testUpdateReceiver);
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
