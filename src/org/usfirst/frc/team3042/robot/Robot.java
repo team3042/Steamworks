@@ -5,10 +5,13 @@ import org.spectrum3847.RIOdroid.RIOadb;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
-//import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.vision.TestServer;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
+import org.usfirst.frc.team3042.robot.subsystems.Climber;
+import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3042.robot.subsystems.Intake;
+import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,12 +30,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	//public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 	public static Logger logger;
 	public static VisionServer visionServer;
 	public static TestUpdateReceiver testUpdateReceiver;
 	public static LEDSwitch ledSwitch = new LEDSwitch();
+	public static final DriveTrain driveTrain = new DriveTrain();
+	public static final Climber climber = new Climber();
+	public static final Shooter shooter = new Shooter();
+	public static final Intake intake = new Intake();	
+	public static OI oi;
+	public static Logger logger;
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
@@ -57,6 +65,12 @@ public class Robot extends IterativeRobot {
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+        
+        SmartDashboard.putNumber("Shooter P", 0);
+        SmartDashboard.putNumber("Shooter I", 0);
+        SmartDashboard.putNumber("Shooter D", 0);
+        SmartDashboard.putNumber("Shooter F", 0);
+        SmartDashboard.putNumber("Shooter speed", 1000);
     }
      
     public void disabledInit(){
@@ -110,6 +124,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();  
         //Here is where you would put smart dashboard outputs, to put a number on the smart dashbard follow this format
         //SmartDashboard.putNumber("example number", number or variable here);
+        
     }
     
     /**

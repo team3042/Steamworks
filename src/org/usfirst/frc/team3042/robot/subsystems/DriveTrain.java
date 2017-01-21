@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 import org.usfirst.frc.team3042.robot.RobotMap;
+//import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -9,27 +10,29 @@ import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-/*
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
-	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
+	//CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
-	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
+	//CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
+	
+	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SPIKE_RIGHT);
+	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SPIKE_LEFT);
 	
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;
     
-    private int leftEncoderZero;
+    private int leftEncoderZero, rightEncoderZero;
     public int enCounts;
     private boolean leftReverseEnc;
     private boolean rightReverseEnc;
     private int leftEncSign;
     private int rightEncSign;
-    private int rightEncZero;
-    private int leftEncZero;
+    
+    private boolean isHighGear = false;
    
     
     public double kP = 0, kI = 0, kD = 0;
@@ -53,10 +56,10 @@ public class DriveTrain extends Subsystem {
 	//Gyro will break the code if not commented out and not plugged in.
 	public DriveTrain() {
 		//Put the rear motors in follower mode
-		leftMotorRear.changeControlMode(TalonControlMode.Follower);
-    	leftMotorRear.set(leftMotorFront.getDeviceID());
-    	rightMotorRear.changeControlMode(TalonControlMode.Follower);
-    	rightMotorRear.set(rightMotorFront.getDeviceID());
+		//leftMotorRear.changeControlMode(TalonControlMode.Follower);
+    	//leftMotorRear.set(leftMotorFront.getDeviceID());
+    	//rightMotorRear.changeControlMode(TalonControlMode.Follower);
+    	//rightMotorRear.set(rightMotorFront.getDeviceID());
     	
     	leftMotorFront.reverseOutput(false);
     	leftMotorFront.setInverted(false);
@@ -96,186 +99,205 @@ public class DriveTrain extends Subsystem {
 	//Initializing PIDF
 	
 
-public void tempReverseLeft() {
-	//leftMotorFront.setInverted(true);
-	//leftMotorFront.reverseOutput(true);
-}
+	public void tempReverseLeft() {
+		//leftMotorFront.setInverted(true);
+		//leftMotorFront.reverseOutput(true);
+	}
 
-public void tempUnreverseLeft() {
-	//leftMotorFront.setInverted(false);
-	//leftMotorFront.reverseOutput(false);
-}
-
-void initEncoders() {
-	leftEncMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-	rightEncMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+	public void tempUnreverseLeft() {
+		//leftMotorFront.setInverted(false);
+		//leftMotorFront.reverseOutput(false);
+	}
 	
-	leftEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
-	rightEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
-
-	leftEncMotor.configEncoderCodesPerRev(enCounts);
-	rightEncMotor.configEncoderCodesPerRev(enCounts);
+	void initEncoders() {
+		leftEncMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		rightEncMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		
+		leftEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
+		rightEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
 	
-	leftEncMotor.reverseSensor(leftReverseEnc);
-	rightEncMotor.reverseSensor(rightReverseEnc);
+		leftEncMotor.configEncoderCodesPerRev(enCounts);
+		rightEncMotor.configEncoderCodesPerRev(enCounts);
+		
+		leftEncMotor.reverseSensor(leftReverseEnc);
+		rightEncMotor.reverseSensor(rightReverseEnc);
+		
+		resetEncoders();
+	}
 	
-	resetEncoders();
-}
-
-public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-	setDefaultCommand(new DriveTrain_TankDrive());
-}
-
-public void stop() {
-	setMotorsRaw(0,0);
-}
-
-public void setMotors(double left, double right) {
-	left = scaleLeft(left);
-	right = scaleRight(right);
+	public void initDefaultCommand() {
+	    // Set the default command for a subsystem here.
+		setDefaultCommand(new DriveTrain_TankDrive());
+	}
 	
-	setMotorsRaw(left, right);
-}
-
-public void setMotorsRaw(double left, double right) {
-	left = safetyTest(left);
-	right = safetyTest(right);
+	public void stop() {
+		setMotorsRaw(0,0);
+	}
 	
-	leftMotorFront.changeControlMode(TalonControlMode.PercentVbus);
-	rightMotorFront.changeControlMode(TalonControlMode.PercentVbus);
-	leftMotorFront.set(left);
-	rightMotorFront.set(right);		
-}
+	public void setMotors(double left, double right) {
+		left = scaleLeft(left);
+		right = scaleRight(right);
+		
+		setMotorsRaw(left, right);
+	}
 
-private double safetyTest(double motorValue) {
-    motorValue = (motorValue < -1) ? -1 : motorValue;
-    motorValue = (motorValue > 1) ? 1 : motorValue;
-    
-    return motorValue;
-}
-
-public void offsetPosition(double left, double right) {
-	left += leftMotorFront.getPosition();
-	right += rightMotorFront.getPosition();
+	public void setMotorsRaw(double left, double right) {
+		left = safetyTest(left);
+		right = safetyTest(right);
+		
+		leftMotorFront.changeControlMode(TalonControlMode.PercentVbus);
+		rightMotorFront.changeControlMode(TalonControlMode.PercentVbus);
+		leftMotorFront.set(left);
+		rightMotorFront.set(right);		
+	}
 	
-	leftSetpoint = left;
-	rightSetpoint = right;
+	private double safetyTest(double motorValue) {
+	    motorValue = (motorValue < -1) ? -1 : motorValue;
+	    motorValue = (motorValue > 1) ? 1 : motorValue;
+	    
+	    return motorValue;
+	}
 	
-	leftMotorFront.setProfile(1);
-	rightMotorFront.setProfile(1);
-	  	
-	leftMotorFront.changeControlMode(TalonControlMode.Position);
-	rightMotorFront.changeControlMode(TalonControlMode.Position);
-	    	
-	leftMotorFront.set(left);
-	rightMotorFront.set(right);
-}
-
-public boolean nearSetpoint() {
-	double currentLeftPosition = leftMotorFront.getPosition();
-	boolean nearLeft = Math.abs(leftSetpoint - currentLeftPosition) < tolerance;
+	public void shiftGear(){
+		if(isHighGear){
+			gearShiftRight.set(Relay.Value.kOn);
+			gearShiftLeft.set(Relay.Value.kOn);
+			isHighGear = false;
+		}
+		else{
+			gearShiftRight.set(Relay.Value.kOff);
+			gearShiftLeft.set(Relay.Value.kOff);
+			isHighGear = true;
+		}
+	}
 	
-	double currentRightPosition = rightMotorFront.getPosition();
-	boolean nearRight = Math.abs(rightSetpoint - currentRightPosition) < tolerance;
+	public void offsetPosition(double left, double right) {
+		left += leftMotorFront.getPosition();
+		right += rightMotorFront.getPosition();
+		
+		leftSetpoint = left;
+		rightSetpoint = right;
+		
+		leftMotorFront.setProfile(1);
+		rightMotorFront.setProfile(1);
+		  	
+		leftMotorFront.changeControlMode(TalonControlMode.Position);
+		rightMotorFront.changeControlMode(TalonControlMode.Position);
+		    	
+		leftMotorFront.set(left);
+		rightMotorFront.set(right);
+	}
 	
-	return nearLeft && nearRight;
-}
-
-private double scaleLeft(double left) {
-	return left;
-}
-
-private double scaleRight(double right) {
-	return right;
-}
-
-public void resetEncoders() {
-	leftEncZero = leftEncMotor.getEncPosition();
-	rightEncZero = rightEncMotor.getEncPosition();
-}
-
-public int getLeftEncoder() {
-	return leftEncSign * (leftEncMotor.getEncPosition() - leftEncoderZero);
-}
-
-public int getRightEncoder() {
-	return rightEncSign * (rightEncMotor.getEncPosition() - rightEncZero);
-}
-
-public double getLeftSpeed() {
-	return leftEncMotor.getSpeed();
-} 
-
-public double getRightSpeed() {
-	return rightEncMotor.getSpeed();
-}
-
-public boolean isLeftEncPresent() {
-	return !(leftEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
-}
-
-public boolean isRightEncPresent() {
-	return !(rightEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
-}
-
-
-//Motion profile functions
-public void initMotionProfile() {
+	public boolean nearSetpoint() {
+		double currentLeftPosition = leftMotorFront.getPosition();
+		boolean nearLeft = Math.abs(leftSetpoint - currentLeftPosition) < tolerance;
+		
+		double currentRightPosition = rightMotorFront.getPosition();
+		boolean nearRight = Math.abs(rightSetpoint - currentRightPosition) < tolerance;
+		
+		return nearLeft && nearRight;
+	}
 	
-	leftMotorFront.clearMotionProfileTrajectories();
-	rightMotorFront.clearMotionProfileTrajectories();
+	private double scaleLeft(double left) {
+		return left;
+	}
 	
-	leftMotorFront.setProfile(0);
-	rightMotorFront.setProfile(0);
+	private double scaleRight(double right) {
+		return right;
+	}
 	
-	leftMotorFront.changeControlMode(TalonControlMode.MotionProfile);
-	rightMotorFront.changeControlMode(TalonControlMode.MotionProfile);
-	leftMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
-	rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+	public void resetEncoders() {
+		leftEncoderZero = leftEncMotor.getEncPosition();
+		rightEncoderZero = rightEncMotor.getEncPosition();
+	}
 	
-	leftMotorFront.clearMotionProfileHasUnderrun();
-	rightMotorFront.clearMotionProfileHasUnderrun();
-}
-
-public void pushPoints(CANTalon.TrajectoryPoint leftPoint, CANTalon.TrajectoryPoint rightPoint) {
-	leftMotorFront.pushMotionProfileTrajectory(leftPoint);
-	rightMotorFront.pushMotionProfileTrajectory(rightPoint);
-}
-
-public MotionProfileStatus[] getMotionProfileStatus() {
-	MotionProfileStatus[] motionProfileStatus = new MotionProfileStatus[2];
-	motionProfileStatus[0] = new MotionProfileStatus();
-	motionProfileStatus[1] = new MotionProfileStatus();
-	leftMotorFront.getMotionProfileStatus(motionProfileStatus[0]);
-	rightMotorFront.getMotionProfileStatus(motionProfileStatus[1]);
+	public int getLeftEncoder() {
+		return leftEncSign * (leftEncMotor.getEncPosition() - leftEncoderZero);
+	}
 	
-	return motionProfileStatus;
+	public int getRightEncoder() {
+		return rightEncSign * (rightEncMotor.getEncPosition() - rightEncoderZero);
+	}
+	
+	public double getLeftSpeed() {
+		return leftEncMotor.getSpeed();
+	} 
+	
+	public double getRightSpeed() {
+		return rightEncMotor.getSpeed();
+	}
+	
+	public boolean isLeftEncPresent() {
+		return !(leftEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
+	}
+	
+	public boolean isRightEncPresent() {
+		return !(rightEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
+	}
+	
+	//public double getGyro() {
+	//	return gyro.getAngle();
+	//}
+	
+	//public void resetGyro() {
+	//	gyro.reset();
+	//}
+	
+	
+	//Motion profile functions
+	public void initMotionProfile() {
+		
+		leftMotorFront.clearMotionProfileTrajectories();
+		rightMotorFront.clearMotionProfileTrajectories();
+		
+		leftMotorFront.setProfile(0);
+		rightMotorFront.setProfile(0);
+		
+		leftMotorFront.changeControlMode(TalonControlMode.MotionProfile);
+		rightMotorFront.changeControlMode(TalonControlMode.MotionProfile);
+		leftMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+		rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+		
+		leftMotorFront.clearMotionProfileHasUnderrun();
+		rightMotorFront.clearMotionProfileHasUnderrun();
+	}
+	
+	public void pushPoints(CANTalon.TrajectoryPoint leftPoint, CANTalon.TrajectoryPoint rightPoint) {
+		leftMotorFront.pushMotionProfileTrajectory(leftPoint);
+		rightMotorFront.pushMotionProfileTrajectory(rightPoint);
+	}
+	
+	public MotionProfileStatus[] getMotionProfileStatus() {
+		MotionProfileStatus[] motionProfileStatus = new MotionProfileStatus[2];
+		motionProfileStatus[0] = new MotionProfileStatus();
+		motionProfileStatus[1] = new MotionProfileStatus();
+		leftMotorFront.getMotionProfileStatus(motionProfileStatus[0]);
+		rightMotorFront.getMotionProfileStatus(motionProfileStatus[1]);
+		
+		return motionProfileStatus;
+	}
+	
+	//Removing flag hasUnderrun if it has been logged
+	public void removeUnderrunLeft() {
+		leftMotorFront.clearMotionProfileHasUnderrun();
+	}
+	
+	public void removeUnderrunRight() {
+		rightMotorFront.clearMotionProfileHasUnderrun();
+	}
+	
+	public void enableMotionProfile() {
+		leftMotorFront.set(CANTalon.SetValueMotionProfile.Enable.value);
+		rightMotorFront.set(CANTalon.SetValueMotionProfile.Enable.value);
+	}
+	
+	public void holdMotionProfile() {
+		leftMotorFront.set(CANTalon.SetValueMotionProfile.Hold.value);
+		rightMotorFront.set(CANTalon.SetValueMotionProfile.Hold.value);
+	}
+	
+	public void disableMotionProfile() {
+		leftMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+		rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+	}
 }
-
-//Removing flag hasUnderrun if it has been logged
-public void removeUnderrunLeft() {
-	leftMotorFront.clearMotionProfileHasUnderrun();
-}
-
-public void removeUnderrunRight() {
-	rightMotorFront.clearMotionProfileHasUnderrun();
-}
-
-public void enableMotionProfile() {
-	leftMotorFront.set(CANTalon.SetValueMotionProfile.Enable.value);
-	rightMotorFront.set(CANTalon.SetValueMotionProfile.Enable.value);
-}
-
-public void holdMotionProfile() {
-	leftMotorFront.set(CANTalon.SetValueMotionProfile.Hold.value);
-	rightMotorFront.set(CANTalon.SetValueMotionProfile.Hold.value);
-}
-
-public void disableMotionProfile() {
-	leftMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
-	rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
-}
-}
-
-*/
