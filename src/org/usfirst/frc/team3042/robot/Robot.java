@@ -4,6 +4,7 @@ package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3042.robot.subsystems.Intake;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
+	public static final Intake intake = new Intake();	
 	public static OI oi;
 	public static Logger logger;
 	
