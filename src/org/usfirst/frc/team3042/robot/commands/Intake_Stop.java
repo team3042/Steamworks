@@ -18,6 +18,8 @@ public class Intake_Stop extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.logger.log("Initialize", 1);
+    	
+    	Robot.intake.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run

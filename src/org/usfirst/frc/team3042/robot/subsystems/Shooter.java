@@ -15,15 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
-	
-	private CANTalon agitateTalon = new CANTalon(RobotMap.AGITATE_TALON);
+	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
 	private double kP = 0.01, kI = 0.0, kD = 0.0, kF = 0;
 
-	public double shooterSpeed = 1000.0;
-	public boolean shooterOn = false;
-	public Shooter(){
-		
+	public double shooterSpeed = 1000.0, agitatorSpeed = 0.8;
+	
+	public Shooter() {
 		setPIDF();
 		initEncoder();
 	}
@@ -48,37 +46,35 @@ public class Shooter extends Subsystem {
 		shooterTalon.reverseSensor(false);
 	}
 	
-	private void setRPM(double speed){
+	private void setShooterRPM(double speed){
 		shooterTalon.changeControlMode(TalonControlMode.Speed);
 		
 		shooterTalon.set(speed);
 	}
 	
+	private void setShooterRaw(double speed) {
+		shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
+		
+		shooterTalon.set(0);
+	}
+	
+	private void spinAgitator(double speed) {
+		agitatorTalon.set(safetyTest(speed));
+	}
+	
 	public void shoot() {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		
-		setRPM(SafetyTest(velocity));
-		
-		shooterOn = true;
+		setShooterRPM(velocity);
+		spinAgitator(agitatorSpeed);
 	}
 	
 	public void stop() {
-		setRPM(0);
-		
-		shooterOn = false;
+		setShooterRaw(0);
+		spinAgitator(0);
 	}
 	
-	public void agitate(){
-		if(shooterOn == true){
-			
-			agitateTalon.set(.8);
-			
-			}else{
-			agitateTalon.set(0);
-		}
-	}
-	
-	private double SafetyTest(double motorValue){
+	private double safetyTest(double motorValue){
     	motorValue = (motorValue < -1) ? -1 : motorValue;
         motorValue = (motorValue > 1) ? 1 : motorValue;
         

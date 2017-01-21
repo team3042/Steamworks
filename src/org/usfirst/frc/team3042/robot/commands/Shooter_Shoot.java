@@ -17,7 +17,6 @@ public class Shooter_Shoot extends Command {
     protected void initialize() {
     	Robot.shooter.setPIDF();
     	Robot.shooter.shoot();
-    	Robot.shooter.agitate();
     	
     	Robot.logger.log("Initilaize", 1);
     }
@@ -34,14 +33,12 @@ public class Shooter_Shoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.agitate();
     	Robot.logger.log("End", 1);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.agitate();
     	Robot.logger.log("Interrupted", 1);
     }
 }

@@ -12,6 +12,7 @@ public class Intake_Exhaust extends Command {
     public Intake_Exhaust() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time

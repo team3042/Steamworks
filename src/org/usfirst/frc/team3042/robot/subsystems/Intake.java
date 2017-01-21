@@ -28,7 +28,7 @@ public class Intake extends Subsystem {
 	}
 	
 	private void setPower(double motorValue){
-		motorValue = SafetyTest(motorValue);
+		motorValue = safetyTest(motorValue);
 		intake.set(motorValue);
 	}
 	
@@ -44,7 +44,7 @@ public class Intake extends Subsystem {
     	setPower(exhaustSpeed);
     }
 	
-	 private double SafetyTest(double motorValue){
+	 private double safetyTest(double motorValue){
     	motorValue = (motorValue < -1) ? -1 : motorValue;
         motorValue = (motorValue > 1) ? 1 : motorValue;
         
