@@ -17,14 +17,14 @@ public class Shooter extends Subsystem {
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
-	private double kP = 0.01, kI = 0.0, kD = 0.0, kF = 0;
+	private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .03;
 
 	public double shooterSpeed = 1000.0, agitatorSpeed = 0.8;
 	
 	private int shooterTalonZero = 0;
 	
 	public Shooter() {
-		setPIDF();
+		//setPIDF();
 		initEncoder();
 		
 		shooterTalon.enableBrakeMode(false);
@@ -40,8 +40,8 @@ public class Shooter extends Subsystem {
 		double D = SmartDashboard.getNumber("Shooter D", kD);
 		double F = SmartDashboard.getNumber("Shooter F", kF);
 		
-		shooterTalon.setPID(P, I, D);
-		shooterTalon.setF(F);
+		shooterTalon.setPID(kP, kI, kD);
+		shooterTalon.setF(kF);
 	}
 	
 	public void initEncoder(){

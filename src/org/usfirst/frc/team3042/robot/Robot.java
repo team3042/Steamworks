@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	public static Logger logger;
 	public static VisionServer visionServer;
 	public static TestUpdateReceiver testUpdateReceiver;
-	public static LEDSwitch ledSwitch = new LEDSwitch();
+	public static final LEDSwitch ledSwitch = new LEDSwitch();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
@@ -59,13 +59,16 @@ public class Robot extends IterativeRobot {
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
+        
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+        
         
         SmartDashboard.putNumber("Shooter P", 0);
         SmartDashboard.putNumber("Shooter I", 0);
         SmartDashboard.putNumber("Shooter D", 0);
         SmartDashboard.putNumber("Shooter F", 0);
         SmartDashboard.putNumber("Shooter speed", 1000);
+        
     }
      
     public void disabledInit(){
