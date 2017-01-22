@@ -16,10 +16,10 @@ public class Shooter_Shoot extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.logger.log("Initilaize", 1);
+    	
     	Robot.shooter.setPIDF();
     	Robot.shooter.shoot();
-    	
-    	Robot.logger.log("Initilaize", 1);
     }
 
     // Called repeatedly when this Command is scheduled to run

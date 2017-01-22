@@ -21,9 +21,13 @@ public class Shooter extends Subsystem {
 
 	public double shooterSpeed = 1000.0, agitatorSpeed = 0.8;
 	
+	private int shooterTalonZero = 0;
+	
 	public Shooter() {
 		setPIDF();
 		initEncoder();
+		
+		shooterTalon.enableBrakeMode(false);
 	}
 	
 	public void initDefaultCommand() {
@@ -44,6 +48,8 @@ public class Shooter extends Subsystem {
 		shooterTalon.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
 		shooterTalon.configEncoderCodesPerRev(1024);
 		shooterTalon.reverseSensor(false);
+		
+		shooterTalonZero = shooterTalon.getEncPosition();
 	}
 	
 	public double getRPM() {
@@ -59,7 +65,7 @@ public class Shooter extends Subsystem {
 	private void setShooterRaw(double speed) {
 		shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
 		
-		shooterTalon.set(0);
+		shooterTalon.set(safetyTest(speed));
 	}
 	
 	private void spinAgitator(double speed) {
@@ -84,5 +90,9 @@ public class Shooter extends Subsystem {
         
         return motorValue;
     }
+	
+	public int getEncoderVal() {
+		return shooterTalon.getEncPosition() - shooterTalonZero;
+	}
 }
 
