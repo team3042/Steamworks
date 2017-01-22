@@ -46,6 +46,10 @@ public class Shooter extends Subsystem {
 		shooterTalon.reverseSensor(false);
 	}
 	
+	public double getRPM() {
+		return shooterTalon.getSpeed();
+	}
+	
 	private void setShooterRPM(double speed){
 		shooterTalon.changeControlMode(TalonControlMode.Speed);
 		
