@@ -24,7 +24,6 @@ public class Shooter extends Subsystem {
 	private int shooterTalonZero = 0;
 	
 	public Shooter() {
-		//setPIDF();
 		initEncoder();
 		
 		shooterTalon.enableBrakeMode(false);
