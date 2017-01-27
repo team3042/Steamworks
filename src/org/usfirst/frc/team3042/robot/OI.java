@@ -20,6 +20,7 @@ public class OI {
     // number it is.
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
+	/*
 	public Joystick joystickLeft = new Joystick(RobotMap.LEFT_JOYSTICK_USB_PORT_0);
 	public Joystick joystickRight = new Joystick(RobotMap.RIGHT_JOYSTICK_USB_PORT_1);
 	public Object left_1;
@@ -58,5 +59,6 @@ public class OI {
 		
 		gearShifter.whenPressed(new DriveTrain_ShiftGears());
 	}
+	*/
 }
 

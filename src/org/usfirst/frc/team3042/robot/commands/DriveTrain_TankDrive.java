@@ -15,7 +15,7 @@ public class DriveTrain_TankDrive extends Command{
     double maxAccel = 3.6; //motor power per second
     
     public DriveTrain_TankDrive(){
-    	//requires(Robot.driveTrain);
+    	requires(Robot.driveTrain);
     }
 
 	protected void initialize() {
@@ -25,8 +25,10 @@ public class DriveTrain_TankDrive extends Command{
 	}
 
 	protected void execute() {
+		/*
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;
 		double rightPower = -Robot.oi.joystickRight.getY() * speedScale;
+		
 		leftPower = (Math.abs(leftPower) < deadzone)? 0 : leftPower;
 		rightPower = (Math.abs(rightPower) < deadzone)? 0 : rightPower;
 		
@@ -34,6 +36,7 @@ public class DriveTrain_TankDrive extends Command{
         rightPower = restrictAccel(rightPower, RIGHT);
         
         //Robot.driveTrain.setMotors(leftPower,rightPower);
+         */
 	}
 
 	protected boolean isFinished() {
