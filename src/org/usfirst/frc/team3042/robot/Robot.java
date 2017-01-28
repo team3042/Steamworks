@@ -69,6 +69,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Shooter F", 0);
         SmartDashboard.putNumber("Shooter speed", 1000);
         
+        SmartDashboard.putNumber("Intake P", 0);
+        SmartDashboard.putNumber("Intake I", 0);
+        SmartDashboard.putNumber("Intake D", 0);
+        SmartDashboard.putNumber("Intake speed", 1000);
+        
     }
      
     public void disabledInit(){
