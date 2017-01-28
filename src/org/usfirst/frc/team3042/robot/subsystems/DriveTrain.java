@@ -20,8 +20,8 @@ public class DriveTrain extends Subsystem {
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
 	//CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
-	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SPIKE_RIGHT);
-	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SPIKE_LEFT);
+	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SOLENOID_RIGHT);
+	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SOLENOID_LEFT);
 	
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;

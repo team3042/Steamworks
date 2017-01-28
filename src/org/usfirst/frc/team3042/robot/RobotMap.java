@@ -31,8 +31,10 @@ public class RobotMap {
 	
 	public static final int INTAKE_TALON = 15;
 	
-	public static final int DRIVETRAIN_SPIKE_RIGHT = 2;
-	public static final int DRIVETRAIN_SPIKE_LEFT = 1;
+	public static final int DRIVETRAIN_SOLENOID_RIGHT = 2;
+	public static final int DRIVETRAIN_SOLENOID_LEFT = 1;
 	
 	public static final int COMPRESSOR_PORT = 0;
+	
+	public static final int GDM_RELAY = 3;
 }

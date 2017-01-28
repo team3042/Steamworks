@@ -8,6 +8,7 @@ import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3042.robot.subsystems.GDM;
 import org.usfirst.frc.team3042.robot.subsystems.Intake;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
 	public static final Intake intake = new Intake();
+	public static final GDM gdm = new GDM();
 	
 	Command autonomousCommand;
     SendableChooser autonomousChooser;
