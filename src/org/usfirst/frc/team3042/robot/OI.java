@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
+import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,7 +21,7 @@ public class OI {
     // number it is.
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
-	/*
+	
 	public Joystick joystickLeft = new Joystick(RobotMap.LEFT_JOYSTICK_USB_PORT_0);
 	public Joystick joystickRight = new Joystick(RobotMap.RIGHT_JOYSTICK_USB_PORT_1);
 	public Object left_1;
@@ -31,6 +32,8 @@ public class OI {
 	Button shooterButton = new JoystickButton(joystickRight, 8);
 	
 	Button gearShifter = new JoystickButton(joystickRight, 1);
+	
+	Button intakeButton = new JoystickButton(joystickRight, 4);
 	
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -55,10 +58,12 @@ public class OI {
 	public OI(){
 		climberButton.whileHeld(new Climber_Climb());
 		
+		intakeButton.whileHeld(new Intake_Intake());
+		
 		shooterButton.whileHeld(new Shooter_Shoot());
 		
 		gearShifter.whenPressed(new DriveTrain_ShiftGears());
 	}
-	*/
+	
 }
 

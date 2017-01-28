@@ -21,8 +21,8 @@ public class Intake extends Subsystem {
     
     private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .1;
     
-    private double intakeSpeed = 1000;
-    private double exhaustSpeed = -1000;
+    private double intakeSpeed = -1500;
+    private double exhaustSpeed = 1000;
     
     private double intakeZero = 0;
     
@@ -37,10 +37,9 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setPIDF(){
-		double P = SmartDashboard.getNumber("Shooter P", kP);
-		double I = SmartDashboard.getNumber("Shooter I", kI);
-		double D = SmartDashboard.getNumber("Shooter D", kD);
-		double F = SmartDashboard.getNumber("Shooter F", kF);
+		double P = SmartDashboard.getNumber("Intake P", kP);
+		double I = SmartDashboard.getNumber("Intake I", kI);
+		double D = SmartDashboard.getNumber("Intake D", kD);
 		
 		intake.setPID(kP, kI, kD);
 		intake.setF(kF);
@@ -70,6 +69,10 @@ public class Intake extends Subsystem {
     }
 	
     public void intake() {
+        setPIDF();
+        
+        double speed = SmartDashboard.getNumber("Intake speed", intakeSpeed);
+        
     	setRPM(intakeSpeed);
     }
     
@@ -83,6 +86,10 @@ public class Intake extends Subsystem {
         
         return motorValue;
     }
+	 
+	public double getSpeed() {
+	    return intake.getSpeed();
+	}
     
 }
 

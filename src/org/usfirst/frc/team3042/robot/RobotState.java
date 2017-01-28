@@ -8,8 +8,10 @@ import org.usfirst.frc.team3042.lib.InterpolatingTreeMap;
 import org.usfirst.frc.team3042.lib.RigidTransform2d;
 import org.usfirst.frc.team3042.lib.Rotation2d;
 import org.usfirst.frc.team3042.lib.Translation2d;
+import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TargetInfo;
 import org.usfirst.frc.team3042.robot.vision.TargetTracker;
+import org.usfirst.frc.team3042.robot.vision.TargetTracker.TrackReport;
 import org.usfirst.frc.team3042.robot.vision.VisionUpdate;
 import org.usfirst.frc.team3042.robot.vision.VisionUpdateReceiver;
 
@@ -51,6 +53,13 @@ public class RobotState implements VisionUpdateReceiver {
 	private static final int CAMERA_X_OFFSET = 0;
 	private static final int CAMERA_Y_OFFSET = 0;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
+	
+	private static int currentTrackId = -1;
+	private static final double CURRENT_TARGET_WEIGHT = 1.5;
+	private static final double RECENT_WEIGHT = 1.0;
+	private static final double STABILITY_WEIGHT = 2.0;
+	
+	
 	
 	private RobotState() {
 		reset(0, new RigidTransform2d());
@@ -119,10 +128,44 @@ public class RobotState implements VisionUpdateReceiver {
 			targetTracker.update(timestamp, fieldToTargets);
 		}
 	}
+	
+	// Looks through the list of targets and determines the best based on weights, returning aiming parameters
+	public AimingParameters getAimingParameters() {
+	    List<TrackReport> tracks = targetTracker.getTracks();
+	    if (tracks.isEmpty()) {
+	        return new AimingParameters(Rotation2d.fromDegrees(0), 0, false);
+	    }
+	    
+	    double bestScore = 0;
+	    TrackReport bestTrack = null;
+	    for (TrackReport track : tracks) {
+	        double score = RECENT_WEIGHT * track.latestTimestamp;
+	        score += STABILITY_WEIGHT * track.stability;
+	        if (track.id == currentTrackId) {
+	            score *= CURRENT_TARGET_WEIGHT;
+	        }
+	        
+	        if (score > bestScore) {
+	            bestScore = score;
+	            bestTrack = track;
+	        }
+	    }
+	    currentTrackId = bestTrack.id;
+	    
+	    Translation2d fieldToTarget = bestTrack.fieldToTarget;
+	    RigidTransform2d fieldToRobot = getRobotPose(Timer.getFPGATimestamp());
+	    
+	    RigidTransform2d robotToTarget = fieldToRobot.inverse().transformBy(RigidTransform2d.fromTranslation(fieldToTarget));
+	    
+	    double distance = robotToTarget.getTranslation().norm();
+	    Rotation2d angle = robotToTarget.getRotation();
+	    
+	    return new AimingParameters(angle, distance, true);
+	}
 
 	@Override
 	public void gotUpdate(VisionUpdate update) {
-		mostRecentUpdate = update;	
+		mostRecentUpdate = update;
 	}
 
 }
