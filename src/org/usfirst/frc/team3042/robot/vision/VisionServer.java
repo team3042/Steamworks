@@ -14,6 +14,8 @@ import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
 
+import edu.wpi.first.wpilibj.Timer;
+
 // Code taken from team 254 github
 
 public class VisionServer implements Runnable {
@@ -27,8 +29,6 @@ public class VisionServer implements Runnable {
 
     private ArrayList<ServerThread> serverThreads = new ArrayList<>();
     private ArrayList<VisionUpdateReceiver> receivers = new ArrayList<>();
-
-    VisionUpdate mostRecentUpdate = null;
 
     private static final int port = 3042;
 
@@ -82,8 +82,6 @@ public class VisionServer implements Runnable {
                         receiver.gotUpdate(update);
                     }
                 }
-
-                mostRecentUpdate = update;
             }
             if ("heartbeat".equals(message.getType())) {
                 send(HeartbeatMessage.getInstance());
@@ -166,14 +164,6 @@ public class VisionServer implements Runnable {
             receivers.remove(receiver);
         }
     }
-
-    public VisionUpdate getMostRecentUpdate() {
-        if (mostRecentUpdate == null) {
-            System.out.println("No updates available");
-        }
-
-        return mostRecentUpdate;
-    }
     
     public void setCameraFront() {
     	CameraModeMessage frontMessage = CameraModeMessage.getFrontFacingMessage();
@@ -245,7 +235,7 @@ public class VisionServer implements Runnable {
     }
 
     private double getTimestamp() {
-        return System.currentTimeMillis();
+        return Timer.getFPGATimestamp();
     }
 
 }
