@@ -1,9 +1,10 @@
 package org.usfirst.frc.team3042.robot.subsystems;
+
+import org.usfirst.frc.team3042.lib.ADIS16448_IMU;
+import org.usfirst.frc.team3042.lib.Rotation2d;
 import org.usfirst.frc.team3042.robot.RobotMap;
-//import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 
-//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
@@ -25,6 +26,8 @@ public class DriveTrain extends Subsystem {
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;
     
+    ADIS16448_IMU gyro = new ADIS16448_IMU();
+    
     private int leftEncoderZero, rightEncoderZero;
     public int enCounts;
     private boolean leftReverseEnc;
@@ -40,8 +43,11 @@ public class DriveTrain extends Subsystem {
 	double pPos = 0, iPos = 0, fPos = 0;
 	int iZone = 0;
 	
+	private static final double WHEEL_DIAMETER_IN = 4.0;
+	private static final double COUNTS_PER_REV = 1024; //TODO: Determine actual value
+	
 	double leftSetpoint, rightSetpoint;
-	double tolerance = enCounts;
+	//double tolerance = enCounts;
 	
 	class PeriodicRunnable implements java.lang.Runnable {
 		public void run() { 
@@ -52,8 +58,6 @@ public class DriveTrain extends Subsystem {
     
 	Notifier notifier = new Notifier (new PeriodicRunnable());
 	
-    //Gyro gyro = new ADXRS450_Gyro();
-	//Gyro will break the code if not commented out and not plugged in.
 	public DriveTrain() {
 		//Put the rear motors in follower mode
 		//leftMotorRear.changeControlMode(TalonControlMode.Follower);
@@ -69,7 +73,7 @@ public class DriveTrain extends Subsystem {
     	
     	initEncoders();
     	
-		//gyro.reset();
+		calibrateGyro();
 		
 		//Starting talons processing motion profile
     	leftMotorFront.changeMotionControlFramePeriod(5);
@@ -95,19 +99,6 @@ public class DriveTrain extends Subsystem {
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	
-	//Initializing PIDF
-	
-
-	public void tempReverseLeft() {
-		//leftMotorFront.setInverted(true);
-		//leftMotorFront.reverseOutput(true);
-	}
-
-	public void tempUnreverseLeft() {
-		//leftMotorFront.setInverted(false);
-		//leftMotorFront.reverseOutput(false);
-	}
 	
 	void initEncoders() {
 		leftEncMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -187,7 +178,7 @@ public class DriveTrain extends Subsystem {
 		leftMotorFront.set(left);
 		rightMotorFront.set(right);
 	}
-	
+	/*
 	public boolean nearSetpoint() {
 		double currentLeftPosition = leftMotorFront.getPosition();
 		boolean nearLeft = Math.abs(leftSetpoint - currentLeftPosition) < tolerance;
@@ -197,7 +188,7 @@ public class DriveTrain extends Subsystem {
 		
 		return nearLeft && nearRight;
 	}
-	
+	*/
 	private double scaleLeft(double left) {
 		return left;
 	}
@@ -219,12 +210,32 @@ public class DriveTrain extends Subsystem {
 		return rightEncSign * (rightEncMotor.getEncPosition() - rightEncoderZero);
 	}
 	
-	public double getLeftSpeed() {
+	public double getLeftPositionInches() {
+		double rotations = getLeftEncoder() / COUNTS_PER_REV;
+		
+		return rotationsToInches(rotations);
+	}
+	
+	public double getRightPositionInches() {
+		double rotations = getRightEncoder() / COUNTS_PER_REV;
+		
+		return rotationsToInches(rotations);
+	}
+	
+	public double getLeftVelocity() {
 		return leftEncMotor.getSpeed();
 	} 
 	
-	public double getRightSpeed() {
+	public double getRightVelocity() {
 		return rightEncMotor.getSpeed();
+	}
+	
+	public double getLeftVelocityInchesPerSecond() {
+		return rpmToInchesPerSecond(getLeftVelocity());
+	}
+	
+	public double getRightVelocityInchesPerSecond() {
+		return rpmToInchesPerSecond(getRightVelocity());
 	}
 	
 	public boolean isLeftEncPresent() {
@@ -235,14 +246,17 @@ public class DriveTrain extends Subsystem {
 		return !(rightEncMotor.isSensorPresent(FeedbackDevice.QuadEncoder) == FeedbackDeviceStatus.FeedbackStatusPresent);
 	}
 	
-	//public double getGyro() {
-	//	return gyro.getAngle();
-	//}
+	public Rotation2d getGyro() {
+		return Rotation2d.fromDegrees(gyro.getAngle());
+	}
 	
-	//public void resetGyro() {
-	//	gyro.reset();
-	//}
+	public void resetGyro() {
+		gyro.reset();
+	}
 	
+	public void calibrateGyro() {
+		gyro.calibrate();
+	}
 	
 	//Motion profile functions
 	public void initMotionProfile() {
@@ -299,5 +313,13 @@ public class DriveTrain extends Subsystem {
 	public void disableMotionProfile() {
 		leftMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
 		rightMotorFront.set(CANTalon.SetValueMotionProfile.Disable.value);
+	}
+	
+	private double rotationsToInches(double rotations) {
+		return rotations * (Math.PI * WHEEL_DIAMETER_IN);
+	}
+	
+	private double rpmToInchesPerSecond(double rpm) {
+		return rotationsToInches(rpm) / 60;
 	}
 }
