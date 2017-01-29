@@ -15,7 +15,7 @@ public class TargetTrack {
 	
 	// TODO: Tweak these parameters if needed
 	private static final double MAX_DISTANCE = 18.0;
-	private static final double MAX_AGE = 0.3;
+	public static final double MAX_AGE = 0.3;
 	private static final double FRAME_RATE = 20;
 	
 	public TargetTrack(double timestamp, Translation2d initialObservation, int id) {

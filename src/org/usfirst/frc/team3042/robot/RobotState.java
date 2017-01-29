@@ -10,6 +10,7 @@ import org.usfirst.frc.team3042.lib.Rotation2d;
 import org.usfirst.frc.team3042.lib.Translation2d;
 import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TargetInfo;
+import org.usfirst.frc.team3042.robot.vision.TargetTrack;
 import org.usfirst.frc.team3042.robot.vision.TargetTracker;
 import org.usfirst.frc.team3042.robot.vision.TargetTracker.TrackReport;
 import org.usfirst.frc.team3042.robot.vision.VisionUpdate;
@@ -139,7 +140,7 @@ public class RobotState implements VisionUpdateReceiver {
 	    double bestScore = 0;
 	    TrackReport bestTrack = null;
 	    for (TrackReport track : tracks) {
-	        double score = RECENT_WEIGHT * track.latestTimestamp;
+	        double score = RECENT_WEIGHT * Math.max(0, (TargetTrack.MAX_AGE - (Timer.getFPGATimestamp() - track.latestTimestamp)) / TargetTrack.MAX_AGE);
 	        score += STABILITY_WEIGHT * track.stability;
 	        if (track.id == currentTrackId) {
 	            score *= CURRENT_TARGET_WEIGHT;
