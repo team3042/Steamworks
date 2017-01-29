@@ -14,11 +14,21 @@ public class Auto_LiftDrive extends Command {
     
     RobotState robotState;
     
+    private boolean finished = false;
+    
     private static final double MIN_VIEW_DISTANCE = 1.5;
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
-    private Rotation2d angleOffset;
-    private double kAngleKP, kAngleKI, kAngleD, kDistanceP, kDistanceI, kDistanceD;
+    private Rotation2d gyroGoal;
+    private double kDistanceP, kDistanceI, kDistanceD;
+    private double kAngleP = 0, kAngleI = 0, kAngleD = 0;
+    private double oldGyroError = 0, sumGyroError = 0;
+    
+    // Parameters for logistic function
+    private static final double DISTANCE_OFFSET = 8; // Inches
+    private static final double MAX_SPEED = 36; // Inches/Second
+    private static final double STEEPNESS = 1/3;
+    private static final double X_OFFSET = 15;
 
     public Auto_LiftDrive() {
         // Use requires() here to declare subsystem dependencies
@@ -37,36 +47,40 @@ public class Auto_LiftDrive extends Command {
     protected void execute() {
         double encoderDistance = Robot.driveTrain.getLeftPositionInches();
         
+        // Calculating the current goals based on vision if far enough away, otherwise using other sensor data
         if (useVision) {
             AimingParameters aim = robotState.getAimingParameters();
             
             if (!aim.isValid()) {
                 Robot.logger.log("No target in view!", 2);
+                finished = true; // TODO: Maybe only terminate after n loops without target view
                 return;
             }
             
             distance = aim.getDistance();
-            angleOffset = aim.getAngle();
+            Rotation2d angleOffset = aim.getAngle();
+            gyroGoal = Robot.driveTrain.getGyro().rotateBy(angleOffset);
             
             // If we are close enough, stop using vision as we will lose the target soon and transition to gyro driving
-            if(distance < MIN_VIEW_DISTANCE) {
+            if (distance < MIN_VIEW_DISTANCE) {
                 useVision = false;
             }
         } else {
             // Using encoders, determine remaining distance    
             distance -= (encoderDistance - oldEncoderDistance);
-            angleOffset = Rotation2d.fromDegrees(0);
         }
         double speed = speedFromDistance(distance);
         
-        speed = PIDCorrection(speed);
+        double[] correctedSpeeds = PIDCorrection(speed);
+        
+        Robot.driveTrain.setMotorsInchesPerSecondOpenLoop(correctedSpeeds[0], correctedSpeeds[1]);
         
         oldEncoderDistance = encoderDistance;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (finished || distance < DISTANCE_OFFSET);
     }
 
     // Called once after isFinished returns true
@@ -82,13 +96,23 @@ public class Auto_LiftDrive extends Command {
     
     // Using logistic function to convert distance to speed
     private double speedFromDistance(double distance) {
-        double speed = 0;
+    	// How far we want to be from wall, placing on peg 11" out
+        distance -= DISTANCE_OFFSET;
+        
+        double speed = MAX_SPEED / (1 - Math.pow(Math.E, -STEEPNESS * (distance - X_OFFSET)));
         
         return speed;
     }
     
-    private double PIDCorrection(double speed){
+    private double[] PIDCorrection(double speed){
+    	double gyroError = gyroGoal.rotateBy(Robot.driveTrain.getGyro().inverse()).getDegrees();
+    	sumGyroError += gyroError;
+    	double dGyroError = gyroError - oldGyroError;
+    	
+    	double leftSpeed = speed - (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
+    	double rightSpeed = speed + (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
         
-        return speed;
+    	oldGyroError = gyroError;
+        return new double[] {leftSpeed, rightSpeed};
     }
 }

@@ -43,10 +43,10 @@ public class DriveTrain extends Subsystem {
 	int iZone = 0;
 	
 	private static final double WHEEL_DIAMETER_IN = 4.0;
-	private static final int COUNTS_PER_REV = 1024; //TODO: Determine actual value
+	private static final int COUNTS_PER_REV = 360; //TODO: Determine actual value
 	
 	double leftSetpoint, rightSetpoint;
-	//double tolerance = enCounts;
+	double tolerance = 4.0 / COUNTS_PER_REV;
 	
 	class PeriodicRunnable implements java.lang.Runnable {
 		public void run() { 
@@ -122,6 +122,14 @@ public class DriveTrain extends Subsystem {
 	
 	public void stop() {
 		setMotorsRaw(0,0);
+	}
+	
+	// Converts inches/second to motor percentage using feed-forward term
+	public void setMotorsInchesPerSecondOpenLoop(double left, double right) {
+		double leftSpeed = kF * inchesPerSecondToRPM(left) * COUNTS_PER_REV / 1023 / 60;
+		double rightSpeed = kF * inchesPerSecondToRPM(right) * COUNTS_PER_REV / 1023 / 60;
+		
+		setMotors(leftSpeed, rightSpeed);
 	}
 	
 	public void setMotors(double left, double right) {
@@ -318,7 +326,15 @@ public class DriveTrain extends Subsystem {
 		return rotations * (Math.PI * WHEEL_DIAMETER_IN);
 	}
 	
+	private double inchesToRotations(double inches) {
+		return inches / (Math.PI * WHEEL_DIAMETER_IN);
+	}
+	
 	private double rpmToInchesPerSecond(double rpm) {
 		return rotationsToInches(rpm) / 60;
+	}
+	
+	private double inchesPerSecondToRPM(double inchesPerSecond) {
+		return inchesToRotations(inchesPerSecond * 60);
 	}
 }
