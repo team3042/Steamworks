@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
-	//CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
+	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
-	//CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
+	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
 	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SOLENOID_RIGHT);
 	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SOLENOID_LEFT);
@@ -29,7 +29,6 @@ public class DriveTrain extends Subsystem {
     ADIS16448_IMU gyro = new ADIS16448_IMU();
     
     private int leftEncoderZero, rightEncoderZero;
-    public int enCounts;
     private boolean leftReverseEnc;
     private boolean rightReverseEnc;
     private int leftEncSign;
@@ -44,7 +43,7 @@ public class DriveTrain extends Subsystem {
 	int iZone = 0;
 	
 	private static final double WHEEL_DIAMETER_IN = 4.0;
-	private static final double COUNTS_PER_REV = 1024; //TODO: Determine actual value
+	private static final int COUNTS_PER_REV = 1024; //TODO: Determine actual value
 	
 	double leftSetpoint, rightSetpoint;
 	//double tolerance = enCounts;
@@ -60,10 +59,10 @@ public class DriveTrain extends Subsystem {
 	
 	public DriveTrain() {
 		//Put the rear motors in follower mode
-		//leftMotorRear.changeControlMode(TalonControlMode.Follower);
-    	//leftMotorRear.set(leftMotorFront.getDeviceID());
-    	//rightMotorRear.changeControlMode(TalonControlMode.Follower);
-    	//rightMotorRear.set(rightMotorFront.getDeviceID());
+		leftMotorRear.changeControlMode(TalonControlMode.Follower);
+    	leftMotorRear.set(leftMotorFront.getDeviceID());
+    	rightMotorRear.changeControlMode(TalonControlMode.Follower);
+    	rightMotorRear.set(rightMotorFront.getDeviceID());
     	
     	leftMotorFront.reverseOutput(false);
     	leftMotorFront.setInverted(false);
@@ -107,8 +106,8 @@ public class DriveTrain extends Subsystem {
 		leftEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
 		rightEncMotor.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
 	
-		leftEncMotor.configEncoderCodesPerRev(enCounts);
-		rightEncMotor.configEncoderCodesPerRev(enCounts);
+		leftEncMotor.configEncoderCodesPerRev(COUNTS_PER_REV);
+		rightEncMotor.configEncoderCodesPerRev(COUNTS_PER_REV);
 		
 		leftEncMotor.reverseSensor(leftReverseEnc);
 		rightEncMotor.reverseSensor(rightReverseEnc);
@@ -211,13 +210,13 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getLeftPositionInches() {
-		double rotations = getLeftEncoder() / COUNTS_PER_REV;
+		double rotations = ((double) getLeftEncoder()) / COUNTS_PER_REV;
 		
 		return rotationsToInches(rotations);
 	}
 	
 	public double getRightPositionInches() {
-		double rotations = getRightEncoder() / COUNTS_PER_REV;
+		double rotations = ((double) getRightEncoder()) / COUNTS_PER_REV;
 		
 		return rotationsToInches(rotations);
 	}
