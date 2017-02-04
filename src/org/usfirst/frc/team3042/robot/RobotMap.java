@@ -21,19 +21,18 @@ public class RobotMap {
 	public static final int RIGHT_JOYSTICK_USB_PORT_1 = 1;
 	public static final int GUNNER_JOYSTICK_USB_PORT_2 = 2;
 	
-	public static final int DRIVETRAIN_TALON_LEFT_FRONT = 7;
-	public static final int DRIVETRAIN_TALON_LEFT_REAR = 1;
-	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = 1;
-	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 3;
-	public static final int CLIMBER_TALON = 5;
-	public static final int SHOOTER_TALON = 15;
-	public static final int AGITATE_TALON = 8;
-	public static final int INTAKE_TALON = 17;
+	public static final int DRIVETRAIN_TALON_LEFT_FRONT = 19;
+	public static final int DRIVETRAIN_TALON_LEFT_REAR = 11;
+	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = 14;
+	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 9;
+	public static final int CLIMBER_TALON = 10;
+	public static final int SHOOTER_TALON = 12;
+	public static final int AGITATE_TALON = 16;
+	public static final int INTAKE_TALON = 3;
 	
-	public static final int DRIVETRAIN_SOLENOID_RIGHT = 2;
-	public static final int DRIVETRAIN_SOLENOID_LEFT = 1;
+	public static final int DRIVETRAIN_SOLENOID_SHIFT = 0;
+	public static final int GDM_SOLENOID_ACTUATE = 1;
 	
 	public static final int COMPRESSOR_PORT = 0;
 	
-	public static final int GDM_RELAY = 3;
 }

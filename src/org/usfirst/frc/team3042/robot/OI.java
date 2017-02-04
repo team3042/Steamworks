@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
+import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 
@@ -35,6 +36,8 @@ public class OI {
 	
 	Button intakeButton = new JoystickButton(joystickRight, 4);
 	
+	Button gdmButton = new JoystickButton(joystickRight, 2);
+	
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.
@@ -63,6 +66,8 @@ public class OI {
 		shooterButton.whileHeld(new Shooter_Shoot());
 		
 		gearShifter.whenPressed(new DriveTrain_ShiftGears());
+		
+		gdmButton.whenPressed(new GDM_Actuate());
 	}
 	
 }

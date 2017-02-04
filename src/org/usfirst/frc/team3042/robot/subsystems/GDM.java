@@ -12,7 +12,7 @@ public class GDM extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	Relay GDMRelay = new Relay(RobotMap.GDM_RELAY);
+	Relay GDMRelay = new Relay(RobotMap.GDM_SOLENOID_ACTUATE);
 	boolean isActive = false;
 	
 

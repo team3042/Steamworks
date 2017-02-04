@@ -7,6 +7,7 @@ import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
+import org.usfirst.frc.team3042.robot.subsystems.CompressorSubsystem;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.subsystems.GDM;
 import org.usfirst.frc.team3042.robot.subsystems.Intake;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public static VisionServer visionServer;
 	public static TestUpdateReceiver testUpdateReceiver;
 	public static final LEDSwitch ledSwitch = new LEDSwitch();
+	public static final CompressorSubsystem compressor = new CompressorSubsystem();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
 	public static final Shooter shooter = new Shooter();
@@ -43,7 +45,7 @@ public class Robot extends IterativeRobot {
     SendableChooser autonomousChooser;
     public static FileIO fileIO = new FileIO();
     private int LOGGER_LEVEL = 5;
-    boolean useConsole = true, useFile = true;
+    boolean useConsole = true, useFile = false;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -52,13 +54,13 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
-        
+        /*
         RIOdroid.initUSB();
         
         visionServer = VisionServer.getInstance();
         testUpdateReceiver = new TestUpdateReceiver();
         visionServer.addVisionUpdateReceiver(testUpdateReceiver);
-        
+        */
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         

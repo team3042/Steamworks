@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 
 import org.usfirst.frc.team3042.lib.ADIS16448_IMU;
+import org.usfirst.frc.team3042.lib.ADIS16448_IMU.Axis;
 import org.usfirst.frc.team3042.lib.Rotation2d;
 import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
@@ -20,13 +21,12 @@ public class DriveTrain extends Subsystem {
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
 	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
-	Relay gearShiftRight = new Relay(RobotMap.DRIVETRAIN_SOLENOID_RIGHT);
-	Relay gearShiftLeft = new Relay(RobotMap.DRIVETRAIN_SOLENOID_LEFT);
+	Relay gearShift = new Relay(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
 	
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorFront;
     
-    ADIS16448_IMU gyro = new ADIS16448_IMU();
+    ADIS16448_IMU gyro = new ADIS16448_IMU(Axis.kX);
     
     private int leftEncoderZero, rightEncoderZero;
     private boolean leftReverseEnc;
@@ -158,13 +158,11 @@ public class DriveTrain extends Subsystem {
 	
 	public void shiftGear(){
 		if(isHighGear){
-			gearShiftRight.set(Relay.Value.kOn);
-			gearShiftLeft.set(Relay.Value.kOn);
+			gearShift.set(Relay.Value.kOn);
 			isHighGear = false;
 		}
 		else{
-			gearShiftRight.set(Relay.Value.kOff);
-			gearShiftLeft.set(Relay.Value.kOff);
+			gearShift.set(Relay.Value.kOff);
 			isHighGear = true;
 		}
 	}

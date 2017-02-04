@@ -2,6 +2,7 @@ package org.usfirst.frc.team3042.robot.commands;
 import org.usfirst.frc.team3042.robot.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain_TankDrive extends Command {
 	private final double speedScale = 1.0;
@@ -25,6 +26,9 @@ public class DriveTrain_TankDrive extends Command {
 	}
 
 	protected void execute() {
+		SmartDashboard.putNumber("Left Drivetrain Encoder", Robot.driveTrain.getLeftEncoder());
+		SmartDashboard.putNumber("Right Drivetrain Encoder", Robot.driveTrain.getRightEncoder());
+		SmartDashboard.putNumber("Gyro Value", Robot.driveTrain.getGyro().getDegrees());
 		
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;
 		double rightPower = -Robot.oi.joystickRight.getY() * speedScale;
