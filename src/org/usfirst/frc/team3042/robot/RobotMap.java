@@ -27,11 +27,11 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 9;
 	public static final int CLIMBER_TALON = 10;
 	public static final int SHOOTER_TALON = 12;
-	public static final int AGITATE_TALON = 16;
-	public static final int INTAKE_TALON = 3;
+	public static final int AGITATE_TALON = 3;
+	public static final int INTAKE_TALON = 16;
 	
-	public static final int DRIVETRAIN_SOLENOID_SHIFT = 0;
-	public static final int GDM_SOLENOID_ACTUATE = 1;
+	public static final int DRIVETRAIN_SOLENOID_SHIFT = 1;
+	public static final int GDM_SOLENOID_ACTUATE = 3;
 	
 	public static final int COMPRESSOR_PORT = 0;
 	

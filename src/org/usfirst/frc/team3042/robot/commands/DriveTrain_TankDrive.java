@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain_TankDrive extends Command {
 	private final double speedScale = 1.0;
-	private final double deadzone = 0.07;
+	private final double deadzone = 0.1;
 	
 	//Inertia dampening
     final int LEFT = 0, RIGHT = 1;
@@ -28,6 +28,8 @@ public class DriveTrain_TankDrive extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("Left Drivetrain Encoder", Robot.driveTrain.getLeftEncoder());
 		SmartDashboard.putNumber("Right Drivetrain Encoder", Robot.driveTrain.getRightEncoder());
+		SmartDashboard.putNumber("Left Drivetrain RPM", Robot.driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right Drivetrain RPM", Robot.driveTrain.getRightVelocity());
 		SmartDashboard.putNumber("Gyro Value", Robot.driveTrain.getGyro().getDegrees());
 		
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;

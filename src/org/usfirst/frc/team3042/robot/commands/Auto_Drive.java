@@ -37,7 +37,7 @@ public class Auto_Drive extends Command {
     public Auto_Drive(AutoType autoType, double distance, double maxSpeed, double radius) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires(Robot.driveTrain);
+    	requires(Robot.driveTrain);
     	
     	this.autoType = autoType;
     	

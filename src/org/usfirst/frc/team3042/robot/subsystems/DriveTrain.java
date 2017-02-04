@@ -13,6 +13,7 @@ import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
@@ -21,29 +22,30 @@ public class DriveTrain extends Subsystem {
 	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
 	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
-	Relay gearShift = new Relay(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
+	Solenoid gearShift = new Solenoid(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
 	
 	CANTalon leftEncMotor = leftMotorFront;
-    CANTalon rightEncMotor = rightMotorFront;
+    CANTalon rightEncMotor = rightMotorRear;
     
     ADIS16448_IMU gyro = new ADIS16448_IMU(Axis.kX);
     
     private int leftEncoderZero, rightEncoderZero;
-    private boolean leftReverseEnc;
-    private boolean rightReverseEnc;
-    private int leftEncSign;
-    private int rightEncSign;
+    private boolean leftReverseEnc = false;
+    private boolean rightReverseEnc = true;
+    private int leftEncSign = 1;
+    private int rightEncSign = -1;
     
     private boolean isHighGear = false;
    
     
     public double kP = 0, kI = 0, kD = 0;
+    public double kFLow, kFHigh;
 	public double kF;
 	double pPos = 0, iPos = 0, fPos = 0;
 	int iZone = 0;
 	
 	private static final double WHEEL_DIAMETER_IN = 4.0;
-	private static final int COUNTS_PER_REV = 360; //TODO: Determine actual value
+	private static final int COUNTS_PER_REV = 360;
 	
 	double leftSetpoint, rightSetpoint;
 	double tolerance = 4.0 / COUNTS_PER_REV;
@@ -72,6 +74,7 @@ public class DriveTrain extends Subsystem {
     	
     	initEncoders();
     	
+    	resetGyro();
 		calibrateGyro();
 		
 		//Starting talons processing motion profile
@@ -95,6 +98,8 @@ public class DriveTrain extends Subsystem {
     	rightMotorFront.setPID(kP, kI, kD);
     	leftMotorFront.setF(kF);
     	rightMotorFront.setF(kF);
+    	
+    	gearShift.set(false);
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -158,11 +163,11 @@ public class DriveTrain extends Subsystem {
 	
 	public void shiftGear(){
 		if(isHighGear){
-			gearShift.set(Relay.Value.kOn);
+			gearShift.set(false);
 			isHighGear = false;
 		}
 		else{
-			gearShift.set(Relay.Value.kOff);
+			gearShift.set(true);
 			isHighGear = true;
 		}
 	}
@@ -216,13 +221,13 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getLeftPositionInches() {
-		double rotations = ((double) getLeftEncoder()) / COUNTS_PER_REV;
+		double rotations = ((double) getLeftEncoder()) / (4 * COUNTS_PER_REV);
 		
 		return rotationsToInches(rotations);
 	}
 	
 	public double getRightPositionInches() {
-		double rotations = ((double) getRightEncoder()) / COUNTS_PER_REV;
+		double rotations = ((double) getRightEncoder()) / (4 * COUNTS_PER_REV);
 		
 		return rotationsToInches(rotations);
 	}
