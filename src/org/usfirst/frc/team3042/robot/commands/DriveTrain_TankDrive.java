@@ -28,8 +28,8 @@ public class DriveTrain_TankDrive extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("Left Drivetrain Encoder", Robot.driveTrain.getLeftEncoder());
 		SmartDashboard.putNumber("Right Drivetrain Encoder", Robot.driveTrain.getRightEncoder());
-		SmartDashboard.putNumber("Left Drivetrain RPM", Robot.driveTrain.getLeftVelocity());
-		SmartDashboard.putNumber("Right Drivetrain RPM", Robot.driveTrain.getRightVelocity());
+		SmartDashboard.putNumber("Left Drivetrain FPS", Robot.driveTrain.getLeftVelocityInchesPerSecond() / 12);
+		SmartDashboard.putNumber("Right Drivetrain FPS", Robot.driveTrain.getRightVelocityInchesPerSecond() / 12);
 		SmartDashboard.putNumber("Gyro Value", Robot.driveTrain.getGyro().getDegrees());
 		
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;

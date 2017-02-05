@@ -122,6 +122,7 @@ public class Robot extends IterativeRobot {
         // this (below) line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         
+        Robot.driveTrain.shiftGearLow();
     }
 
     /**

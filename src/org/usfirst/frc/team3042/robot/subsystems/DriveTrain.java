@@ -39,12 +39,13 @@ public class DriveTrain extends Subsystem {
    
     
     public double kP = 0, kI = 0, kD = 0;
-    public double kFLow, kFHigh;
-	public double kF;
+    public double kFLowLeft = 1.316, kFLowRight = 1.340;
+    public double kFHighLeft = 0.456, kFHighRight = 0.465;
+	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;
 	int iZone = 0;
 	
-	private static final double WHEEL_DIAMETER_IN = 4.0;
+	private static final double WHEEL_DIAMETER_IN = 3.95;
 	private static final int COUNTS_PER_REV = 360;
 	
 	double leftSetpoint, rightSetpoint;
@@ -96,8 +97,8 @@ public class DriveTrain extends Subsystem {
     	rightMotorFront.setProfile(0);
     	leftMotorFront.setPID(kP, kI, kD);
     	rightMotorFront.setPID(kP, kI, kD);
-    	leftMotorFront.setF(kF);
-    	rightMotorFront.setF(kF);
+    	leftMotorFront.setF(kFLeft);
+    	rightMotorFront.setF(kFRight);
     	
     	gearShift.set(false);
     }
@@ -131,8 +132,8 @@ public class DriveTrain extends Subsystem {
 	
 	// Converts inches/second to motor percentage using feed-forward term
 	public void setMotorsInchesPerSecondOpenLoop(double left, double right) {
-		double leftSpeed = kF * inchesPerSecondToRPM(left) * COUNTS_PER_REV / 1023 / 60;
-		double rightSpeed = kF * inchesPerSecondToRPM(right) * COUNTS_PER_REV / 1023 / 60;
+		double leftSpeed = kFLeft * inchesPerSecondToRPM(left) * COUNTS_PER_REV / 1023 / 60;
+		double rightSpeed = kFRight * inchesPerSecondToRPM(right) * COUNTS_PER_REV / 1023 / 60;
 		
 		setMotors(leftSpeed, rightSpeed);
 	}
@@ -161,15 +162,29 @@ public class DriveTrain extends Subsystem {
 	    return motorValue;
 	}
 	
-	public void shiftGear(){
-		if(isHighGear){
-			gearShift.set(false);
-			isHighGear = false;
+	public void shiftGear() {
+		if(isHighGear) {
+			shiftGearLow();
 		}
-		else{
-			gearShift.set(true);
-			isHighGear = true;
+		else {
+			shiftGearHigh();
 		}
+	}
+	
+	public void shiftGearLow() {
+		kFLeft = kFLowLeft;
+		kFRight = kFLowRight;
+		
+		gearShift.set(false);
+		isHighGear = false;
+	}
+	
+	public void shiftGearHigh() {
+		kFLeft = kFHighLeft;
+		kFRight = kFHighRight;
+		
+		gearShift.set(true);
+		isHighGear = true;
 	}
 	
 	public void offsetPosition(double left, double right) {

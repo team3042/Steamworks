@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 
+import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.Intake_Stop;
 
@@ -19,7 +20,7 @@ public class Intake extends Subsystem {
 	
     CANTalon intake = new CANTalon(RobotMap.INTAKE_TALON);
     
-    private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .1;
+    private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .05;
     
     private double intakeSpeed = -1500;
     private double exhaustSpeed = 1000;
@@ -53,7 +54,9 @@ public class Intake extends Subsystem {
 		intakeZero = intake.getEncPosition();
 	}
 	
-	private void setPower(double motorValue){
+	public void setPower(double motorValue){
+		intake.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		
 		motorValue = safetyTest(motorValue);
 		intake.set(motorValue);
 	}
@@ -86,6 +89,10 @@ public class Intake extends Subsystem {
         
         return motorValue;
     }
+	 
+	public double getEncoder() {
+		return intake.getEncPosition() - intakeZero;
+	}
 	 
 	public double getSpeed() {
 	    return intake.getSpeed();

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3042.robot;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
+import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
@@ -38,6 +40,10 @@ public class OI {
 	
 	Button gdmButton = new JoystickButton(joystickRight, 2);
 	
+	Button calibrateButton = new JoystickButton(joystickRight, 7);
+	
+	Button autoTestButton = new JoystickButton(joystickLeft, 7);
+	
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.
@@ -68,6 +74,10 @@ public class OI {
 		gearShifter.whenPressed(new DriveTrain_ShiftGears());
 		
 		gdmButton.whenPressed(new GDM_Actuate());
+		
+		calibrateButton.whileHeld(new DriveTrain_Calibrate());
+		
+		autoTestButton.whenPressed(new AutoMode_DriveForward());
 	}
 	
 }
