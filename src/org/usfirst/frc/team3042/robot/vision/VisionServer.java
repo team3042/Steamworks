@@ -12,12 +12,17 @@ import org.spectrum3847.RIOdroid.RIOadb;
 import org.usfirst.frc.team3042.robot.vision.messages.CameraModeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
+import org.usfirst.frc.team3042.robot.vision.messages.TargetTypeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
 
 import edu.wpi.first.wpilibj.Timer;
 
 // Code taken from team 254 github
 
+/**
+ * A server to run on the robot and maintain the link with an Android phone used for vision of targets
+ *
+ */
 public class VisionServer implements Runnable {
 
     private static VisionServer instance = null;
@@ -45,8 +50,12 @@ public class VisionServer implements Runnable {
         return connected;
     }
 
-    // Thread to deal with sending heartbeat messages and receiving heartbeat
-    // and vision messages
+    /**
+     * Thread created to handle messages sent back and forth with the phone, 
+     * responding to {@link HeartbeatMessage}s, allowing {@link VisionMessage}s to be sent,
+     * and sending received {@link VisionUpdate}s out to {@link VisionUpdateReceiver}s registered on the {@link VisionServer}
+     *
+     */
     protected class ServerThread implements Runnable {
         private Socket socket;
 
@@ -54,8 +63,11 @@ public class VisionServer implements Runnable {
             this.socket = socket;
         }
 
-        // Taking a message, converting it to json ending with a newline, and
-        // sending
+        /**
+         * Taking a message and writing it to the OutputStream of the socket connected to the phone
+         * 
+         * @param message - The message to be sent
+         */
         public void send(VisionMessage message) {
             String toSend = message.toJson() + "\n";
             if (socket != null && socket.isConnected()) {
@@ -68,8 +80,13 @@ public class VisionServer implements Runnable {
             }
         }
 
-        // Takes a message, sends it back if heartbeat, sends to recievers
-        // otherwise
+        /**
+         * Takes a {@link VisionMessage} received from the phone, sending it to {@link VisionUpdateReceiver}s if it is a {@link VisionUpdate}
+         * and responding if it is a {@link HeartbeatMessage}
+         * 
+         * @param message - The VisionMessage received
+         * @param timestamp - The time at which the message was received
+         */
         public void handleMessage(VisionMessage message, double timestamp) {
             if ("targets".equals(message.getType())) {
                 System.out.println("Received vision message");
@@ -88,6 +105,11 @@ public class VisionServer implements Runnable {
             }
         }
 
+        /**
+         * A method to check whether a {@link ServerThread} is still running and connected
+         * 
+         * @return - true if still connected and running, false otherwise
+         */
         public boolean isAlive() {
             return socket != null && socket.isConnected() && !socket.isClosed();
         }
@@ -148,35 +170,58 @@ public class VisionServer implements Runnable {
         new Thread(new AppMaintainanceThread()).start();
     }
 
-    /**
-     * If a VisionUpdate object (i.e. a target) is not in the list, add it.
-     * 
-     * @see VisionUpdate
-     */
+   /**
+    * If a {@link VisionUpdateReceiver} is not in the list, add it to the list to start sending {@link VisionUpdate}s
+    * 
+    * @param receiver - The VisionUpdateReceiver to add to the list
+    */
     public void addVisionUpdateReceiver(VisionUpdateReceiver receiver) {
         if (!receivers.contains(receiver)) {
             receivers.add(receiver);
         }
     }
-
+    
+	/**
+	 * If a {@link VisionUpdateReceiver} is in the list, remove it from the list to stop sending {@link VisionUpdate}s
+	 * 
+	 * @param receiver - The VisionUpdateReceiver to remove from the list
+	 */
     public void removeVisionUpdateReceiver(VisionUpdateReceiver receiver) {
         if (receivers.contains(receiver)) {
             receivers.remove(receiver);
         }
     }
     
-    public void setCameraFront() {
-    	CameraModeMessage frontMessage = CameraModeMessage.getFrontFacingMessage();
+    /**
+     * Takes a message and sends it to the most recently created ServerThread, which should have a socket set up
+     * 
+     * @param message - The message to be sent to the phone
+     * @see ServerThread
+     */
+    private void sendMessageMostRecentThread(VisionMessage message) {
     	ServerThread mostRecentThread = serverThreads.get(serverThreads.size() - 1);
     	
-    	mostRecentThread.send(frontMessage);
+    	mostRecentThread.send(message);
+    }
+    
+    public void setCameraFront() {
+    	CameraModeMessage frontMessage = CameraModeMessage.getFrontFacingMessage();
+    	sendMessageMostRecentThread(frontMessage);
     }
     
     public void setCameraRear() {
     	CameraModeMessage rearMessage = CameraModeMessage.getRearFacingMessage();
-    	ServerThread mostRecentThread = serverThreads.get(serverThreads.size() - 1);
-    	
-    	mostRecentThread.send(rearMessage);
+    	sendMessageMostRecentThread(rearMessage);
+    }
+    
+    public void setTargetBoiler() {
+    	TargetTypeMessage boilerMessage = TargetTypeMessage.getBoilerMessage();
+    	sendMessageMostRecentThread(boilerMessage);
+    }
+    
+    public void setTargetLift() {
+    	TargetTypeMessage liftMessage = TargetTypeMessage.getLiftMessage();
+    	sendMessageMostRecentThread(liftMessage);
     }
 
     @Override
