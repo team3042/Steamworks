@@ -1,5 +1,10 @@
 package org.usfirst.frc.team3042.robot.vision.messages;
 
+/**
+ * A {@link VisionMessage} that tells the phone which type of target to search for, switching the 
+ * OpenCV pipeline running for improved speed
+ *
+ */
 public class TargetTypeMessage extends VisionMessage {
 	
 	private static final String BOILER_TARGET = "boiler";

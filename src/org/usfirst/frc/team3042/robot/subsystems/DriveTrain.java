@@ -12,7 +12,6 @@ import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -45,8 +44,8 @@ public class DriveTrain extends Subsystem {
 	double pPos = 0, iPos = 0, fPos = 0;
 	int iZone = 0;
 	
-	private static final double WHEEL_DIAMETER_IN = 3.95;
-	private static final int COUNTS_PER_REV = 360;
+	private static final double WHEEL_DIAMETER_IN = 3.95; // Measured
+	private static final int COUNTS_PER_REV = 360; // Quadrature counts = 1440
 	
 	double leftSetpoint, rightSetpoint;
 	double tolerance = 4.0 / COUNTS_PER_REV;
@@ -203,7 +202,7 @@ public class DriveTrain extends Subsystem {
 		leftMotorFront.set(left);
 		rightMotorFront.set(right);
 	}
-	/*
+	
 	public boolean nearSetpoint() {
 		double currentLeftPosition = leftMotorFront.getPosition();
 		boolean nearLeft = Math.abs(leftSetpoint - currentLeftPosition) < tolerance;
@@ -213,7 +212,7 @@ public class DriveTrain extends Subsystem {
 		
 		return nearLeft && nearRight;
 	}
-	*/
+	
 	private double scaleLeft(double left) {
 		return left;
 	}

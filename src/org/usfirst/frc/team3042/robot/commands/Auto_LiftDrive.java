@@ -20,7 +20,7 @@ public class Auto_LiftDrive extends Command {
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
-    private double kDistanceP, kDistanceI, kDistanceD;
+    //private double kDistanceP, kDistanceI, kDistanceD;
     private double kAngleP = 0, kAngleI = 0, kAngleD = 0;
     private double oldGyroError = 0, sumGyroError = 0;
     

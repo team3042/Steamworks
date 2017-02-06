@@ -24,7 +24,7 @@ public class Auto_Drive extends Command {
 	//Time for each filter in ms
 	double time1 = 400, time2 = 200;
 	
-	double wheelbaseWidth; // = measurement based on the robot
+	double wheelbaseWidth; // TODO: determine measurement based on the robot
 	
 	//AutoType enum found at bottom of class
 	AutoType autoType;

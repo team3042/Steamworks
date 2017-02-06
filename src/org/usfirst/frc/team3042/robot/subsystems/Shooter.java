@@ -34,10 +34,12 @@ public class Shooter extends Subsystem {
     }
 	
 	public void setPIDF(){
+		/*
 		double P = SmartDashboard.getNumber("Shooter P", kP);
 		double I = SmartDashboard.getNumber("Shooter I", kI);
 		double D = SmartDashboard.getNumber("Shooter D", kD);
 		double F = SmartDashboard.getNumber("Shooter F", kF);
+		*/
 		
 		shooterTalon.setPID(kP, kI, kD);
 		shooterTalon.setF(kF);

@@ -3,7 +3,6 @@ package org.usfirst.frc.team3042.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
-import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
@@ -32,8 +31,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Logger logger;
 	public static VisionServer visionServer;
+	public static RobotState robotState;
 	public static TestUpdateReceiver testUpdateReceiver;
-	public static final LEDSwitch ledSwitch = new LEDSwitch();
 	public static final CompressorSubsystem compressor = new CompressorSubsystem();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Climber climber = new Climber();
@@ -57,9 +56,11 @@ public class Robot extends IterativeRobot {
         /*
         RIOdroid.initUSB();
         
+        robotState = RobotState.getInstance();
         visionServer = VisionServer.getInstance();
         testUpdateReceiver = new TestUpdateReceiver();
         visionServer.addVisionUpdateReceiver(testUpdateReceiver);
+        visionServer.addVisionUpdateReceiver(robotState);
         */
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
@@ -72,12 +73,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Shooter D", 0);
         SmartDashboard.putNumber("Shooter F", 0);
         SmartDashboard.putNumber("Shooter speed", 1000);
-        
-        SmartDashboard.putNumber("Intake P", 0);
-        SmartDashboard.putNumber("Intake I", 0);
-        SmartDashboard.putNumber("Intake D", 0);
-        SmartDashboard.putNumber("Intake speed", 1000);
-        
     }
      
     public void disabledInit(){

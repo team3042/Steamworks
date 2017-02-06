@@ -1,13 +1,11 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 
-import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.Intake_Stop;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @param <SafetyTest>
@@ -38,9 +36,11 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setPIDF(){
+		/*
 		double P = SmartDashboard.getNumber("Intake P", kP);
 		double I = SmartDashboard.getNumber("Intake I", kI);
 		double D = SmartDashboard.getNumber("Intake D", kD);
+		*/
 		
 		intake.setPID(kP, kI, kD);
 		intake.setF(kF);
@@ -74,7 +74,7 @@ public class Intake extends Subsystem {
     public void intake() {
         setPIDF();
         
-        double speed = SmartDashboard.getNumber("Intake speed", intakeSpeed);
+        //double speed = SmartDashboard.getNumber("Intake speed", intakeSpeed);
         
     	setRPM(intakeSpeed);
     }
