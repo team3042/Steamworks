@@ -18,7 +18,7 @@ public class Intake_Intake extends Command {
     protected void initialize() {
     	Robot.logger.log("Initialize", 1);
     	
-    	Robot.intake.setPower(-0.5);
+    	Robot.intake.setPower(-.9);
     }
 
     // Called repeatedly when this Command is scheduled to run

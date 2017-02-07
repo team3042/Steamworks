@@ -26,6 +26,6 @@ public class AutoMode_DriveForward extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new Auto_Drive(AutoType.STRAIGHT, 4, 2));
+    	addSequential(new Auto_Drive(AutoType.STRAIGHT, 10, 4));
     }
 }

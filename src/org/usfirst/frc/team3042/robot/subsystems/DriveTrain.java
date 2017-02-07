@@ -3,6 +3,7 @@ package org.usfirst.frc.team3042.robot.subsystems;
 import org.usfirst.frc.team3042.lib.ADIS16448_IMU;
 import org.usfirst.frc.team3042.lib.ADIS16448_IMU.Axis;
 import org.usfirst.frc.team3042.lib.Rotation2d;
+import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_TankDrive;
 
@@ -14,6 +15,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem {
 	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
@@ -26,7 +28,7 @@ public class DriveTrain extends Subsystem {
 	CANTalon leftEncMotor = leftMotorFront;
     CANTalon rightEncMotor = rightMotorRear;
     
-    ADIS16448_IMU gyro = new ADIS16448_IMU(Axis.kX);
+    ADIS16448_IMU gyro = new ADIS16448_IMU();
     
     private int leftEncoderZero, rightEncoderZero;
     private boolean leftReverseEnc = false;
@@ -271,7 +273,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public Rotation2d getGyro() {
-		return Rotation2d.fromDegrees(gyro.getAngle());
+		SmartDashboard.putData("IMU", gyro);
+		
+		return Rotation2d.fromDegrees(gyro.getAngleZ());
 	}
 	
 	public void resetGyro() {
