@@ -39,7 +39,9 @@ public class DriveTrain extends Subsystem {
     private boolean isHighGear = false;
    
     
-    public double kP = 0, kI = 0, kD = 0;
+    public double kPHigh = 1, kIHigh = 0, kDHigh = 0;
+    public double kPLow = 1, kILow = 0, kDLow = 0;
+    public double kP = kPLow, kI = kILow, kD = kDLow;
     public double kFLowLeft = 1.316, kFLowRight = 1.340;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
@@ -170,9 +172,16 @@ public class DriveTrain extends Subsystem {
 		else {
 			shiftGearHigh();
 		}
+		leftMotorFront.setPID(kP, kI, kD);
+    	rightMotorFront.setPID(kP, kI, kD);
+    	leftMotorFront.setF(kFLeft);
+    	rightMotorFront.setF(kFRight);
 	}
 	
 	public void shiftGearLow() {
+		kP = kPLow;
+		kI = kILow;
+		kD = kDLow;
 		kFLeft = kFLowLeft;
 		kFRight = kFLowRight;
 		
@@ -181,6 +190,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void shiftGearHigh() {
+		kP = kPHigh;
+		kI = kIHigh;
+		kD = kDHigh;
 		kFLeft = kFHighLeft;
 		kFRight = kFHighRight;
 		

@@ -34,6 +34,9 @@ public class Auto_Drive extends Command {
 	
 	MotionProfileStatus[] status;
 	
+	CANTalon.TrajectoryPoint[] leftTrajectory;
+	CANTalon.TrajectoryPoint[] rightTrajectory;
+	
     public Auto_Drive(AutoType autoType, double distance, double maxSpeed, double radius) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -111,8 +114,8 @@ public class Auto_Drive extends Command {
     	motionProfileLeft = new AutoTrajectory_MotionProfile(itp, time1, time2, leftMaxSpeed, leftDistance);
     	motionProfileRight = new AutoTrajectory_MotionProfile(itp, time1, time2, rightMaxSpeed, rightDistance);
     	
-    	CANTalon.TrajectoryPoint[] leftTrajectory = motionProfileLeft.calculateProfile();
-    	CANTalon.TrajectoryPoint[] rightTrajectory = motionProfileRight.calculateProfile();
+    	leftTrajectory = motionProfileLeft.calculateProfile();
+    	rightTrajectory = motionProfileRight.calculateProfile();
     	
     	for(int i = 0; i < leftTrajectory.length; i++) {
     		if(i < rightTrajectory.length) {
@@ -148,6 +151,9 @@ public class Auto_Drive extends Command {
     		Robot.logger.log("Right Underrun", 2);
     		Robot.driveTrain.removeUnderrunRight();
     	}
+    	
+    	Robot.logger.log("Left Encoder Actual: " + Robot.driveTrain.getLeftEncoder() + "\tLeft Encoder Goal: " + status[0].activePoint.position, 1);
+    	Robot.logger.log("\nRight Encoder Actual: " + Robot.driveTrain.getRightEncoder() + "\tRight Encoder Goal: " + status[1].activePoint.position, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
