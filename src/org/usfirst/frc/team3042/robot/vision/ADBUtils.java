@@ -4,7 +4,7 @@ import org.spectrum3847.RIOdroid.RIOdroid;
 
 
 //Code from spectrum 3847 (Look up riodroid on github)
-public class AdbUtils{
+public class ADBUtils{
 	
 	public static String adbReverseForward(int remotePort, int localPort) {
 		try {

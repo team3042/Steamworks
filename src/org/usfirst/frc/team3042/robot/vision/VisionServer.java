@@ -162,7 +162,7 @@ public class VisionServer implements Runnable {
             // Creating a socket and setting up connection over adb to start tcp
             serverSocket = new ServerSocket(port);
             RIOadb.init();
-            AdbUtils.adbReverseForward(port, port);
+            ADBUtils.adbReverseForward(port, port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -261,13 +261,13 @@ public class VisionServer implements Runnable {
             while (true) {
                 if (getTimestamp() - lastMessageReceivedTime > .1) {
                     // camera disconnected
-                    AdbUtils.adbReverseForward(port, port);
+                    ADBUtils.adbReverseForward(port, port);
                     connected = false;
                 } else {
                     connected = true;
                 }
                 if (wantsAppRestart) {
-                    AdbUtils.restartApp();
+                    ADBUtils.restartApp();
                     wantsAppRestart = false;
                 }
                 try {

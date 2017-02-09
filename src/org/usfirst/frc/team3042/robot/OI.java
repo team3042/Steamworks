@@ -30,18 +30,24 @@ public class OI {
 	public Object left_1;
 	public Object right_1;
 	
-	Button climberButton = new JoystickButton(joystickRight, 9);
-	
-	Button shooterButton = new JoystickButton(joystickRight, 8);
-	
-	Button gearShifter = new JoystickButton(joystickRight, 1);
-	
-	Button intakeButton = new JoystickButton(joystickRight, 4);
-	
-	Button gdmButton = new JoystickButton(joystickRight, 2);
-	
+	// Drive Train Buttons
+	Button gearShiftButton = new JoystickButton(joystickRight, 1);
 	Button calibrateButton = new JoystickButton(joystickRight, 7);
 	
+	// GDM Buttons
+	Button gdmButton = new JoystickButton(joystickRight, 2);
+	
+	// Intake Buttons
+	Button intakeButton = new JoystickButton(joystickRight, 4);
+	Button exhaustButton = new JoystickButton(joystickRight, 3);
+	
+	// Shooter Buttons
+	Button shooterButton = new JoystickButton(joystickRight, 8);
+	
+	// Climber Buttons
+	Button climberButton = new JoystickButton(joystickRight, 9);
+	
+	// Auto/Software Test Buttons
 	Button autoTestButton = new JoystickButton(joystickLeft, 7);
 	
     // There are a few additional built in buttons you can use. Additionally,
@@ -71,7 +77,7 @@ public class OI {
 		
 		shooterButton.whileHeld(new Shooter_Shoot());
 		
-		gearShifter.whenPressed(new DriveTrain_ShiftGears());
+		gearShiftButton.whenPressed(new DriveTrain_ShiftGears());
 		
 		gdmButton.whenPressed(new GDM_Actuate());
 		

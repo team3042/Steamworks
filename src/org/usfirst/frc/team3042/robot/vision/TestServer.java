@@ -15,7 +15,7 @@ public class TestServer {
 		int numOfDevice = RIOadb.getDevicesList().size();
 		if(numOfDevice > 0) {
 			System.out.println("Going ahead with reverse port forwarding...");
-		    AdbUtils.adbReverseForward(port, port); //Forward our port to the phones port
+		    ADBUtils.adbReverseForward(port, port); //Forward our port to the phones port
 		    System.out.println("Ran reverse port forward command, going ahead with socket...");
 			try {
 				socket = new ServerSocket(port);

@@ -18,6 +18,7 @@ import org.usfirst.frc.team3042.robot.vision.VisionUpdateReceiver;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotState implements VisionUpdateReceiver {
 	private static RobotState instance = null;
@@ -167,6 +168,23 @@ public class RobotState implements VisionUpdateReceiver {
 	@Override
 	public void gotUpdate(VisionUpdate update) {
 		mostRecentUpdate = update;
+	}
+	
+	public void outputToSmartDashboard() {
+		RigidTransform2d pose = robotPose.lastEntry().getValue();
+		
+		SmartDashboard.putNumber("Robot X", pose.getTranslation().getX());
+		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getX());
+		SmartDashboard.putNumber("Robot Theta", pose.getRotation().getDegrees());
+		
+		List<TrackReport> tracks = targetTracker.getTracks();
+		for(TrackReport track : tracks) {
+			SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
+			SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
+			
+			// Only output first track
+			break; 
+		}
 	}
 
 }
