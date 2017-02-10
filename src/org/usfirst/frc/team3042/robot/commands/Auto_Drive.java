@@ -24,7 +24,7 @@ public class Auto_Drive extends Command {
 	//Time for each filter in ms
 	double time1 = 400, time2 = 200;
 	
-	double wheelbaseWidth; // TODO: determine measurement based on the robot
+	double wheelbaseWidth = 28.25; // Inches
 	
 	//AutoType enum found at bottom of class
 	AutoType autoType;
@@ -152,8 +152,9 @@ public class Auto_Drive extends Command {
     		Robot.driveTrain.removeUnderrunRight();
     	}
     	
-    	Robot.logger.log("Left Encoder Actual: " + Robot.driveTrain.getLeftEncoder() + "\tLeft Encoder Goal: " + status[0].activePoint.position, 1);
-    	Robot.logger.log("\nRight Encoder Actual: " + Robot.driveTrain.getRightEncoder() + "\tRight Encoder Goal: " + status[1].activePoint.position, 1);
+    	Robot.logger.log("Left F: " + Robot.driveTrain.leftMotorFront.getF() + "\tRight F: " + Robot.driveTrain.rightMotorFront.getF(), 1);
+    	Robot.logger.log("Left Encoder Actual: " + Robot.driveTrain.getLeftEncoder() + "\tLeft Encoder Goal: " + status[0].activePoint.position * 1440 + "\tLeft Goal Speed: " + status[0].activePoint.velocity, 1);
+    	Robot.logger.log("Right Encoder Actual: " + Robot.driveTrain.getRightEncoder() + "\tRight Encoder Goal: " + status[1].activePoint.position * 1440 + "\tRight Goal Speed: " + status[1].activePoint.velocity + "\n", 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

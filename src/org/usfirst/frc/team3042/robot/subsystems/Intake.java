@@ -18,9 +18,9 @@ public class Intake extends Subsystem {
 	
     CANTalon intake = new CANTalon(RobotMap.INTAKE_TALON);
     
-    private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .05;
+    private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .1;
     
-    private double intakeSpeed = -1500;
+    private double intakeSpeed = -1800;
     private double exhaustSpeed = 1000;
     
     private double intakeZero = 0;

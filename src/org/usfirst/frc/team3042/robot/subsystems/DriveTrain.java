@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem {
-	CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
+	public CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
 	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
-	CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
+	public CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
 	CANTalon rightMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_REAR);
 	
 	Solenoid gearShift = new Solenoid(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
@@ -39,8 +39,8 @@ public class DriveTrain extends Subsystem {
     private boolean isHighGear = false;
    
     
-    public double kPHigh = 1, kIHigh = 0, kDHigh = 0;
-    public double kPLow = 1, kILow = 0, kDLow = 0;
+    public double kPHigh = 0, kIHigh = 0, kDHigh = 0;
+    public double kPLow = 0, kILow = 0, kDLow = 0;
     public double kP = kPLow, kI = kILow, kD = kDLow;
     public double kFLowLeft = 1.316, kFLowRight = 1.340;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
@@ -300,6 +300,8 @@ public class DriveTrain extends Subsystem {
 	
 	//Motion profile functions
 	public void initMotionProfile() {
+		
+		resetEncoders();
 		
 		leftMotorFront.clearMotionProfileTrajectories();
 		rightMotorFront.clearMotionProfileTrajectories();
