@@ -115,8 +115,8 @@ public class OI {
 		gunner_RT.whileActive(new Shooter_Shoot());
 		
 		// Phone Commands
-		gunner_POVLeft.whenActive(new Vision_TrackBoiler());
-		gunner_POVRight.whenActive(new Vision_TrackLift());
+		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());
+		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
 		left_7.whenPressed(new AutoMode_DriveForward());

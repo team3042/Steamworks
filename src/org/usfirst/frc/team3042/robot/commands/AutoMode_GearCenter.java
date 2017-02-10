@@ -25,6 +25,7 @@ public class AutoMode_GearCenter extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	addSequential(new Vision_TrackLift());
     	addSequential(new Auto_DriveUntilTargetSeen());
     	addSequential(new Auto_LiftDrive());
     }
