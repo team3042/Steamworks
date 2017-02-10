@@ -4,12 +4,18 @@ import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
+import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
+import org.usfirst.frc.team3042.robot.commands.Vision_TrackBoiler;
+import org.usfirst.frc.team3042.robot.commands.Vision_TrackLift;
+import org.usfirst.frc.team3042.robot.triggers.GamepadTrigger;
+import org.usfirst.frc.team3042.robot.triggers.POVButton;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,28 +33,47 @@ public class OI {
 	
 	public Joystick joystickLeft = new Joystick(RobotMap.LEFT_JOYSTICK_USB_PORT_0);
 	public Joystick joystickRight = new Joystick(RobotMap.RIGHT_JOYSTICK_USB_PORT_1);
-	public Object left_1;
-	public Object right_1;
+	public Joystick gamepadGunner = new Joystick(RobotMap.GUNNER_JOYSTICK_USB_PORT_2);
 	
-	// Drive Train Buttons
-	Button gearShiftButton = new JoystickButton(joystickRight, 1);
-	Button calibrateButton = new JoystickButton(joystickRight, 7);
+	//Left Joystick Buttons
+	public Button left_1 = new JoystickButton(joystickLeft, 1);
+	public Button left_2 = new JoystickButton(joystickLeft, 2);
+	public Button left_3 = new JoystickButton(joystickLeft, 3);
+	public Button left_4 = new JoystickButton(joystickLeft, 4);
+	public Button left_5 = new JoystickButton(joystickLeft, 5);
+	public Button left_6 = new JoystickButton(joystickLeft, 6);
+	public Button left_7 = new JoystickButton(joystickLeft, 7);
+	public Button left_8 = new JoystickButton(joystickLeft, 8);
+
+	//Right Joystick Buttons
+	public Button right_1 = new JoystickButton(joystickRight, 1);
+	public Button right_2 = new JoystickButton(joystickRight, 2);
+	public Button right_3 = new JoystickButton(joystickRight, 3);
+	public Button right_4 = new JoystickButton(joystickRight, 4);
+	public Button right_5 = new JoystickButton(joystickRight, 5);
+	public Button right_6 = new JoystickButton(joystickRight, 6);
+	public Button right_7 = new JoystickButton(joystickRight, 7);
+	public Button right_8 = new JoystickButton(joystickRight, 8);
 	
-	// GDM Buttons
-	Button gdmButton = new JoystickButton(joystickRight, 2);
-	
-	// Intake Buttons
-	Button intakeButton = new JoystickButton(joystickRight, 4);
-	Button exhaustButton = new JoystickButton(joystickRight, 3);
-	
-	// Shooter Buttons
-	Button shooterButton = new JoystickButton(joystickRight, 8);
-	
-	// Climber Buttons
-	Button climberButton = new JoystickButton(joystickRight, 9);
-	
-	// Auto/Software Test Buttons
-	Button autoTestButton = new JoystickButton(joystickLeft, 7);
+	// Gamepad buttons
+	Button gunner_A = new JoystickButton(gamepadGunner, 1);
+	Button gunner_B = new JoystickButton(gamepadGunner, 2);
+	Button gunner_X = new JoystickButton(gamepadGunner, 3);
+	Button gunner_Y = new JoystickButton(gamepadGunner, 4);
+	Button gunner_LB = new JoystickButton(gamepadGunner, 5);
+	Button gunner_RB = new JoystickButton(gamepadGunner, 6);
+	Button gunner_Back = new JoystickButton(gamepadGunner, 7);
+	Button gunner_Start = new JoystickButton(gamepadGunner, 8);
+
+	// Triggers
+	Trigger gunner_LT = new GamepadTrigger(gamepadGunner,2);
+	Trigger gunner_RT = new GamepadTrigger(gamepadGunner,3);
+	Trigger gunner_LeftJoyUp = new GamepadTrigger(gamepadGunner, 1, GamepadTrigger.DIRECTION.UP);
+	Trigger gunner_LeftJoyDown = new GamepadTrigger(gamepadGunner, 1, GamepadTrigger.DIRECTION.DOWN);
+	Trigger gunner_POVUp = new POVButton(gamepadGunner, 0);
+	Trigger gunner_POVDown = new POVButton(gamepadGunner, 180);
+	Trigger gunner_POVLeft = new POVButton(gamepadGunner, 270);
+	Trigger gunner_POVRight = new POVButton(gamepadGunner, 90);
 	
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -70,20 +95,32 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	public OI(){
-		climberButton.whileHeld(new Climber_Climb());
+	public OI() {
 		
-		intakeButton.whileHeld(new Intake_Intake());
+		// Drivetrain
+		left_1.whenPressed(new DriveTrain_ShiftGears());
+		//right_7.whenPressed(new DriveTrain_Calibrate());
 		
-		shooterButton.whileHeld(new Shooter_Shoot());
+		// GDM
+		gunner_A.whenPressed(new GDM_Actuate());
 		
-		gearShiftButton.whenPressed(new DriveTrain_ShiftGears());
+		// Climber
+		gunner_POVUp.whileActive(new Climber_Climb());
 		
-		gdmButton.whenPressed(new GDM_Actuate());
+		// Intake
+		gunner_LT.whileActive(new Intake_Intake());
+		gunner_LB.whileHeld(new Intake_Exhaust());
 		
-		calibrateButton.whileHeld(new DriveTrain_Calibrate());
+		// Shooter
+		gunner_RT.whileActive(new Shooter_Shoot());
 		
-		autoTestButton.whenPressed(new AutoMode_DriveForward());
+		// Phone Commands
+		gunner_POVLeft.whenActive(new Vision_TrackBoiler());
+		gunner_POVRight.whenActive(new Vision_TrackLift());
+		
+		// Software Testing
+		left_7.whenPressed(new AutoMode_DriveForward());
+		
 	}
 	
 }

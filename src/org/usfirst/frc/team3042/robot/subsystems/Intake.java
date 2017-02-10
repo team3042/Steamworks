@@ -21,12 +21,13 @@ public class Intake extends Subsystem {
     private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .1;
     
     private double intakeSpeed = -1800;
-    private double exhaustSpeed = 1000;
+    private double exhaustSpeed = 800;
     
     private double intakeZero = 0;
     
     public Intake(){
     	initEncoder();
+    	setPIDF();
     }
     
 	public void initDefaultCommand() {
@@ -72,10 +73,6 @@ public class Intake extends Subsystem {
     }
 	
     public void intake() {
-        setPIDF();
-        
-        //double speed = SmartDashboard.getNumber("Intake speed", intakeSpeed);
-        
     	setRPM(intakeSpeed);
     }
     
