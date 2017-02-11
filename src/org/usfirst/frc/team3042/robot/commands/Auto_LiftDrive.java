@@ -17,12 +17,14 @@ public class Auto_LiftDrive extends Command {
     private boolean finished = false;
     
     private static final double MIN_VIEW_DISTANCE = 1.5;
+    private static final int MAX_ITERATIONS_WITHOUT_TARGET = 1;
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
     private double kAngleP = 0, kAngleI = 0, kAngleD = 0;
     private double oldGyroError = 0, sumGyroError = 0;
+    private int noTargetCounter = 0;
     
     // Parameters for logistic function
     private static final double DISTANCE_OFFSET = 8; // Inches
@@ -53,13 +55,19 @@ public class Auto_LiftDrive extends Command {
             
             if (!aim.isValid()) {
                 Robot.logger.log("No target in view!", 2);
-                finished = true; // TODO: Maybe only terminate after n loops without target view
+                
+                noTargetCounter++;
+                if (noTargetCounter > MAX_ITERATIONS_WITHOUT_TARGET) {
+                	finished = true;
+                }
                 return;
             }
             
             distance = aim.getDistance();
             Rotation2d angleOffset = aim.getAngle();
             gyroGoal = Robot.driveTrain.getGyro().rotateBy(angleOffset);
+            
+            Robot.logger.log("Angle Offset: " + angleOffset.getDegrees(), 3);
             
             // If we are close enough, stop using vision as we will lose the target soon and transition to gyro driving
             if (distance < MIN_VIEW_DISTANCE) {

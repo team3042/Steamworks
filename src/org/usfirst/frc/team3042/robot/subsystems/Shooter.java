@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot.subsystems;
 
+import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Stop;
 
@@ -19,7 +20,7 @@ public class Shooter extends Subsystem {
 	  
 	private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .03;
 
-	public double shooterSpeed = 4000.0, agitatorSpeed = 0.8;
+	public double shooterSpeed = 3850.0, agitatorSpeed = 0.8;
 	
 	private int shooterTalonZero = 0;
 	

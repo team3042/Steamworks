@@ -35,14 +35,18 @@ public class DriveTrain extends Subsystem {
     private boolean rightReverseEnc = true;
     private int leftEncSign = 1;
     private int rightEncSign = -1;
+    private double scaleLeft = 1;
+    private double scaleRight = 1;
     
     private boolean isHighGear = false;
    
     
     public double kPHigh = 0, kIHigh = 0, kDHigh = 0;
-    public double kPLow = 0, kILow = 0, kDLow = 0;
-    public double kP = kPLow, kI = kILow, kD = kDLow;
-    public double kFLowLeft = 1.316, kFLowRight = 1.340;
+    public double kPLowLeft = 3, kILowLeft = 0.02, kDLowLeft = 30;
+    public double kPLowRight = 4, kILowRight = 0.02, kDLowRight = 40;
+    public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
+    public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
+    public double kFLowLeft = 1.375, kFLowRight = 1.375 * 2.58;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;
@@ -89,8 +93,8 @@ public class DriveTrain extends Subsystem {
     	//Initializing PIDF
     	leftMotorFront.setProfile(1);
     	rightMotorFront.setProfile(1);
-    	leftMotorFront.setPID(pPos, iPos, kD);
-    	rightMotorFront.setPID(pPos, iPos, kD);
+    	leftMotorFront.setPID(pPos, iPos, kDLeft);
+    	rightMotorFront.setPID(pPos, iPos, kDRight);
     	leftMotorFront.setIZone(iZone);
     	rightMotorFront.setIZone(iZone);
     	leftMotorFront.setF(fPos);
@@ -98,8 +102,8 @@ public class DriveTrain extends Subsystem {
     	
     	leftMotorFront.setProfile(0);
     	rightMotorFront.setProfile(0);
-    	leftMotorFront.setPID(kP, kI, kD);
-    	rightMotorFront.setPID(kP, kI, kD);
+    	leftMotorFront.setPID(kPLeft, kILeft, kDLeft);
+    	rightMotorFront.setPID(kPRight, kIRight, kDRight);
     	leftMotorFront.setF(kFLeft);
     	rightMotorFront.setF(kFRight);
     	
@@ -172,29 +176,45 @@ public class DriveTrain extends Subsystem {
 		else {
 			shiftGearHigh();
 		}
-		leftMotorFront.setPID(kP, kI, kD);
-    	rightMotorFront.setPID(kP, kI, kD);
+		leftMotorFront.setPID(kPLeft, kILeft, kDLeft);
+    	rightMotorFront.setPID(kPRight, kIRight, kDRight);
     	leftMotorFront.setF(kFLeft);
     	rightMotorFront.setF(kFRight);
 	}
 	
 	public void shiftGearLow() {
-		kP = kPLow;
-		kI = kILow;
-		kD = kDLow;
+		kPLeft = kPLowLeft;
+		kILeft = kILowLeft;
+		kDLeft = kDLowLeft;
+		
+		kPRight = kPLowRight;
+		kIRight = kILowRight;
+		kDRight = kDLowRight;
+		
 		kFLeft = kFLowLeft;
 		kFRight = kFLowRight;
+		
+		scaleLeft = 1;
+		scaleRight = 1;
 		
 		gearShift.set(false);
 		isHighGear = false;
 	}
 	
 	public void shiftGearHigh() {
-		kP = kPHigh;
-		kI = kIHigh;
-		kD = kDHigh;
+		kPLeft = kPHigh;
+		kILeft = kIHigh;
+		kDLeft = kDHigh;
+		
+		kPRight = kPHigh;
+		kIRight = kIHigh;
+		kDRight = kDHigh;
+		
 		kFLeft = kFHighLeft;
 		kFRight = kFHighRight;
+		
+		scaleLeft = 0.5;
+		scaleRight = 0.5;
 		
 		gearShift.set(true);
 		isHighGear = true;
@@ -228,11 +248,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	private double scaleLeft(double left) {
-		return left;
+		return scaleLeft * left;
 	}
 	
 	private double scaleRight(double right) {
-		return right;
+		return scaleRight * right;
 	}
 	
 	public void resetEncoders() {

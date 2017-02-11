@@ -98,14 +98,14 @@ public class OI {
 	public OI() {
 		
 		// Drivetrain
-		left_1.whenPressed(new DriveTrain_ShiftGears());
+		right_1.whenPressed(new DriveTrain_ShiftGears());
 		//right_7.whenPressed(new DriveTrain_Calibrate());
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
 		
 		// Climber
-		gunner_POVUp.whileActive(new Climber_Climb());
+		//gunner_POVUp.whileActive(new Climber_Climb());
 		
 		// Intake
 		gunner_LT.whileActive(new Intake_Intake());
