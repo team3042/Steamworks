@@ -174,7 +174,7 @@ public class RobotState implements VisionUpdateReceiver {
 		RigidTransform2d pose = robotPose.lastEntry().getValue();
 		
 		SmartDashboard.putNumber("Robot X", pose.getTranslation().getX());
-		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getX());
+		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getY());
 		SmartDashboard.putNumber("Robot Theta", pose.getRotation().getDegrees());
 		
 		List<TrackReport> tracks = targetTracker.getTracks();
@@ -185,6 +185,7 @@ public class RobotState implements VisionUpdateReceiver {
 			// Only output first track
 			break; 
 		}
+		
 	}
 
 }

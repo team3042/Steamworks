@@ -307,7 +307,7 @@ public class DriveTrain extends Subsystem {
 	public Rotation2d getGyro() {
 		SmartDashboard.putData("IMU", gyro);
 		
-		return Rotation2d.fromDegrees(gyro.getAngleZ());
+		return Rotation2d.fromDegrees(gyro.getAngleY());
 	}
 	
 	public void resetGyro() {

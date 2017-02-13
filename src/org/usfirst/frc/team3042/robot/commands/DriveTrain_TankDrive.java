@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3042.robot.commands;
 import org.usfirst.frc.team3042.robot.Robot;
+import org.usfirst.frc.team3042.robot.RobotState;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +17,8 @@ public class DriveTrain_TankDrive extends Command {
     double[] currentPower = new double[] {0,0};
     double maxAccel = 3.6; //motor power per second
     
+    RobotState robotState;
+    
     public DriveTrain_TankDrive() {
     	requires(Robot.driveTrain);
     }
@@ -23,6 +27,8 @@ public class DriveTrain_TankDrive extends Command {
 		Robot.logger.log("Initialize",1);
 		Robot.driveTrain.setMotors(0, 0);
 		time.start();
+		
+		robotState = RobotState.getInstance();
 	}
 
 	protected void execute() {
@@ -33,6 +39,8 @@ public class DriveTrain_TankDrive extends Command {
 		SmartDashboard.putNumber("Left Drivetrain FPS", Robot.driveTrain.getLeftVelocityInchesPerSecond() / 12);
 		SmartDashboard.putNumber("Right Drivetrain FPS", Robot.driveTrain.getRightVelocityInchesPerSecond() / 12);
 		SmartDashboard.putNumber("Gyro Value", Robot.driveTrain.getGyro().getDegrees());
+		
+		robotState.outputToSmartDashboard();
 		
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;
 		double rightPower = -Robot.oi.joystickRight.getY() * speedScale;

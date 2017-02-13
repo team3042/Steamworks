@@ -53,8 +53,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
-        /*
-        RIOdroid.initUSB();
+        
+        /*RIOdroid.initUSB();
         
         robotState = RobotState.getInstance();
         visionServer = VisionServer.getInstance();
@@ -62,16 +62,14 @@ public class Robot extends IterativeRobot {
         visionServer.addVisionUpdateReceiver(testUpdateReceiver);
         visionServer.addVisionUpdateReceiver(robotState);
         */
+        
+        robotState = RobotState.getInstance();
+        
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         
-        
-        SmartDashboard.putNumber("Shooter P", 0);
-        SmartDashboard.putNumber("Shooter I", 0);
-        SmartDashboard.putNumber("Shooter D", 0);
-        SmartDashboard.putNumber("Shooter F", 0);
         SmartDashboard.putNumber("Shooter speed", 1000);
     }
      
