@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.usfirst.frc.team3042.lib.Translation2d;
+import org.usfirst.frc.team3042.robot.Robot;
 
 public class TargetTracker {
 	
@@ -64,6 +65,8 @@ public class TargetTracker {
 			for (Translation2d target : fieldToTargets) {
 				currentTracks.add(new TargetTrack(timestamp, target, nextId));
 				nextId++;
+				
+				Robot.logger.log("Created new track with X: " + target.getX() + ", Y: " + target.getY(), 3);
 			}
 		}
 	}

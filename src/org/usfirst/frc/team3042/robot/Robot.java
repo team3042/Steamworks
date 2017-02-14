@@ -54,16 +54,14 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
         
-        /*RIOdroid.initUSB();
+        RIOdroid.initUSB();
         
         robotState = RobotState.getInstance();
         visionServer = VisionServer.getInstance();
         testUpdateReceiver = new TestUpdateReceiver();
         visionServer.addVisionUpdateReceiver(testUpdateReceiver);
         visionServer.addVisionUpdateReceiver(robotState);
-        */
         
-        robotState = RobotState.getInstance();
         
 		autonomousChooser = new SendableChooser();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
