@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         
-        SmartDashboard.putNumber("Shooter speed", 1000);
+        SmartDashboard.putNumber("Shooter speed", 3850);
     }
      
     public void disabledInit(){

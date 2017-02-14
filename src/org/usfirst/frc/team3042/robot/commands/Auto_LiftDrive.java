@@ -77,7 +77,7 @@ public class Auto_LiftDrive extends Command {
             // Using encoders, determine remaining distance    
             distance -= (encoderDistance - oldEncoderDistance);
         }
-        double speed = speedFromDistance(distance);
+        double speed = 0;//speedFromDistance(distance);
         
         double[] correctedSpeeds = PIDCorrection(speed);
         
