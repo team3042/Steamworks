@@ -85,7 +85,7 @@ public class RobotState implements VisionUpdateReceiver {
 	
 	// TODO: Add velocity calculation for prediction of future pose if needed for vision accuracy
 	// Adding another entry to the robotPose map with encoder and gyro values from the drivetrain
-	private void updatePose() {
+	private synchronized void updatePose() {
 		double leftPosition = Robot.driveTrain.getLeftPositionInches();
 		double rightPosition = Robot.driveTrain.getRightPositionInches();
 		double dLeftPosition = leftPosition - oldLeftPosition;
@@ -107,7 +107,7 @@ public class RobotState implements VisionUpdateReceiver {
 	}
 	
 	// Taking the most recent vision update and storing it in relation to the field using the robot pose when the image was taken
-	private void updateVision() {
+	private synchronized void updateVision() {
 		List<Translation2d> fieldToTargets = new ArrayList<>();
 		
 		if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty())) {
@@ -136,7 +136,7 @@ public class RobotState implements VisionUpdateReceiver {
 	}
 	
 	// Looks through the list of targets and determines the best based on weights, returning aiming parameters
-	public AimingParameters getAimingParameters() {
+	public synchronized AimingParameters getAimingParameters() {
 	    List<TrackReport> tracks = targetTracker.getTracks();
 	    if (tracks.isEmpty()) {
 	        return new AimingParameters(Rotation2d.fromDegrees(0), 0, false);
