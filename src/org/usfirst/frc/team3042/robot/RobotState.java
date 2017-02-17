@@ -111,20 +111,24 @@ public class RobotState implements VisionUpdateReceiver {
 		List<Translation2d> fieldToTargets = new ArrayList<>();
 		
 		if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty())) {
-			Robot.logger.log("Updating vision with targets", 3);
-			
 			double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
+			
+			Robot.logger.log("Update timestamp: " + timestamp, 3);
+			
 			List<TargetInfo> targets = mostRecentUpdate.getTargets();
 			
-			RigidTransform2d fieldToCamera = robotPose.get(new InterpolatingDouble(timestamp))
+			RigidTransform2d fieldToCamera = robotPose.getInterpolated(new InterpolatingDouble(timestamp))
 					.transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA));
+			
+			Robot.logger.log("Current field-to-camera transform X: " + fieldToCamera.getTranslation().getX()
+					+ ", Y: " + fieldToCamera.getTranslation().getY() + ", Theta: " + fieldToCamera.getRotation().getDegrees(), 3);
 			
 			// TODO: Check sign of angles sent from phone
 			for (TargetInfo target : targets) {
 				double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
 				double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
 				
-				Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY, 3);
+				Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY + "\n", 3);
 				
 				Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 				
