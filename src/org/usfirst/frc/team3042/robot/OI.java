@@ -2,6 +2,7 @@ package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
+import org.usfirst.frc.team3042.robot.commands.DriveTrain_LiftAssist;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
 import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
@@ -100,12 +101,13 @@ public class OI {
 		// Drivetrain
 		right_1.whenPressed(new DriveTrain_ShiftGears());
 		//right_7.whenPressed(new DriveTrain_Calibrate());
+		left_1.whileHeld(new DriveTrain_LiftAssist());
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
 		
 		// Climber
-		//gunner_POVUp.whileActive(new Climber_Climb());
+		gunner_POVUp.whileActive(new Climber_Climb());
 		
 		// Intake
 		gunner_LT.whileActive(new Intake_Intake());

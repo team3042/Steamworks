@@ -52,6 +52,8 @@ public class RobotState implements VisionUpdateReceiver {
 	private static final double OBSERVATION_INTERVAL = 0.020;
 	private static boolean running = true;
 	
+	private static boolean newVisionUpdate = false;
+	
 	private static final int CAMERA_X_OFFSET = 0;
 	private static final int CAMERA_Y_OFFSET = 0;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
@@ -110,18 +112,12 @@ public class RobotState implements VisionUpdateReceiver {
 	private synchronized void updateVision() {
 		List<Translation2d> fieldToTargets = new ArrayList<>();
 		
-		if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty())) {
+		if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty()) && newVisionUpdate) {
 			double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
-			
-			Robot.logger.log("Update timestamp: " + timestamp, 3);
-			
 			List<TargetInfo> targets = mostRecentUpdate.getTargets();
 			
 			RigidTransform2d fieldToCamera = robotPose.getInterpolated(new InterpolatingDouble(timestamp))
 					.transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA));
-			
-			Robot.logger.log("Current field-to-camera transform X: " + fieldToCamera.getTranslation().getX()
-					+ ", Y: " + fieldToCamera.getTranslation().getY() + ", Theta: " + fieldToCamera.getRotation().getDegrees(), 3);
 			
 			// TODO: Check sign of angles sent from phone
 			for (TargetInfo target : targets) {
@@ -175,6 +171,8 @@ public class RobotState implements VisionUpdateReceiver {
 
 	@Override
 	public void gotUpdate(VisionUpdate update) {
+		newVisionUpdate = true;
+		
 		mostRecentUpdate = update;
 	}
 	

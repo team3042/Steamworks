@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.usfirst.frc.team3042.lib.Translation2d;
+import org.usfirst.frc.team3042.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -29,6 +30,8 @@ public class TargetTrack {
 			return false;
 		}
 		double distance = smoothedPosition.inverse().translateBy(observation).norm();
+		Robot.logger.log("Attempting to update track, with distance: " + distance, 3);
+		
 		if (distance < MAX_DISTANCE) {
 			observedPositions.put(timestamp, observation);
 			pruneByTime();

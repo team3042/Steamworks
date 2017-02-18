@@ -44,6 +44,8 @@ public class TargetTracker {
 			for (TargetTrack track : currentTracks) {
 				if (!hasUpdatedTrack) {
 					if (track.tryUpdate(timestamp, target)) {
+
+						Robot.logger.log("Successfully updated track", 3);
 						hasUpdatedTrack = true;
 					}
 				} else {

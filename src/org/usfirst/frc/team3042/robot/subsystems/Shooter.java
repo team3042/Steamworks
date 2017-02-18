@@ -18,7 +18,7 @@ public class Shooter extends Subsystem {
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
-	private double kP = 0.05, kI = 0.00005, kD = 1.0, kF = .03;
+	private double kP = 0.08, kI = 0.00005, kD = 1.0, kF = .03;
 
 	public double shooterSpeed = 3000.0, agitatorSpeed = 0.8;
 	
