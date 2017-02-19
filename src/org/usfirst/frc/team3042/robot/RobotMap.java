@@ -17,18 +17,21 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
+	public static final boolean isApollo = false;
+	
 	public static final int LEFT_JOYSTICK_USB_PORT_0 = 0;
 	public static final int RIGHT_JOYSTICK_USB_PORT_1 = 1;
 	public static final int GUNNER_JOYSTICK_USB_PORT_2 = 2;
 	
-	public static final int DRIVETRAIN_TALON_LEFT_FRONT = 19;
-	public static final int DRIVETRAIN_TALON_LEFT_REAR = 11;
-	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = 14;
-	public static final int DRIVETRAIN_TALON_RIGHT_REAR = 9;
-	public static final int CLIMBER_TALON = 10;
-	public static final int SHOOTER_TALON = 6;
-	public static final int AGITATE_TALON = 3;
-	public static final int INTAKE_TALON = 12;
+	public static final int DRIVETRAIN_TALON_LEFT_FRONT = (isApollo)? 19 : 17;
+	public static final int DRIVETRAIN_TALON_LEFT_REAR = (isApollo)? 11 : 8;
+	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = (isApollo)? 14 : 7;
+	public static final int DRIVETRAIN_TALON_RIGHT_REAR = (isApollo)? 9 : 15;
+	// 4,2,1,5 are real talons, however only a 1/24 chance of it being in right place. 17,8,7,15 are all set up
+	public static final int CLIMBER_TALON = (isApollo)? 10 : 4;
+	public static final int SHOOTER_TALON = (isApollo)? 6 : 2;
+	public static final int AGITATE_TALON = (isApollo)? 3 : 1;
+	public static final int INTAKE_TALON = (isApollo)? 12 : 5;
 	
 	public static final int DRIVETRAIN_SOLENOID_SHIFT = 1;
 	public static final int GDM_SOLENOID_ACTUATE = 3;
