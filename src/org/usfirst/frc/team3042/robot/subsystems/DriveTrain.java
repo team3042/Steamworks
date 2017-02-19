@@ -213,8 +213,8 @@ public class DriveTrain extends Subsystem {
 		kFLeft = kFHighLeft;
 		kFRight = kFHighRight;
 		
-		scaleLeft = 0.5;
-		scaleRight = 0.5;
+		scaleLeft = 0.75;
+		scaleRight = 0.75;
 		
 		gearShift.set(true);
 		isHighGear = true;

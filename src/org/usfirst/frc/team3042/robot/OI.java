@@ -101,7 +101,7 @@ public class OI {
 		// Drivetrain
 		right_1.whenPressed(new DriveTrain_ShiftGears());
 		//right_7.whenPressed(new DriveTrain_Calibrate());
-		left_1.whileHeld(new DriveTrain_LiftAssist());
+		//left_1.whileHeld(new DriveTrain_LiftAssist());
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
@@ -114,7 +114,7 @@ public class OI {
 		gunner_LB.whileHeld(new Intake_Exhaust());
 		
 		// Shooter
-		gunner_RT.whileActive(new Shooter_Shoot());
+		//gunner_RT.whileActive(new Shooter_Shoot());
 		
 		// Phone Commands
 		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());
