@@ -43,7 +43,7 @@ public class RobotState implements VisionUpdateReceiver {
 	
 	private InterpolatingTreeMap<InterpolatingDouble, RigidTransform2d> robotPose;
 	private RigidTransform2d.Delta robotVelocity;
-	private TargetTracker targetTracker;
+	private TargetTrack targetTrack;
 	private VisionUpdate mostRecentUpdate = null;
 	private double oldLeftPosition = 0;
 	private double oldRightPosition = 0;
@@ -78,7 +78,7 @@ public class RobotState implements VisionUpdateReceiver {
 		
 		robotVelocity = new RigidTransform2d.Delta(0, 0, 0);
 		
-		targetTracker = new TargetTracker();
+		targetTrack = null;
 	}
 	
 	public RigidTransform2d getRobotPose(double timestamp) {
@@ -110,55 +110,39 @@ public class RobotState implements VisionUpdateReceiver {
 	
 	// Taking the most recent vision update and storing it in relation to the field using the robot pose when the image was taken
 	private synchronized void updateVision() {
-		List<Translation2d> fieldToTargets = new ArrayList<>();
-		
-		if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty()) && newVisionUpdate) {
-			double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
-			List<TargetInfo> targets = mostRecentUpdate.getTargets();
-			
-			RigidTransform2d fieldToCamera = robotPose.getInterpolated(new InterpolatingDouble(timestamp))
-					.transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA));
-			
-			// TODO: Check sign of angles sent from phone
-			for (TargetInfo target : targets) {
-				double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
-				double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
-				
-				Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY + "\n", 3);
-				
-				Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
-				
-				fieldToTargets.add(fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation());
-			}
-			
-			targetTracker.update(timestamp, fieldToTargets);
-		}
+			//targetTracker.update(timestamp, fieldToTargets);
+	    Translation2d fieldToTarget = null;
+	    
+	    if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty()) && newVisionUpdate){
+	        double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
+	        TargetInfo target = mostRecentUpdate.getTargets().get(0);
+	        
+	        RigidTransform2d fieldToCamera = robotPose.getInterpolated(new InterpolatingDouble(timestamp))
+                    .transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA));
+	        
+	        // TODO: Check sign of angles sent from phone
+	        double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
+            double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
+            
+            Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY + "\n", 3);
+            
+            Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
+	        
+	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
+	        
+	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
+	    }
 	}
 	
 	// Looks through the list of targets and determines the best based on weights, returning aiming parameters
 	public synchronized AimingParameters getAimingParameters() {
-	    List<TrackReport> tracks = targetTracker.getTracks();
-	    if (tracks.isEmpty()) {
-	        return new AimingParameters(Rotation2d.fromDegrees(0), 0, false);
-	    }
+	    if (targetTrack == null) {
+            return new AimingParameters(Rotation2d.fromDegrees(0), 0, false);
+        }
 	    
-	    double bestScore = 0;
-	    TrackReport bestTrack = null;
-	    for (TrackReport track : tracks) {
-	        double score = RECENT_WEIGHT * Math.max(0, (TargetTrack.MAX_AGE - (Timer.getFPGATimestamp() - track.latestTimestamp)) / TargetTrack.MAX_AGE);
-	        score += STABILITY_WEIGHT * track.stability;
-	        if (track.id == currentTrackId) {
-	            score *= CURRENT_TARGET_WEIGHT;
-	        }
-	        
-	        if (score > bestScore) {
-	            bestScore = score;
-	            bestTrack = track;
-	        }
-	    }
-	    currentTrackId = bestTrack.id;
+	    TrackReport track = new TrackReport(targetTrack);
 	    
-	    Translation2d fieldToTarget = bestTrack.fieldToTarget;
+	    Translation2d fieldToTarget = track.fieldToTarget;
 	    RigidTransform2d fieldToRobot = getRobotPose(Timer.getFPGATimestamp());
 	    
 	    RigidTransform2d robotToTarget = fieldToRobot.inverse().transformBy(RigidTransform2d.fromTranslation(fieldToTarget));
@@ -183,14 +167,10 @@ public class RobotState implements VisionUpdateReceiver {
 		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getY());
 		SmartDashboard.putNumber("Robot Theta", pose.getRotation().getDegrees());
 		
-		List<TrackReport> tracks = targetTracker.getTracks();
-		for(TrackReport track : tracks) {
-			SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
-			SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
-			
-			// Only output first track
-			break; 
-		}
+		TrackReport track = new TrackReport(targetTrack);
+		
+		SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
+		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
 		
 	}
 
