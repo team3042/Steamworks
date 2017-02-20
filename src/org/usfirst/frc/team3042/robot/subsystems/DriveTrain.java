@@ -25,8 +25,8 @@ public class DriveTrain extends Subsystem {
 	
 	Solenoid gearShift = new Solenoid(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
 	
-	CANTalon leftEncMotor = leftMotorFront;
-    CANTalon rightEncMotor = rightMotorRear;
+	CANTalon leftEncMotor = (RobotMap.isApollo)? leftMotorFront : leftMotorRear;
+    CANTalon rightEncMotor = (RobotMap.isApollo)? rightMotorRear : rightMotorFront;
     
     ADIS16448_IMU gyro = new ADIS16448_IMU();
     
@@ -213,8 +213,8 @@ public class DriveTrain extends Subsystem {
 		kFLeft = kFHighLeft;
 		kFRight = kFHighRight;
 		
-		scaleLeft = 0.5;
-		scaleRight = 0.5;
+		scaleLeft = 0.75;
+		scaleRight = 0.75;
 		
 		gearShift.set(true);
 		isHighGear = true;
@@ -307,7 +307,7 @@ public class DriveTrain extends Subsystem {
 	public Rotation2d getGyro() {
 		SmartDashboard.putData("IMU", gyro);
 		
-		return Rotation2d.fromDegrees(gyro.getAngleY());
+		return Rotation2d.fromDegrees((RobotMap.isApollo)? gyro.getAngleY() : gyro.getAngleX());
 	}
 	
 	public void resetGyro() {

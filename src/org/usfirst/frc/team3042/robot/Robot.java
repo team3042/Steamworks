@@ -3,6 +3,7 @@ package org.usfirst.frc.team3042.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
@@ -41,7 +42,7 @@ public class Robot extends IterativeRobot {
 	public static final GDM gdm = new GDM();
 	
 	Command autonomousCommand;
-    SendableChooser autonomousChooser;
+    SendableChooser<Command> autonomousChooser;
     public static FileIO fileIO = new FileIO();
     private int LOGGER_LEVEL = 5;
     boolean useConsole = true, useFile = false;
@@ -63,8 +64,9 @@ public class Robot extends IterativeRobot {
         visionServer.addVisionUpdateReceiver(robotState);
         
         
-		autonomousChooser = new SendableChooser();
+		autonomousChooser = new SendableChooser<Command>();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
+        autonomousChooser.addObject("Drive Forward", new AutoMode_DriveForward());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         

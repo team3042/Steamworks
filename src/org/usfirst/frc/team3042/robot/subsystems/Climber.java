@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Climber extends Subsystem {
 	
-	private double climbSpeed = .8;
+	private double climbSpeed = 1.0;
 
     CANTalon climber = new CANTalon(RobotMap.CLIMBER_TALON);
 

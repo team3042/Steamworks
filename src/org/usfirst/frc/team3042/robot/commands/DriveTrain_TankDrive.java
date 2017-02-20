@@ -40,7 +40,7 @@ public class DriveTrain_TankDrive extends Command {
 		SmartDashboard.putNumber("Right Drivetrain FPS", Robot.driveTrain.getRightVelocityInchesPerSecond() / 12);
 		SmartDashboard.putNumber("Gyro Value", Robot.driveTrain.getGyro().getDegrees());
 		
-		robotState.outputToSmartDashboard();
+		//robotState.outputToSmartDashboard();
 		
 		double leftPower = -Robot.oi.joystickLeft.getY() * speedScale;
 		double rightPower = -Robot.oi.joystickRight.getY() * speedScale;
