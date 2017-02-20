@@ -33,8 +33,8 @@ public class RobotMap {
 	public static final int AGITATE_TALON = (isApollo)? 3 : 1;
 	public static final int INTAKE_TALON = (isApollo)? 12 : 5;
 	
-	public static final int DRIVETRAIN_SOLENOID_SHIFT = 1;
-	public static final int GDM_SOLENOID_ACTUATE = 3;
+	public static final int DRIVETRAIN_SOLENOID_SHIFT = (isApollo)? 1 : 3;
+	public static final int GDM_SOLENOID_ACTUATE = (isApollo)? 3 : 1;
 	
 	public static final int COMPRESSOR_PORT = 0;
 	
