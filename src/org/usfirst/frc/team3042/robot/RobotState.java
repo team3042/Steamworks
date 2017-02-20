@@ -54,8 +54,8 @@ public class RobotState implements VisionUpdateReceiver {
 	
 	private static boolean newVisionUpdate = false;
 	
-	private static final int CAMERA_X_OFFSET = 0;
-	private static final int CAMERA_Y_OFFSET = 0;
+	private static final int CAMERA_X_OFFSET = 12;
+	private static final int CAMERA_Y_OFFSET = 8;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
 	
 	private static int currentTrackId = -1;
@@ -124,11 +124,11 @@ public class RobotState implements VisionUpdateReceiver {
 	        double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
             double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
             
-            Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY + "\n", 3);
-            
             Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 	        
 	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
+            
+            Robot.logger.log("Target at X: " + fieldToTarget.getX() + ", Y: " + fieldToTarget.getY() + "\n", 3);
 	        
 	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
 	    }
@@ -167,11 +167,12 @@ public class RobotState implements VisionUpdateReceiver {
 		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getY());
 		SmartDashboard.putNumber("Robot Theta", pose.getRotation().getDegrees());
 		
-		TrackReport track = new TrackReport(targetTrack);
-		
-		SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
-		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
-		
+		if(targetTrack != null){
+    		TrackReport track = new TrackReport(targetTrack);
+    		
+    		SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
+    		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
+		}
 	}
 
 }
