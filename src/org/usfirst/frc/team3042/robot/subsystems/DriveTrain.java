@@ -38,7 +38,7 @@ public class DriveTrain extends Subsystem {
     private double scaleLeft = 1;
     private double scaleRight = 1;
     
-    private boolean isHighGear = false;
+    public boolean isHighGear = false;
    
     
     public double kPHigh = 0, kIHigh = 0, kDHigh = 0;
@@ -176,6 +176,9 @@ public class DriveTrain extends Subsystem {
 		else {
 			shiftGearHigh();
 		}
+		
+		SmartDashboard.putBoolean("red = lowgear", isHighGear);
+		
 		leftMotorFront.setPID(kPLeft, kILeft, kDLeft);
     	rightMotorFront.setPID(kPRight, kIRight, kDRight);
     	leftMotorFront.setF(kFLeft);

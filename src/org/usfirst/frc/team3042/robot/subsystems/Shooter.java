@@ -18,9 +18,11 @@ public class Shooter extends Subsystem {
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
-	private double kP = 0.08, kI = 0.00005, kD = 1.0, kF = .03;
+	private double kP = 0.1, kI = 0.0005, kD = 3.0, kF = .03;
 
-	public double shooterSpeed = 3000.0, agitatorSpeed = 0.8;
+	public double shooterSpeed = -4000.0, agitatorSpeed = 0.5;
+	
+	public double maxSpeedError = 500;
 	
 	private int shooterTalonZero = 0;
 	
@@ -78,7 +80,14 @@ public class Shooter extends Subsystem {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		
 		setShooterRPM(velocity);
-		spinAgitator(agitatorSpeed);
+
+        Robot.logger.log("Spinning agitator with RPM Error: " + Math.abs(velocity - getRPM()), 3);
+		
+		if (Math.abs(velocity - getRPM()) < maxSpeedError) {
+		    spinAgitator(agitatorSpeed);
+		} else {
+		    spinAgitator(0);
+		}
 	}
 	
 	public void stop() {

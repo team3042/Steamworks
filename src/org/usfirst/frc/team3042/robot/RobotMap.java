@@ -27,11 +27,10 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TALON_LEFT_REAR = (isApollo)? 11 : 8;
 	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = (isApollo)? 14 : 7;
 	public static final int DRIVETRAIN_TALON_RIGHT_REAR = (isApollo)? 9 : 15;
-	// 4,2,1,5 are real talons, however only a 1/24 chance of it being in right place. 17,8,7,15 are all set up
-	public static final int CLIMBER_TALON = (isApollo)? 10 : 4;
-	public static final int SHOOTER_TALON = (isApollo)? 6 : 2;
-	public static final int AGITATE_TALON = (isApollo)? 3 : 1;
-	public static final int INTAKE_TALON = (isApollo)? 12 : 5;
+	public static final int CLIMBER_TALON = (isApollo)? 10 : 2;
+	public static final int SHOOTER_TALON = (isApollo)? 6 : 5;
+	public static final int AGITATE_TALON = (isApollo)? 3 : 4;
+	public static final int INTAKE_TALON = (isApollo)? 12 : 1;
 	
 	public static final int DRIVETRAIN_SOLENOID_SHIFT = (isApollo)? 1 : 3;
 	public static final int GDM_SOLENOID_ACTUATE = (isApollo)? 3 : 1;
