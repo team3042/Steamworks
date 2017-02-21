@@ -127,6 +127,8 @@ public class RobotState implements VisionUpdateReceiver {
             Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 	        
 	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
+            
+            Robot.logger.log("Target at X: " + fieldToTarget.getX() + ", Y: " + fieldToTarget.getY() + "\n", 3);
 	        
 	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
 	        
@@ -169,11 +171,12 @@ public class RobotState implements VisionUpdateReceiver {
 		SmartDashboard.putNumber("Robot Y", pose.getTranslation().getY());
 		SmartDashboard.putNumber("Robot Theta", pose.getRotation().getDegrees());
 		
-		TrackReport track = new TrackReport(targetTrack);
-		
-		SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
-		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
-		
+		if(targetTrack != null){
+    		TrackReport track = new TrackReport(targetTrack);
+    		
+    		SmartDashboard.putNumber("Goal X", track.fieldToTarget.getX());
+    		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
+		}
 	}
 
 }

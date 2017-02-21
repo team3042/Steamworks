@@ -115,7 +115,7 @@ public class OI {
 		gunner_LB.whileHeld(new Intake_Exhaust());
 		
 		// Shooter
-		//gunner_RT.whileActive(new Shooter_Shoot());
+		gunner_RT.whileActive(new Shooter_Shoot());
 		
 		// Phone Commands
 		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());
