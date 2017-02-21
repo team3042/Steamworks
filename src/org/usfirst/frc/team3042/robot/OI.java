@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
+import org.usfirst.frc.team3042.robot.commands.Auto_LiftDrive;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_LiftAssist;
@@ -101,7 +102,7 @@ public class OI {
 		// Drivetrain
 		right_1.whenPressed(new DriveTrain_ShiftGears());
 		//right_7.whenPressed(new DriveTrain_Calibrate());
-		//left_1.whileHeld(new DriveTrain_LiftAssist());
+		left_1.whileHeld(new DriveTrain_LiftAssist());
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
@@ -121,7 +122,7 @@ public class OI {
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new AutoMode_DriveForward());
+		left_7.whenPressed(new Auto_LiftDrive());
 		
 	}
 	

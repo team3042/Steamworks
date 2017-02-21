@@ -54,8 +54,8 @@ public class RobotState implements VisionUpdateReceiver {
 	
 	private static boolean newVisionUpdate = false;
 	
-	private static final int CAMERA_X_OFFSET = 0;
-	private static final int CAMERA_Y_OFFSET = 0;
+	private static final int CAMERA_X_OFFSET = 12;
+	private static final int CAMERA_Y_OFFSET = 8;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
 	
 	private static int currentTrackId = -1;
@@ -82,7 +82,7 @@ public class RobotState implements VisionUpdateReceiver {
 	}
 	
 	public RigidTransform2d getRobotPose(double timestamp) {
-		return robotPose.get(new InterpolatingDouble(timestamp));
+		return robotPose.getInterpolated(new InterpolatingDouble(timestamp));
 	}
 	
 	// TODO: Add velocity calculation for prediction of future pose if needed for vision accuracy
@@ -124,13 +124,15 @@ public class RobotState implements VisionUpdateReceiver {
 	        double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
             double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
             
-            Robot.logger.log("Target at X: " + cameraToTargetX + ", Y: " + cameraToTargetY + "\n", 3);
-            
             Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 	        
 	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
 	        
 	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
+	        
+	        newVisionUpdate = false;
+	        
+	        getAimingParameters();
 	    }
 	}
 	
@@ -148,7 +150,7 @@ public class RobotState implements VisionUpdateReceiver {
 	    RigidTransform2d robotToTarget = fieldToRobot.inverse().transformBy(RigidTransform2d.fromTranslation(fieldToTarget));
 	    
 	    double distance = robotToTarget.getTranslation().norm();
-	    Rotation2d angle = robotToTarget.getRotation();
+	    Rotation2d angle = Rotation2d.fromRadians(Math.atan2(robotToTarget.getTranslation().getY(), robotToTarget.getTranslation().getX()));
 	    
 	    return new AimingParameters(angle, distance, true);
 	}

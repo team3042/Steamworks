@@ -25,19 +25,21 @@ public class DriveTrain_LiftAssist extends Command {
     double[] currentPower = new double[] {0,0};
     double maxAccel = 3.6; //motor power per second
     
-    private static final double MIN_VIEW_DISTANCE = 1.5;
+    private static final double MIN_VIEW_DISTANCE = 2.2;
     private static final int MAX_ITERATIONS_WITHOUT_TARGET = 1;
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = 0, kAngleI = 0, kAngleD = 0;
+    private double kAngleP = 0.12, kAngleI = 0, kAngleD = 0.3;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
     // Parameters for logistic function
-    private static final double DISTANCE_OFFSET = 8; // Inches
-    private static final double MAX_SPEED = 60; // Inches / Second
+    private static final double DISTANCE_OFFSET = 6; // Inches
+    private static final double MAX_SPEED = 36; // Inches/Second
+    private static final double STEEPNESS = 1/3;
+    private static final double X_OFFSET = 15;
 
     public DriveTrain_LiftAssist() {
         // Use requires() here to declare subsystem dependencies
@@ -74,8 +76,6 @@ public class DriveTrain_LiftAssist extends Command {
             Rotation2d angleOffset = aim.getAngle();
             gyroGoal = Robot.driveTrain.getGyro().rotateBy(angleOffset);
             
-            Robot.logger.log("Angle Offset: " + angleOffset.getDegrees(), 3);
-            
             // If we are close enough, stop using vision as we will lose the target soon and transition to gyro driving
             if (distance < MIN_VIEW_DISTANCE) {
                 useVision = false;
@@ -89,7 +89,10 @@ public class DriveTrain_LiftAssist extends Command {
         
         speed = (Math.abs(speed) < deadzone)? 0 : speed;
         
-        speed = restrictAccel(speed, LEFT);
+        //speed = restrictAccel(speed, LEFT);
+        
+        Robot.logger.log("Speed: " + speed, 3);
+        speed *= MAX_SPEED;
         
         double[] correctedSpeeds = PIDCorrection(speed);
         

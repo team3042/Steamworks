@@ -16,18 +16,18 @@ public class Auto_LiftDrive extends Command {
     
     private boolean finished = false;
     
-    private static final double MIN_VIEW_DISTANCE = 1.5;
+    private static final double MIN_VIEW_DISTANCE = 2.2;
     private static final int MAX_ITERATIONS_WITHOUT_TARGET = 1;
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = 0, kAngleI = 0, kAngleD = 0;
+    private double kAngleP = 0.1, kAngleI = 0, kAngleD = 0.3;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
     // Parameters for logistic function
-    private static final double DISTANCE_OFFSET = 8; // Inches
+    private static final double DISTANCE_OFFSET = 6; // Inches
     private static final double MAX_SPEED = 36; // Inches/Second
     private static final double STEEPNESS = 1/3;
     private static final double X_OFFSET = 15;

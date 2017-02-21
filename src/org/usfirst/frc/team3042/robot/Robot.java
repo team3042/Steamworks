@@ -4,6 +4,7 @@ package org.usfirst.frc.team3042.robot;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
+import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
 import org.usfirst.frc.team3042.robot.subsystems.Climber;
@@ -54,15 +55,16 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         logger = new Logger(useConsole, useFile, LOGGER_LEVEL);
-        /*
+        
         RIOdroid.initUSB();
         
-        robotState = RobotState.getInstance();
-        visionServer = VisionServer.getInstance();
-        testUpdateReceiver = new TestUpdateReceiver();
-        //visionServer.addVisionUpdateReceiver(testUpdateReceiver);
-        visionServer.addVisionUpdateReceiver(robotState);
-        */
+        if (RobotMap.isPhone) {
+	        robotState = RobotState.getInstance();
+	        visionServer = VisionServer.getInstance();
+	        testUpdateReceiver = new TestUpdateReceiver();
+	        //visionServer.addVisionUpdateReceiver(testUpdateReceiver);
+	        visionServer.addVisionUpdateReceiver(robotState);
+        }
         
 		autonomousChooser = new SendableChooser<Command>();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());

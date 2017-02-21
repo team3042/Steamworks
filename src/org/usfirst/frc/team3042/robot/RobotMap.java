@@ -17,7 +17,8 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
-	public static final boolean isApollo = false;
+	public static final boolean isApollo = true;
+	public static final boolean isPhone = true;
 	
 	public static final int LEFT_JOYSTICK_USB_PORT_0 = 0;
 	public static final int RIGHT_JOYSTICK_USB_PORT_1 = 1;
