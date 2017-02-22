@@ -12,6 +12,7 @@ import org.usfirst.frc.team3042.robot.subsystems.CompressorSubsystem;
 import org.usfirst.frc.team3042.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3042.robot.subsystems.GDM;
 import org.usfirst.frc.team3042.robot.subsystems.Intake;
+import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 	public static final Intake intake = new Intake();
 	public static final GDM gdm = new GDM();
+	public static final LEDSwitch ledSwitch = new LEDSwitch();
 	
 	Command autonomousCommand;
     SendableChooser<Command> autonomousChooser;

@@ -17,7 +17,7 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
-	public static final boolean isApollo = true;
+	public static final boolean isApollo = false;
 	public static final boolean isPhone = true;
 	
 	public static final int LEFT_JOYSTICK_USB_PORT_0 = 0;
@@ -36,6 +36,11 @@ public class RobotMap {
 	public static final int DRIVETRAIN_SOLENOID_SHIFT = (isApollo)? 1 : 3;
 	public static final int GDM_SOLENOID_ACTUATE = (isApollo)? 3 : 1;
 	
+	public static final int LEDSWITCH_PCM = 1;
+	public static final int LEDSWITCH_SOLENOID = 1;
+	
 	public static final int COMPRESSOR_PORT = 0;
+	
+	
 	
 }

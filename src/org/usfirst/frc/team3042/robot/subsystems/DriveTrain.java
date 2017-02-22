@@ -139,8 +139,8 @@ public class DriveTrain extends Subsystem {
 	
 	// Converts inches/second to motor percentage using feed-forward term
 	public void setMotorsInchesPerSecondOpenLoop(double left, double right) {
-		double leftSpeed = 2.58 * kFLeft * inchesPerSecondToRPM(left) * COUNTS_PER_REV / 1023 / 60;
-		double rightSpeed = kFRight * inchesPerSecondToRPM(right) * COUNTS_PER_REV / 1023 / 60;
+		double leftSpeed = left / 67.2;
+		double rightSpeed = right / 61.8;
 		
 		setMotors(leftSpeed, rightSpeed);
 	}

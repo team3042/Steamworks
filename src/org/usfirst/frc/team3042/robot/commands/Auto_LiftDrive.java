@@ -22,7 +22,8 @@ public class Auto_LiftDrive extends Command {
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = 0.1, kAngleI = 0, kAngleD = 0.3;
+    private double kAngleP = 0.8, kAngleI = 0, kAngleD = 3;
+    private double maxCorrection = 8;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
@@ -66,8 +67,6 @@ public class Auto_LiftDrive extends Command {
             distance = aim.getDistance();
             Rotation2d angleOffset = aim.getAngle();
             gyroGoal = Robot.driveTrain.getGyro().rotateBy(angleOffset);
-            
-            Robot.logger.log("Angle Offset: " + angleOffset.getDegrees(), 3);
             
             // If we are close enough, stop using vision as we will lose the target soon and transition to gyro driving
             if (distance < MIN_VIEW_DISTANCE) {
@@ -117,8 +116,17 @@ public class Auto_LiftDrive extends Command {
     	sumGyroError += gyroError;
     	double dGyroError = gyroError - oldGyroError;
     	
-    	double leftSpeed = speed - (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
-    	double rightSpeed = speed + (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
+    	double sign = (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError)/Math.abs((kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError));
+    	
+    	double correction = (sign * (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) <= maxCorrection)? 
+    			(kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) : sign * maxCorrection;
+    			
+    	correction = sign * 10/(1 + 10*Math.pow(Math.E, -.55 * Math.abs(correction)));		
+    	
+    	Robot.logger.log("Correction: " + correction, 3);
+    	
+    	double leftSpeed = speed - correction;
+    	double rightSpeed = speed + correction;
         
     	oldGyroError = gyroError;
         return new double[] {leftSpeed, rightSpeed};

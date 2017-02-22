@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain_TankDrive extends Command {
 	private final double speedScale = 1.0;
-	private final double deadzone = 0.1;
+	private final double deadzone = 0.12;
 	
 	//Inertia dampening
     final int LEFT = 0, RIGHT = 1;

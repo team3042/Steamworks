@@ -127,8 +127,6 @@ public class RobotState implements VisionUpdateReceiver {
             Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 	        
 	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
-            
-            Robot.logger.log("Target at X: " + fieldToTarget.getX() + ", Y: " + fieldToTarget.getY() + "\n", 3);
 	        
 	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
 	        

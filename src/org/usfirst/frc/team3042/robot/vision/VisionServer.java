@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.spectrum3847.RIOdroid.RIOadb;
+import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.vision.messages.CameraModeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
@@ -136,10 +137,10 @@ public class VisionServer implements Runnable {
                         }
                     }
                 }
-                System.out.println("Socket disconnected");
+                Robot.logger.log("Socket disconnected", 3);
                 p = null;
             } catch (IOException e) {
-                System.err.println("Could not talk to socket");
+                Robot.logger.log("Could not talk to socket", 3);
                 socket = null;
                 p = null;
             }
@@ -154,11 +155,12 @@ public class VisionServer implements Runnable {
     }
 
     private VisionServer() {
-        System.out.println("VisionServer initializing");
+        Robot.logger.log("VisionServer initializing", 3);
         try {
             // Creating a socket and setting up connection over adb to start tcp
             serverSocket = new ServerSocket(port);
             RIOadb.init();
+            //ADBUtils.restartApp();
             ADBUtils.adbReverseForward(port, port);
         } catch (IOException e) {
             e.printStackTrace();
@@ -223,21 +225,21 @@ public class VisionServer implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("VisionServer thread starting");
+        Robot.logger.log("VisionServer thread starting", 3);
 
         p = null;
         while (running) {
             // If socket is disconnected, attempt to reconnect and start new ServerThread
             try {
                 if (p == null) {
-                    System.out.println("Attempting to accept socket");
+                    Robot.logger.log("Attempting to accept socket", 3);
                     p = serverSocket.accept();
-                    System.out.println("Socket Accepted!");
+                    Robot.logger.log("Socket Accepted!", 3);
                     
                     ServerThread s = new ServerThread(p);
                     new Thread(s).start();
                     serverThreads.add(s);
-                    System.out.println("Created a new thread(total: " + serverThreads.size() + ")");
+                    Robot.logger.log("Created a new thread(total: " + serverThreads.size() + ")", 3);
                 }
                 
             } catch (IOException e) {

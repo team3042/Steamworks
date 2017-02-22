@@ -20,7 +20,7 @@ public class Shooter extends Subsystem {
 	  
 	private double kP = 0.1, kI = 0.0005, kD = 3.0, kF = .03;
 
-	public double shooterSpeed = -4000.0, agitatorSpeed = 0.5;
+	public double shooterSpeed = -4000.0/*-3500*/, agitatorSpeed = 0.45;
 	
 	public double maxSpeedError = 500;
 	

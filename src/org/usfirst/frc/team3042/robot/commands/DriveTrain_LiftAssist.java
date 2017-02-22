@@ -31,7 +31,8 @@ public class DriveTrain_LiftAssist extends Command {
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = 0.12, kAngleI = 0, kAngleD = 0.3;
+    private double kAngleP = 0.1, kAngleI = 0, kAngleD = 0.3;
+    private double maxCorrection = 1;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
@@ -90,8 +91,6 @@ public class DriveTrain_LiftAssist extends Command {
         speed = (Math.abs(speed) < deadzone)? 0 : speed;
         
         //speed = restrictAccel(speed, LEFT);
-        
-        Robot.logger.log("Speed: " + speed, 3);
         speed *= MAX_SPEED;
         
         double[] correctedSpeeds = PIDCorrection(speed);
@@ -122,8 +121,11 @@ public class DriveTrain_LiftAssist extends Command {
     	sumGyroError += gyroError;
     	double dGyroError = gyroError - oldGyroError;
     	
-    	double leftSpeed = speed - (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
-    	double rightSpeed = speed + (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError);
+    	double correction = ((kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) <= maxCorrection)? 
+    			(kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) : maxCorrection;
+    	
+    	double leftSpeed = speed - correction;
+    	double rightSpeed = speed + correction;
         
     	oldGyroError = gyroError;
         return new double[] {leftSpeed, rightSpeed};
