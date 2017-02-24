@@ -23,7 +23,7 @@ public class Auto_LiftDrive extends Command {
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
     private double kAngleP = 0.8, kAngleI = 0, kAngleD = 3;
-    private double maxCorrection = 8;
+    private double maxCorrection = 8, correctionDeadzone = 3.5;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
@@ -124,6 +124,29 @@ public class Auto_LiftDrive extends Command {
     	correction = sign * 10/(1 + 10*Math.pow(Math.E, -.55 * Math.abs(correction)));		
     	
     	Robot.logger.log("Correction: " + correction, 3);
+    	
+    	double leftSpeed = speed - correction;
+    	double rightSpeed = speed + correction;
+        
+    	oldGyroError = gyroError;
+        return new double[] {leftSpeed, rightSpeed};
+    }
+    
+    private double[] PIDCorrectionDeadzone(double speed) {
+    	double gyroError = gyroGoal.rotateBy(Robot.driveTrain.getGyro().inverse()).getDegrees();
+    	sumGyroError += gyroError;
+    	double dGyroError = gyroError - oldGyroError;
+    	
+    	double sign = (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError)/Math.abs((kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError));
+    	
+    	double correction = (sign * (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) <= maxCorrection)? 
+    			(kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) : sign * maxCorrection;
+    			
+    	if (Math.abs(gyroError) < correctionDeadzone) {
+    		correction = 0;
+    	}
+    			
+		Robot.logger.log("Correction: " + correction, 3);
     	
     	double leftSpeed = speed - correction;
     	double rightSpeed = speed + correction;
