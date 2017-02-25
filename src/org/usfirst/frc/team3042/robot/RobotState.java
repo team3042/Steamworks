@@ -120,7 +120,6 @@ public class RobotState implements VisionUpdateReceiver {
 	        RigidTransform2d fieldToCamera = robotPose.getInterpolated(new InterpolatingDouble(timestamp))
                     .transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA));
 	        
-	        // TODO: Check sign of angles sent from phone
 	        double cameraToTargetX = target.getDistance() * Math.cos(target.getX());
             double cameraToTargetY = target.getDistance() * Math.sin(target.getX());
             
@@ -133,6 +132,8 @@ public class RobotState implements VisionUpdateReceiver {
 	        newVisionUpdate = false;
 	        
 	        getAimingParameters();
+	        
+	        //Robot.logger.log("Distance: " + target.getDistance(), 3);
 	    }
 	}
 	

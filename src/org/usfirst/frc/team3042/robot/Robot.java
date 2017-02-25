@@ -131,7 +131,6 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();  
         //Here is where you would put smart dashboard outputs, to put a number on the smart dashbard follow this format
         //SmartDashboard.putNumber("example number", number or variable here);
-        
     }
     
     /**
