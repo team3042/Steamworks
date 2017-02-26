@@ -23,7 +23,7 @@ public class Auto_LiftDrive extends Command {
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = .2, kAngleI = 0, kAngleD = 4;
+    private double kAngleP = .3, kAngleI = 0, kAngleD = 3;
     private double maxCorrection = 8, correctionDeadzone = 3.5;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
@@ -96,7 +96,6 @@ public class Auto_LiftDrive extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	Robot.logger.log("Distance: " + distance, 3);
         return (finished || distance < DISTANCE_OFFSET);
     }
 
@@ -175,7 +174,7 @@ public class Auto_LiftDrive extends Command {
     	double correction = (sign * (kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) <= maxCorrection)? 
     			(kAngleP * gyroError + kAngleI * sumGyroError + kAngleD * dGyroError) : sign * maxCorrection;
     	
-    	correction = Math.pow(correction, 2)/8.5333 + 1.5;
+    	correction = Math.pow(correction, 2)/8.5333 + 1;
 		
     	correction *= (useVision)? sign : -sign;
     			

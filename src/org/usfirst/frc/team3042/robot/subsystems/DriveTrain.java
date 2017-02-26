@@ -46,7 +46,8 @@ public class DriveTrain extends Subsystem {
     public double kPLowRight = 4, kILowRight = 0.02, kDLowRight = 40;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = 1.375, kFLowRight = 1.375 * 2.58;
+    public double kFLowLeft = 1.375, kFLowRight = 1.375 * 2.58 * 1.55 /* Wasn't Driving strait in auto_drive,
+    																F-gain magic number change made it turn a less */;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;
