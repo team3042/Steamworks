@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
 import org.usfirst.frc.team3042.robot.commands.Auto_LiftDrive;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
@@ -8,7 +9,6 @@ import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
 import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
-import org.usfirst.frc.team3042.robot.commands.LeftPegGearPlacement;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackBoiler;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackLift;
@@ -123,8 +123,7 @@ public class OI {
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new Auto_LiftDrive());
-		left_8.whenPressed(new LeftPegGearPlacement());
+		left_7.whenPressed(new AutoMode_GearRight());
 	}
 	
 }

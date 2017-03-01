@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem {
+	
 	public CANTalon leftMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_FRONT);
 	CANTalon leftMotorRear = new CANTalon(RobotMap.DRIVETRAIN_TALON_LEFT_REAR); 
 	public CANTalon rightMotorFront = new CANTalon(RobotMap.DRIVETRAIN_TALON_RIGHT_FRONT);
@@ -46,7 +47,7 @@ public class DriveTrain extends Subsystem {
     public double kPLowRight = 4, kILowRight = 0.02, kDLowRight = 40;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = 1.375, kFLowRight = 1.375 * 2.58 * 1.55 /* Wasn't Driving strait in auto_drive,
+    public double kFLowLeft = 1.38, kFLowRight = 1.49 * 2.58 /* Wasn't Driving strait in auto_drive,
     																F-gain magic number change made it turn a less */;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
@@ -59,6 +60,7 @@ public class DriveTrain extends Subsystem {
 	double leftSetpoint, rightSetpoint;
 	double tolerance = 4.0 / COUNTS_PER_REV;
 	
+	
 	class PeriodicRunnable implements java.lang.Runnable {
 		public void run() { 
 			leftMotorFront.processMotionProfileBuffer();
@@ -69,6 +71,7 @@ public class DriveTrain extends Subsystem {
 	Notifier notifier = new Notifier (new PeriodicRunnable());
 	
 	public DriveTrain() {
+		System.out.println("Instantiating Drive Train");
 		//Put the rear motors in follower mode
 		leftMotorRear.changeControlMode(TalonControlMode.Follower);
     	leftMotorRear.set(leftMotorFront.getDeviceID());
@@ -198,9 +201,6 @@ public class DriveTrain extends Subsystem {
 		kFLeft = kFLowLeft;
 		kFRight = kFLowRight;
 		
-		scaleLeft = 1;
-		scaleRight = 1;
-		
 		gearShift.set(false);
 		isHighGear = false;
 	}
@@ -216,9 +216,6 @@ public class DriveTrain extends Subsystem {
 		
 		kFLeft = kFHighLeft;
 		kFRight = kFHighRight;
-		
-		scaleLeft = 0.75;
-		scaleRight = 0.75;
 		
 		gearShift.set(true);
 		isHighGear = true;

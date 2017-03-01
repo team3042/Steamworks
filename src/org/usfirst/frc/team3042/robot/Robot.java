@@ -4,6 +4,7 @@ package org.usfirst.frc.team3042.robot;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
 import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
@@ -71,6 +72,7 @@ public class Robot extends IterativeRobot {
 		autonomousChooser = new SendableChooser<Command>();
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         autonomousChooser.addObject("Drive Forward", new AutoMode_DriveForward());
+        autonomousChooser.addObject("Gear Center", new AutoMode_GearCenter());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         

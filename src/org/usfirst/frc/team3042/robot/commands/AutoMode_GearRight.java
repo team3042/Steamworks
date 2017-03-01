@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3042.robot.commands;
 
+import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -25,7 +27,9 @@ public class AutoMode_GearRight extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new Vision_TrackLift());
+    	addSequential(new Auto_Drive(AutoType.STRAIGHT, -5.9, -3));
+    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, 2.1, 1, 0));
+    	//addSequential(new Vision_TrackLift());
     	addSequential(new Auto_LiftDrive());
     }
 }

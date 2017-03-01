@@ -5,6 +5,7 @@ import org.usfirst.frc.team3042.robot.RobotMap;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Stop;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,6 +28,7 @@ public class Shooter extends Subsystem {
 	private int shooterTalonZero = 0;
 	
 	public Shooter() {
+		System.out.println("Instantiating shooter");
 		initEncoder();
 		
 		shooterTalon.enableBrakeMode(false);
@@ -50,6 +52,7 @@ public class Shooter extends Subsystem {
 	
 	public void initEncoder(){
 		shooterTalon.setStatusFrameRateMs(CANTalon.StatusFrameRate.QuadEncoder, 10);
+		shooterTalon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		shooterTalon.configEncoderCodesPerRev(1024);
 		shooterTalon.reverseSensor(false);
 		
@@ -79,7 +82,9 @@ public class Shooter extends Subsystem {
 	public void shoot() {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		
-		setShooterRPM(velocity);
+		//setShooterRPM(velocity);
+		shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
+		shooterTalon.set(-.95);
 
         Robot.logger.log("Spinning agitator with RPM Error: " + Math.abs(velocity - getRPM()), 3);
 		

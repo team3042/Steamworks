@@ -20,9 +20,12 @@ public class CompressorSubsystem extends Subsystem {
     }
     
     public CompressorSubsystem() {
+    	System.out.println("Instantiating compressor");
         compressor.start();
         
         compressor.setClosedLoopControl(true);
+        
+        System.out.println("Finished instantiating compressor");
     }
 }
 

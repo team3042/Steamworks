@@ -4,6 +4,7 @@ import org.usfirst.frc.team3042.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -31,6 +32,8 @@ public class GDM extends Subsystem {
     		GDMRelay.set(true);
     		isActive = true;
     	}
+    	
+    	SmartDashboard.putBoolean("GDM Out", isActive);
     }
 }
 

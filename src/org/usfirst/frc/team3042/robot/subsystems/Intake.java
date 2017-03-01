@@ -26,6 +26,8 @@ public class Intake extends Subsystem {
     private double intakeZero = 0;
     
     public Intake(){
+    	System.out.println("Instantiating intake");
+    	
     	initEncoder();
     	setPIDF();
     }

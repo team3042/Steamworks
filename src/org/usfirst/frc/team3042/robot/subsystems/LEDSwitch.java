@@ -17,6 +17,8 @@ public class LEDSwitch extends Subsystem {
 	private boolean isLEDOn = false;
 	
 	public LEDSwitch() {
+		System.out.println("Instantiating LED");
+		
 		if (!RobotMap.isApollo) {
 			LEDSolenoid = new Solenoid(RobotMap.LEDSWITCH_SOLENOID, RobotMap.LEDSWITCH_PCM);
 		}
