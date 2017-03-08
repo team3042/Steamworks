@@ -26,14 +26,14 @@ public class DriveTrain extends Subsystem {
 	
 	Solenoid gearShift = new Solenoid(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
 	
-	CANTalon leftEncMotor = (RobotMap.isApollo)? leftMotorFront : leftMotorRear;
+	CANTalon leftEncMotor = (RobotMap.isApollo)? leftMotorFront : leftMotorFront;
     CANTalon rightEncMotor = (RobotMap.isApollo)? rightMotorRear : rightMotorFront;
     
     ADIS16448_IMU gyro = new ADIS16448_IMU();
     
     private int leftEncoderZero, rightEncoderZero;
-    private boolean leftReverseEnc = false;
-    private boolean rightReverseEnc = true;
+    private boolean leftReverseEnc = !RobotMap.isApollo;
+    private boolean rightReverseEnc = RobotMap.isApollo;
     private int leftEncSign = 1;
     private int rightEncSign = -1;
     private double scaleLeft = 1;
@@ -43,11 +43,11 @@ public class DriveTrain extends Subsystem {
    
     
     public double kPHigh = 0, kIHigh = 0, kDHigh = 0;
-    public double kPLowLeft = 3, kILowLeft = 0.02, kDLowLeft = 30;
-    public double kPLowRight = 4, kILowRight = 0.02, kDLowRight = 40;
+    public double kPLowLeft = 0/*3*/, kILowLeft =0/* 0.02*/, kDLowLeft = 0/*30*/;
+    public double kPLowRight = 0/*4*/, kILowRight = 0/*0.02*/, kDLowRight = 0/*40*/;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = 1.38, kFLowRight = 1.49 * 2.58 /* Wasn't Driving strait in auto_drive,
+    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49 * 2.58 : 1.39 /* Wasn't Driving strait in auto_drive,
     																F-gain magic number change made it turn a less */;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
@@ -143,8 +143,8 @@ public class DriveTrain extends Subsystem {
 	
 	// Converts inches/second to motor percentage using feed-forward term
 	public void setMotorsInchesPerSecondOpenLoop(double left, double right) {
-		double leftSpeed = left / 53.4;
-		double rightSpeed = 1.38 * right / 56.4;
+		double leftSpeed = left / 63;
+		double rightSpeed = 1 * right / 63;
 		
 		setMotors(leftSpeed, rightSpeed);
 	}

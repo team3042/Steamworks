@@ -27,9 +27,11 @@ public class AutoMode_GearLeft extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new Auto_Drive(AutoType.STRAIGHT, -5.9, -3));
-    	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 2.1, 1, 0));
+    	addSequential(new Auto_Drive(AutoType.STRAIGHT, -7.5, -3));
+    	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 1.55, 2, 0));
     	//addSequential(new Vision_TrackLift());
+    	addSequential(new LEDSwitch_SetOn());
     	addSequential(new Auto_LiftDrive());
+    	addSequential(new LEDSwitch_SetOff());
     }
 }

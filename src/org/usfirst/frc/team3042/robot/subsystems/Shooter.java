@@ -21,7 +21,7 @@ public class Shooter extends Subsystem {
 	  
 	private double kP = 0.1, kI = 0.0005, kD = 3.0, kF = .03;
 
-	public double shooterSpeed = -4000.0/*-3500*/, agitatorSpeed = 0.45;
+	public double shooterSpeed = -3500, agitatorSpeed = 0.45;
 	
 	public double maxSpeedError = 500;
 	
@@ -82,9 +82,9 @@ public class Shooter extends Subsystem {
 	public void shoot() {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		
-		//setShooterRPM(velocity);
-		shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
-		shooterTalon.set(-.95);
+		setShooterRPM(velocity);
+		//shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
+		//shooterTalon.set(-.95);
 
         Robot.logger.log("Spinning agitator with RPM Error: " + Math.abs(velocity - getRPM()), 3);
 		

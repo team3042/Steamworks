@@ -5,6 +5,7 @@ import org.usfirst.frc.team3042.robot.Robot;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.MotionProfileStatus;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -156,6 +157,14 @@ public class Auto_Drive extends Command {
     			"\tLeft Goal Speed: " + status[0].activePoint.velocity + "\tLeft Actual Speed: " + Robot.driveTrain.getLeftVelocity(), 1);
     	Robot.logger.log("Right Encoder Actual: " + Robot.driveTrain.getRightEncoder() + "\tRight Encoder Goal: " + status[1].activePoint.position * 1440 +
     			"\tRight Goal Speed: " + status[1].activePoint.velocity + "\tRight Actual Speed: " + Robot.driveTrain.getRightVelocity() + "\n", 1);
+    	
+    	
+    	SmartDashboard.putNumber("Left Drivetrain Encoder", Robot.driveTrain.getLeftEncoder());
+		SmartDashboard.putNumber("Right Drivetrain Encoder", Robot.driveTrain.getRightEncoder());
+		SmartDashboard.putNumber("Left Drivetrain RPM", Robot.driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right Drivetrain RPM", Robot.driveTrain.getRightVelocity());
+		SmartDashboard.putNumber("Left Drivetrain FPS", Robot.driveTrain.getLeftVelocityInchesPerSecond() / 12);
+		SmartDashboard.putNumber("Right Drivetrain FPS", Robot.driveTrain.getRightVelocityInchesPerSecond() / 12);
     }
 
     // Make this return true when this Command no longer needs to run execute()

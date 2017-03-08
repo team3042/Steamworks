@@ -17,20 +17,20 @@ public class Auto_LiftDrive extends Command {
     
     private boolean finished = false;
     
-    private static final double MIN_VIEW_DISTANCE = 36;
-    private static final int MAX_ITERATIONS_WITHOUT_TARGET = 1;
+    private static final double MIN_VIEW_DISTANCE = 44;
+    private static final int MAX_ITERATIONS_WITHOUT_TARGET = 3;
     private boolean useVision = true;
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = .3, kAngleI = 0, kAngleD = 3;
+    private double kAngleP = .6, kAngleI = 0.01, kAngleD = 4;
     private double maxCorrection = 8, correctionDeadzone = 3.5;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     
     // Parameters for logistic function
-    private static final double DISTANCE_OFFSET = 17; // Inches
-    private static final double MAX_SPEED = -24; // Inches/Second
+    private static final double DISTANCE_OFFSET = 30; // Inches
+    private static final double MAX_SPEED = -48; // Inches/Second
     private static final double STEEPNESS = 1/3;
     private static final double X_OFFSET = 15;
 
@@ -176,7 +176,7 @@ public class Auto_LiftDrive extends Command {
     	
     	correction = Math.pow(correction, 2)/8.5333 + 1;
 		
-    	correction *= (useVision)? sign : -sign;
+    	correction *= (useVision)? sign : sign;
     			
     	double leftSpeed = speed - correction;
     	double rightSpeed = speed + correction;

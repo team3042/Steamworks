@@ -5,6 +5,8 @@ import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DoNothing;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_GearLeft;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
 import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
@@ -73,10 +75,12 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addDefault("Default (Do Nothing)", new AutoMode_DoNothing());
         autonomousChooser.addObject("Drive Forward", new AutoMode_DriveForward());
         autonomousChooser.addObject("Gear Center", new AutoMode_GearCenter());
+        autonomousChooser.addObject("Gear Left", new AutoMode_GearLeft());
+        autonomousChooser.addObject("Gear Right", new AutoMode_GearRight());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         
-        SmartDashboard.putNumber("Shooter speed", -4000);
+        SmartDashboard.putNumber("Shooter speed", -3500);
         
         SmartDashboard.putBoolean("red = lowgear", driveTrain.isHighGear);
     }

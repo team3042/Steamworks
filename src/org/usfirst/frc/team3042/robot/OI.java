@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
+import org.usfirst.frc.team3042.robot.commands.Auto_Drive;
 import org.usfirst.frc.team3042.robot.commands.Auto_LiftDrive;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
@@ -9,9 +11,12 @@ import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
 import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
+import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOff;
+import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackBoiler;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackLift;
+import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
 import org.usfirst.frc.team3042.robot.triggers.GamepadTrigger;
 import org.usfirst.frc.team3042.robot.triggers.POVButton;
 
@@ -47,6 +52,7 @@ public class OI {
 	public Button left_6 = new JoystickButton(joystickLeft, 6);
 	public Button left_7 = new JoystickButton(joystickLeft, 7);
 	public Button left_8 = new JoystickButton(joystickLeft, 8);
+	public Button left_9 = new JoystickButton(joystickLeft, 9);
 
 	//Right Joystick Buttons
 	public Button right_1 = new JoystickButton(joystickRight, 1);
@@ -123,7 +129,9 @@ public class OI {
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new AutoMode_GearRight());
+		left_7.whenPressed(new AutoMode_GearCenter());
+		left_8.whenPressed(new Auto_Drive(AutoType.STRAIGHT, -9, -3));
+		left_9.whenPressed(new LEDSwitch_SetOn());
 	}
 	
 }

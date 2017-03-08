@@ -2,12 +2,16 @@ package org.usfirst.frc.team3042.robot.commands;
 
 import org.usfirst.frc.team3042.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class LEDSwitch_SetOn extends Command {
+	
+	Timer timer = new Timer();
+	double delay = .5;
 
     public LEDSwitch_SetOn() {
         // Use requires() here to declare subsystem dependencies
@@ -20,6 +24,9 @@ public class LEDSwitch_SetOn extends Command {
     	Robot.logger.log("Initialize", 1);
     	
     	Robot.ledSwitch.setLEDOn();
+    	
+    	timer.reset();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,7 +37,7 @@ public class LEDSwitch_SetOn extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return timer.get() > delay;
     }
 
     // Called once after isFinished returns true

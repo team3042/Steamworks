@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3042.robot.commands;
 
+import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -27,6 +29,10 @@ public class AutoMode_GearCenter extends CommandGroup {
     	
     	//addSequential(new Vision_TrackLift());
     	//addSequential(new Auto_DriveUntilTargetSeen());
+    	addSequential(new LEDSwitch_SetOn());
     	addSequential(new Auto_LiftDrive());
+    	addSequential(new LEDSwitch_SetOff());
+    	
+    	//addSequential(new Auto_Drive(AutoType.STRAIGHT, -8.5, -3));
     }
 }

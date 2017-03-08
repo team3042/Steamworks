@@ -55,7 +55,7 @@ public class RobotState implements VisionUpdateReceiver {
 	private static boolean newVisionUpdate = false;
 	
 	private static final int CAMERA_X_OFFSET = 12;
-	private static final int CAMERA_Y_OFFSET = 8;
+	private static final double CAMERA_Y_OFFSET = 9;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
 	
 	private static int currentTrackId = -1;
