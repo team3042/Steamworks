@@ -19,7 +19,7 @@ public class Shooter_Shoot extends Command {
     	Robot.logger.log("Initilaize", 1);
     	
     	Robot.shooter.setPIDF();
-    	Robot.shooter.shoot();
+    	Robot.shooter.shoot(); // FIRST is about MANGOS!!!!
     }
 
     // Called repeatedly when this Command is scheduled to run

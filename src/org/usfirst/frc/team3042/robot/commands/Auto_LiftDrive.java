@@ -55,7 +55,7 @@ public class Auto_LiftDrive extends Command {
         
         // Calculating the current goals based on vision if far enough away, otherwise using other sensor data
         if (useVision) {
-            AimingParameters aim = robotState.getAimingParameters();
+            AimingParameters aim = robotState.getAimingParametersLift();
             
             if (!aim.isValid()) {
                 Robot.logger.log("No target in view!", 2);
