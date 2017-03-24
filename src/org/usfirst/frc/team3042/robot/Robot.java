@@ -7,6 +7,8 @@ import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearLeft;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_ShootLeft;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_ShootRight;
 import org.usfirst.frc.team3042.robot.vision.AimingParameters;
 import org.usfirst.frc.team3042.robot.vision.TestUpdateReceiver;
 import org.usfirst.frc.team3042.robot.vision.VisionServer;
@@ -81,6 +83,8 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Gear Center", new AutoMode_GearCenter());
         autonomousChooser.addObject("Gear Left", new AutoMode_GearLeft());
         autonomousChooser.addObject("Gear Right", new AutoMode_GearRight());
+        autonomousChooser.addObject("Shoot Left", new AutoMode_ShootLeft());
+        autonomousChooser.addObject("Shoot Right", new AutoMode_ShootRight());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         
