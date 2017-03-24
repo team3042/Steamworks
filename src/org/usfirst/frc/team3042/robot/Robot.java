@@ -19,8 +19,10 @@ import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -46,6 +48,8 @@ public class Robot extends IterativeRobot {
 	public static final Intake intake = new Intake();
 	public static final GDM gdm = new GDM();
 	public static final LEDSwitch ledSwitch = new LEDSwitch();
+	
+	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	Command autonomousCommand;
     SendableChooser<Command> autonomousChooser;
@@ -137,6 +141,8 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();  
         //Here is where you would put smart dashboard outputs, to put a number on the smart dashbard follow this format
         //SmartDashboard.putNumber("example number", number or variable here);
+        
+        //System.out.println(pdp.getCurrent(3));
     }
     
     /**

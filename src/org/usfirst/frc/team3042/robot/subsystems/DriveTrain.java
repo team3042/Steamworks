@@ -78,6 +78,9 @@ public class DriveTrain extends Subsystem {
     	rightMotorRear.changeControlMode(TalonControlMode.Follower);
     	rightMotorRear.set(rightMotorFront.getDeviceID());
     	
+    	leftMotorFront.enableBrakeMode(true);
+    	rightMotorFront.enableBrakeMode(true);
+    	
     	leftMotorFront.reverseOutput(false);
     	leftMotorFront.setInverted(false);
     	
