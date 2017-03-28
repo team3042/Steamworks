@@ -2,29 +2,42 @@ package org.usfirst.frc.team3042.robot.commands;
 
 import org.usfirst.frc.team3042.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Shooter_Shoot extends Command {
+public class Shooter_SpinUp extends Command {
 
-    public Shooter_Shoot() {
-    	requires(Robot.shooter);
+	Timer time = new Timer();
+	double timeLimit = 1.0;
+	Boolean PIDStarted;
+	
+    public Shooter_SpinUp() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.logger.log("Initilaize", 1);
-    	
-    	Robot.shooter.shoot(); // FIRST is about MANGOS!!!!
+    	Robot.logger.log("Initialize", 1);
+    	Robot.shooter.setPIDF();
+    	PIDStarted = false;
+    	time.reset();
+    	time.start();
+    	Robot.shooter.spinup();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.shooter.shoot();
-        
+    	SmartDashboard.putNumber("Shooter RPM", Robot.shooter.getRPM());
+    	
+    	if ((time.get() >= timeLimit) && (!PIDStarted)) {
+    		Robot.shooter.spin();
+    		PIDStarted = true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,11 +48,18 @@ public class Shooter_Shoot extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.logger.log("End", 1);
+    	shutDown();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.logger.log("Interrupted", 1);
+    	shutDown();
+    }
+
+    protected void shutDown() {
+    	Robot.shooter.spindown();
+    	time.stop();
     }
 }

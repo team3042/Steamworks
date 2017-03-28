@@ -19,9 +19,9 @@ public class Shooter extends Subsystem {
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
-	private double kP = 0.1, kI = 0.0005, kD = 3.0, kF = .03;
+	public static double kP = 0.34, kI = 0.0, kD = 3.4, kF = .0271;
 
-	public double shooterSpeed = -3500, agitatorSpeed = 0.45;
+	public static double shooterSpeed = -2900, agitatorSpeed = 0.50;
 	
 	public double maxSpeedError = 500;
 	
@@ -39,14 +39,13 @@ public class Shooter extends Subsystem {
     }
 	
 	public void setPIDF(){
-		/*
+	
 		double P = SmartDashboard.getNumber("Shooter P", kP);
 		double I = SmartDashboard.getNumber("Shooter I", kI);
 		double D = SmartDashboard.getNumber("Shooter D", kD);
-		double F = SmartDashboard.getNumber("Shooter F", kF);
-		*/
+		shooterTalon.setPID(P, I, D);
 		
-		shooterTalon.setPID(kP, kI, kD);
+		//shooterTalon.setPID(kP, kI, kD);
 		shooterTalon.setF(kF);
 	}
 	
@@ -79,24 +78,37 @@ public class Shooter extends Subsystem {
 		agitatorTalon.set(safetyTest(speed));
 	}
 	
-	public void shoot() {
+	public void spin() {
 		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
+		setShooterRPM(velocity);		
+	}
+	
+	public void spinup() {
+		shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
+		shooterTalon.set(-1.0);
+	}
+	
+	public void spindown() {
+		setShooterRaw(0);
+	}
+	
+	public void shoot() {
+		//spinup();
 		
-		setShooterRPM(velocity);
-		//shooterTalon.changeControlMode(TalonControlMode.PercentVbus);
-		//shooterTalon.set(-.95);
 
-        Robot.logger.log("Spinning agitator with RPM Error: " + Math.abs(velocity - getRPM()), 3);
+       /* Robot.logger.log("Spinning agitator with RPM Error: " + Math.abs(velocity - getRPM()), 3);
 		
 		if (Math.abs(velocity - getRPM()) < maxSpeedError) {
 		    spinAgitator(agitatorSpeed);
 		} else {
 		    spinAgitator(0);
 		}
+		*/
+		spinAgitator(agitatorSpeed);
 	}
 	
 	public void stop() {
-		setShooterRaw(0);
+		//setShooterRaw(0);
 		spinAgitator(0);
 	}
 	

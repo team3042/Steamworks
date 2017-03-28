@@ -18,7 +18,7 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	public static final boolean isApollo = true;
-	public static final boolean isPhone = true;
+	public static final boolean isPhone = false;
 	
 	public static final int LEFT_JOYSTICK_USB_PORT_0 = 0;
 	public static final int RIGHT_JOYSTICK_USB_PORT_1 = 1;
@@ -29,8 +29,8 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TALON_RIGHT_FRONT = (isApollo)? 14 : 7;
 	public static final int DRIVETRAIN_TALON_RIGHT_REAR = (isApollo)? 9 : 15;
 	public static final int CLIMBER_TALON = (isApollo)? 10 : 2;
-	public static final int SHOOTER_TALON = (isApollo)? 3 : 5;
-	public static final int AGITATE_TALON = (isApollo)? 6 : 4;
+	public static final int SHOOTER_TALON = (isApollo)? 25 : 5;
+	public static final int AGITATE_TALON = (isApollo)? 3 : 4;
 	public static final int INTAKE_TALON = (isApollo)? 12 : 1;
 	
 	public static final int DRIVETRAIN_SOLENOID_SHIFT = (isApollo)? 1 : 3;

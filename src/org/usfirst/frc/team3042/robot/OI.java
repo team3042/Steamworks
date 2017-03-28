@@ -14,6 +14,7 @@ import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOff;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
+import org.usfirst.frc.team3042.robot.commands.Shooter_SpinUp;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackBoiler;
 import org.usfirst.frc.team3042.robot.commands.Vision_TrackLift;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
@@ -123,6 +124,7 @@ public class OI {
 		
 		// Shooter
 		gunner_RT.whileActive(new Shooter_Shoot());
+		gunner_RB.toggleWhenPressed(new Shooter_SpinUp());
 		
 		// Phone Commands
 		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());

@@ -122,6 +122,10 @@ public class RobotState implements VisionUpdateReceiver {
 	        double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
 	        TargetInfo target = mostRecentUpdate.getTargets().get(0);
 	        
+	        System.out.println(target.getX());
+		    System.out.println(target.getY());
+		    System.out.println(target.getDistance());
+	        
 	        RigidTransform2d fieldToRobot = robotPose.getInterpolated(new InterpolatingDouble(timestamp));
 	        RigidTransform2d fieldToCamera = fieldToRobot.transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA.rotateBy(fieldToRobot.getRotation())));
 	        
@@ -200,5 +204,4 @@ public class RobotState implements VisionUpdateReceiver {
     		SmartDashboard.putNumber("Goal Y", track.fieldToTarget.getY());
 		}
 	}
-
 }
