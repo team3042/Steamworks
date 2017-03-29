@@ -35,6 +35,7 @@ public class RobotMap {
 	
 	public static final int DRIVETRAIN_SOLENOID_SHIFT = (isApollo)? 1 : 3;
 	public static final int GDM_SOLENOID_ACTUATE = (isApollo)? 3 : 1;
+	public static final int GDM_BACK_SOLENOID_ACTUATE = (isApollo)? 0 : 0;
 	
 	public static final int LEDSWITCH_PCM = 1;
 	public static final int LEDSWITCH_SOLENOID = 1;
