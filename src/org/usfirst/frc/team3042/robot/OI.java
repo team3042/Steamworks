@@ -15,8 +15,6 @@ import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOff;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Shooter_SpinUp;
-import org.usfirst.frc.team3042.robot.commands.Vision_TrackBoiler;
-import org.usfirst.frc.team3042.robot.commands.Vision_TrackLift;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
 import org.usfirst.frc.team3042.robot.triggers.GamepadTrigger;
 import org.usfirst.frc.team3042.robot.triggers.POVButton;

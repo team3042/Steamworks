@@ -13,7 +13,6 @@ import org.usfirst.frc.team3042.robot.Robot;
 import org.usfirst.frc.team3042.robot.vision.messages.CameraModeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.HeartbeatMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.OffWireMessage;
-import org.usfirst.frc.team3042.robot.vision.messages.TargetTypeMessage;
 import org.usfirst.frc.team3042.robot.vision.messages.VisionMessage;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -26,6 +25,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class VisionServer implements Runnable {
 
+    public static VisionMode globalVisionMode = VisionMode.Lift;
+    
     private static VisionServer instance = null;
     private ServerSocket serverSocket;
     double lastMessageReceivedTime = 0;
@@ -59,6 +60,7 @@ public class VisionServer implements Runnable {
      */
     protected class ServerThread implements Runnable {
         private Socket socket;
+        private VisionMode mode = VisionMode.None;
 
         public ServerThread(Socket socket) {
             this.socket = socket;
@@ -92,7 +94,7 @@ public class VisionServer implements Runnable {
             if ("targets".equals(message.getType())) {
                 VisionUpdate update = VisionUpdate.generateFromJsonString(timestamp, message.getMessage());
                 receivers.removeAll(Collections.singleton(null));
-                if (update.isValid()) {
+                if (update.isValid() && mode == globalVisionMode) {
                     for (VisionUpdateReceiver receiver : receivers) {
                         receiver.gotUpdate(update);
                     }
@@ -100,6 +102,12 @@ public class VisionServer implements Runnable {
             }
             if ("heartbeat".equals(message.getType())) {
                 send(HeartbeatMessage.getInstance());
+            }
+            if("boiler".equals(message.getMessage())){
+                mode = VisionMode.Boiler;
+            }
+            if("lift".equals(message.getMessage())){
+                mode = VisionMode.Lift;
             }
         }
 
@@ -154,6 +162,11 @@ public class VisionServer implements Runnable {
         }
     }
 
+    //Classification of vision modes
+    public enum VisionMode{
+        None, Lift, Boiler
+    }
+    
     private VisionServer() {
         Robot.logger.log("VisionServer initializing", 3);
         try {
@@ -211,16 +224,6 @@ public class VisionServer implements Runnable {
     public void setCameraRear() {
     	CameraModeMessage rearMessage = CameraModeMessage.getRearFacingMessage();
     	sendMessageMostRecentThread(rearMessage);
-    }
-    
-    public void setTargetBoiler() {
-    	TargetTypeMessage boilerMessage = TargetTypeMessage.getBoilerMessage();
-    	sendMessageMostRecentThread(boilerMessage);
-    }
-    
-    public void setTargetLift() {
-    	TargetTypeMessage liftMessage = TargetTypeMessage.getLiftMessage();
-    	sendMessageMostRecentThread(liftMessage);
     }
 
     @Override
