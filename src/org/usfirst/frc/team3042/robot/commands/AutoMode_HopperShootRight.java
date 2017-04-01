@@ -24,6 +24,7 @@ public class AutoMode_HopperShootRight extends CommandGroup {
     	*/
     	addSequential(new Auto_Drive(AutoType.STRAIGHT, 4.7, 5));
     	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 12.0, 5, 21));
+    	
     	//Pause for balls to fill
     	addSequential(new Auto_WaitForFillup());
 
