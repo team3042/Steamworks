@@ -130,7 +130,7 @@ public class OI {
 		
 		// Software Testing
 		left_7.whenPressed(new AutoMode_GearCenter());
-		left_8.whenPressed(new Auto_Drive(AutoType.STRAIGHT, -9, -3));
+		left_8.whenPressed(new Auto_Drive(AutoType.STRAIGHT, 6, 5));
 		left_9.whenPressed(new LEDSwitch_SetOn());
 	}
 	
