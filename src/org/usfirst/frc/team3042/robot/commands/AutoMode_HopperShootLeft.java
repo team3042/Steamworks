@@ -9,10 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class AutoMode_HopperShootLeft extends CommandGroup {
-	
-	//Commands that need to be canceled when the command group ends
-	Command spinup = new Shooter_SpinUp(),
-			shoot  = new Shooter_Shoot();
 
     public AutoMode_HopperShootLeft() {
     	
@@ -31,7 +27,7 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     	addSequential(new Auto_WaitForFillup());
 
     	//Spin up the shooter wheel
-    	addParallel(spinup);
+    	addParallel(new Shooter_SpinUp());
     	
     	//Drive to the shooting position
     	/*addSequential(new Auto_FollowTrajectory(
@@ -43,23 +39,9 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -6.2, -5, 6));
     	
     	//Fire the agitator to feed the shooter
-    	addParallel(shoot);
+    	addParallel(new Shooter_Shoot());
     	
     	//Use the camera to improve aim
     	
     }
-    /*
-    protected void end() {
-    	gracefulEnd();
-    }
-    
-    protected void interrupted() {
-    	gracefulEnd();
-    }
-    
-    protected void gracefulEnd() {
-    	spinup.cancel();
-    	shoot.cancel();
-    }
-    */
 }
