@@ -67,8 +67,9 @@ public class Auto_Drive extends Command {
     			rightScale = rightRadius;
     		}
     		
-    		leftScale /= Math.max(leftScale,  rightScale);
-    		rightScale /= Math.max(leftScale,  rightScale);
+    		double maxScale = Math.max(leftScale, rightScale);
+    		leftScale /= maxScale;
+    		rightScale /= maxScale;
     		
     		leftDistance = leftScale * distance;
     		rightDistance = rightScale * distance;
@@ -89,9 +90,9 @@ public class Auto_Drive extends Command {
     			leftScale = leftRadius;
     			rightScale = rightRadius;
     		}
-    		
-    		leftScale /= Math.max(leftScale,  rightScale);
-    		rightScale /= Math.max(leftScale,  rightScale);
+    		double maxScale = Math.max(leftScale, rightScale);
+    		leftScale /= maxScale;
+    		rightScale /= maxScale;
     		
     		leftDistance = leftScale * distance;
     		rightDistance = rightScale * distance;
