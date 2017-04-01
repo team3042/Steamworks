@@ -87,8 +87,8 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Gear Right", new AutoMode_GearRight());
         autonomousChooser.addObject("Shoot Left", new AutoMode_ShootLeft());
         autonomousChooser.addObject("Shoot Right", new AutoMode_ShootRight());
-        autonomousChooser.addObject("Hopper Shoot Left", new AutoMode_HopperShootLeft());
-        autonomousChooser.addObject("Hopper Shoot Right", new AutoMode_HopperShootRight());
+        autonomousChooser.addObject("Hopper Shoot Blue", new AutoMode_HopperShootLeft());
+        autonomousChooser.addObject("Hopper Shoot Red", new AutoMode_HopperShootRight());
         
         SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
         

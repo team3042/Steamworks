@@ -24,7 +24,7 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     			AutoTrajectory_HopperToRight.getLeftTrajectory(),
     			false));
     	*/
-    	addSequential(new Auto_Drive(AutoType.STRAIGHT, 5.2, 5));
+    	addSequential(new Auto_Drive(AutoType.STRAIGHT, 4.5, 5));
     	addSequential(new Auto_Drive(AutoType.TURN_LEFT, 8.0, 5, 28));
     	
     	//Pause for balls to fill
@@ -40,15 +40,15 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     			true));
     	*/
     	addSequential(new Auto_Drive(AutoType.STRAIGHT, -1, -5));
-    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -8, -5, 6));
+    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -6.2, -5, 6));
     	
     	//Fire the agitator to feed the shooter
-    	addParallel(new Shooter_Shoot());
+    	addParallel(shoot);
     	
     	//Use the camera to improve aim
     	
     }
-    
+    /*
     protected void end() {
     	gracefulEnd();
     }
@@ -61,4 +61,5 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     	spinup.cancel();
     	shoot.cancel();
     }
+    */
 }
