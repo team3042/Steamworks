@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Auto_WaitForFillup extends Command {
 
-	double waitTime = 2.0;
+	double waitTime = 1.5;
 	
 	Timer time = new Timer();
 	

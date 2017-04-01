@@ -104,9 +104,11 @@ public class VisionServer implements Runnable {
                 send(HeartbeatMessage.getInstance());
             }
             if("boiler".equals(message.getMessage())){
+            	System.out.println("A thread Mode is now boiler.");
                 mode = VisionMode.Boiler;
             }
             if("lift".equals(message.getMessage())){
+            	System.out.println("A thread Mode is now lift.");
                 mode = VisionMode.Lift;
             }
         }

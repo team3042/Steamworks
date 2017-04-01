@@ -47,8 +47,7 @@ public class DriveTrain extends Subsystem {
     public double kPLowRight = 0/*4*/, kILowRight = 0/*0.02*/, kDLowRight = 0/*40*/;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49 * 2.58 : 1.39 /* Wasn't Driving strait in auto_drive,
-    																F-gain magic number change made it turn a less */;
+    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49 * 2.17: 1.39;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;
