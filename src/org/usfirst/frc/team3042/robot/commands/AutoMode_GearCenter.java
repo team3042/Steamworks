@@ -30,6 +30,7 @@ public class AutoMode_GearCenter extends CommandGroup {
     	//addSequential(new Vision_TrackLift());
     	//addSequential(new Auto_DriveUntilTargetSeen());
     	addSequential(new LEDSwitch_SetOn());
+    	addParallel(new GDM_PlaceMode());
     	addSequential(new Auto_LiftDrive());
     	addSequential(new LEDSwitch_SetOff());
     	

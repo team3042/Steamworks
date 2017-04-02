@@ -31,6 +31,7 @@ public class AutoMode_GearLeft extends CommandGroup {
     	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 1.55, 2, 0));
     	//addSequential(new Vision_TrackLift());
     	addSequential(new LEDSwitch_SetOn());
+    	addParallel(new GDM_PlaceMode());
     	addSequential(new Auto_LiftDrive());
     	addSequential(new LEDSwitch_SetOff());
     }

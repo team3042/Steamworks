@@ -23,20 +23,35 @@ public class GDM extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void actuate(){
+    public void actuate() {
     	
-    	if(isActive){
-    		GDMRelay.set(false);
-    		GDMBackRelay.set(false);
-    		isActive = false;
+    	if (isActive){
+    		setClosed();
     	}
-    	else{
-    		GDMRelay.set(true);
-    		GDMBackRelay.set(true);
-    		isActive = true;
+    	else {
+    		setOpen();
     	}
     	
     	SmartDashboard.putBoolean("GDM Out", isActive);
+    }
+    
+    // Sets the GDM to fully open (front/back open)
+    public void setOpen() {
+    	GDMRelay.set(true);
+		GDMBackRelay.set(true);
+		isActive = true;
+    }
+    
+    // Sets the GDM to fully closed (front/back closed)
+    public void setClosed() {
+    	GDMRelay.set(false);
+		GDMBackRelay.set(false);
+		isActive = false;
+    }
+    
+    // Sets the GDM to place a gear (back open)
+    public void setPlaceMode() {
+    	GDMBackRelay.set(true);
     }
 }
 

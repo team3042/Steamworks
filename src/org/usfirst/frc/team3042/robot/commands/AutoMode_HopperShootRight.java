@@ -42,18 +42,4 @@ public class AutoMode_HopperShootRight extends CommandGroup {
     	//Use the camera to improve aim
     	
     }
-    /*
-    protected void end() {
-    	gracefulEnd();
-    }
-    
-    protected void interrupted() {
-    	gracefulEnd();
-    }
-    
-    protected void gracefulEnd() {
-    	spinup.cancel();
-    	shoot.cancel();
-    }
-    */
 }

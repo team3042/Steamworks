@@ -17,12 +17,17 @@ public class Auto_FaceBoiler extends Command {
     private boolean finished = false;
 	
 	private static final int MAX_ITERATIONS_WITHOUT_TARGET = 3;
+	private static final int MIN_ITERATIONS_ON_TARGET = 3;
+	private static final double ANGLE_TOLERANCE = 2.5;
+	
 	private double kAngleP = .6, kAngleI = 0.01, kAngleD = 4;
     private double maxCorrection = 8, correctionDeadzone = 3.5;
 	private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
     private double distance;
     private Rotation2d gyroGoal;
+    
+    private int iterationsOnTarget = 0;
 
     public Auto_FaceBoiler() {
         // Use requires() here to declare subsystem dependencies
@@ -54,6 +59,15 @@ public class Auto_FaceBoiler extends Command {
         distance = aim.getDistance();
         Rotation2d angleOffset = aim.getAngle();
         gyroGoal = Robot.driveTrain.getGyro().rotateBy(angleOffset);
+        
+        if (angleOffset.getDegrees() < ANGLE_TOLERANCE) {
+        	iterationsOnTarget++;
+        	if (iterationsOnTarget >= MIN_ITERATIONS_ON_TARGET) {
+        		finished = true;
+        	}
+        } else {
+        	iterationsOnTarget = 0;
+        }
         
         double[] correctedSpeeds = PIDCorrectionQuadraticPlusConstant();
         
