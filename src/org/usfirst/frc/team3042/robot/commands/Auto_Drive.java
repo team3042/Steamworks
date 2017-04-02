@@ -117,12 +117,15 @@ public class Auto_Drive extends Command {
     	motionProfileLeft = new AutoTrajectory_MotionProfile(itp, time1, time2, leftMaxSpeed, leftDistance);
     	motionProfileRight = new AutoTrajectory_MotionProfile(itp, time1, time2, rightMaxSpeed, rightDistance);
     	
+    	System.out.println("Left: " + leftDistance + ", Right: " + rightDistance);
+    	
     	leftTrajectory = motionProfileLeft.calculateProfile();
     	rightTrajectory = motionProfileRight.calculateProfile();
     	
     	for(int i = 0; i < leftTrajectory.length; i++) {
     		if(i < rightTrajectory.length) {
     			Robot.driveTrain.pushPoints(leftTrajectory[i], rightTrajectory[i]);
+    			System.out.println("Left Distance: " + leftTrajectory[i].position + "Right Distance: " + rightTrajectory[i].position +", " + i);
     		}
     		else {
     			CANTalon.TrajectoryPoint zeroPoint = new CANTalon.TrajectoryPoint();
@@ -171,7 +174,7 @@ public class Auto_Drive extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return status[0].activePoint.isLastPoint;
+        return status[1].activePoint.isLastPoint;
     }
 
     // Called once after isFinished returns true

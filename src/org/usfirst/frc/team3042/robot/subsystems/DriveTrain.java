@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
 	Solenoid gearShift = new Solenoid(RobotMap.DRIVETRAIN_SOLENOID_SHIFT);
 	
 	CANTalon leftEncMotor = (RobotMap.isApollo)? leftMotorFront : leftMotorFront;
-    CANTalon rightEncMotor = (RobotMap.isApollo)? rightMotorRear : rightMotorFront;
+    CANTalon rightEncMotor = (RobotMap.isApollo)? rightMotorFront : rightMotorFront;
     
     ADIS16448_IMU gyro = new ADIS16448_IMU();
     
@@ -43,11 +43,11 @@ public class DriveTrain extends Subsystem {
    
     
     public double kPHigh = 0, kIHigh = 0, kDHigh = 0;
-    public double kPLowLeft = 0/*3*/, kILowLeft =0/* 0.02*/, kDLowLeft = 0/*30*/;
-    public double kPLowRight = 0/*4*/, kILowRight = 0/*0.02*/, kDLowRight = 0/*40*/;
+    public double kPLowLeft = 3/*3*/, kILowLeft =0/* 0.02*/, kDLowLeft = 30/*30*/;
+    public double kPLowRight = 3/*4*/, kILowRight = 0/*0.02*/, kDLowRight = 30/*40*/;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49 * 2.17: 1.39;
+    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49: 1.39;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;

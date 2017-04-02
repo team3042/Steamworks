@@ -118,6 +118,7 @@ public class AutoTrajectory_MotionProfile {
 		}
 		
 		Robot.logger.log("Points in Trajectory: " + totalPoints, 5);
+		Robot.logger.log("Distance: " + trajectory[totalPoints - 1].position, 3);
 				
 		return trajectory;
 	}

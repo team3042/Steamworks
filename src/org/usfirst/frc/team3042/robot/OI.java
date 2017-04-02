@@ -2,6 +2,8 @@ package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
+import org.usfirst.frc.team3042.robot.commands.AutoTrajectory_BackFromLeft;
+import org.usfirst.frc.team3042.robot.commands.AutoTrajectory_HopperToRight;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive;
 import org.usfirst.frc.team3042.robot.commands.Auto_LiftDrive;
 import org.usfirst.frc.team3042.robot.commands.Climber_Climb;
@@ -16,6 +18,7 @@ import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Shooter_SpinUp;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
+import org.usfirst.frc.team3042.robot.commands.Auto_FollowTrajectory;
 import org.usfirst.frc.team3042.robot.triggers.GamepadTrigger;
 import org.usfirst.frc.team3042.robot.triggers.POVButton;
 
@@ -129,9 +132,12 @@ public class OI {
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new AutoMode_GearCenter());
-		left_8.whenPressed(new Auto_Drive(AutoType.STRAIGHT, 6, 5));
-		left_9.whenPressed(new LEDSwitch_SetOn());
+		left_7.whenPressed(new Auto_Drive(AutoType.STRAIGHT, 5, 3));
+		left_8.whenPressed(new Auto_FollowTrajectory(
+    			AutoTrajectory_HopperToRight.getLeftTrajectory(),
+    			AutoTrajectory_HopperToRight.getRightTrajectory(),
+    			false));
+		left_9.whenPressed(new Auto_Drive(AutoType.TURN_RIGHT, -6, -5, 40));
 	}
 	
 }
