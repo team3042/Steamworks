@@ -13,13 +13,13 @@ public class AutoMode_HopperShootRight extends CommandGroup {
     public AutoMode_HopperShootRight() {
 
     	//Drive to the hopper that is to the right of the robot
-    	/*addSequential(new Auto_FollowTrajectory(
+    	addSequential(new Auto_FollowTrajectory(
     			AutoTrajectory_HopperToRight.getLeftTrajectory(),
     			AutoTrajectory_HopperToRight.getRightTrajectory(),
     			false));
-    	*/
-    	addSequential(new Auto_Drive(AutoType.STRAIGHT, 4.5, 5));
-    	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 8.0, 5, 28));
+    	
+    	//addSequential(new Auto_Drive(AutoType.STRAIGHT, 4.5, 5));
+    	//addSequential(new Auto_Drive(AutoType.TURN_RIGHT, 8.0, 5, 28));
     	
     	//Pause for balls to fill
     	addSequential(new Auto_WaitForFillup());

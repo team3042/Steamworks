@@ -25,7 +25,7 @@ public class Auto_FollowTrajectory extends Command {
     	
     	this.leftPoints = (isReversed)? rightPoints : leftPoints;
     	this.rightPoints = (isReversed)? leftPoints : rightPoints;
-    	this.isReversed = isReversed;
+    	this.isReversed = false;
     }
 
     // Called just before this Command runs the first time
