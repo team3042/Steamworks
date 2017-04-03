@@ -36,7 +36,7 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     			true));
     	*/
     	addSequential(new Auto_Drive(AutoType.STRAIGHT, -1, -5));
-    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -6.2, -5, 6));
+    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -6.63, -5, 2));
     	
     	//Fire the agitator to feed the shooter
     	addParallel(new Shooter_Shoot());
