@@ -47,7 +47,7 @@ public class DriveTrain extends Subsystem {
     public double kPLowRight = 3/*4*/, kILowRight = 0/*0.02*/, kDLowRight = 30/*40*/;
     public double kPLeft = kPLowLeft, kILeft = kILowLeft, kDLeft = kDLowLeft;
     public double kPRight = kPLowRight, kIRight = kILowRight, kDRight = kDLowRight;
-    public double kFLowLeft = (RobotMap.isApollo)? 1.38: 1.41, kFLowRight = (RobotMap.isApollo)? 1.49: 1.39;
+    public double kFLowLeft = (RobotMap.isApollo)? 1.39: 1.41, kFLowRight = (RobotMap.isApollo)? 1.38: 1.39;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
 	double pPos = 0, iPos = 0, fPos = 0;

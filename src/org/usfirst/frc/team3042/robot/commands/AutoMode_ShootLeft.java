@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoMode_ShootLeft extends CommandGroup {
 	public AutoMode_ShootLeft(){
-		addParallel(new Shooter_SpinUp());
+		addParallel(new Shooter_SpinUp(true));
 		addSequential(new Auto_WaitForSpinup());
 		addParallel(new Shooter_Shoot());
 		addSequential(new Auto_WaitForShootTenBalls());

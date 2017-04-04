@@ -16,8 +16,8 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     	
     	//Drive to the hopper that is to the left of the robot
     	addSequential(new Auto_FollowTrajectory(
-    			AutoTrajectory_HopperToRight.getRightTrajectory(),
     			AutoTrajectory_HopperToRight.getLeftTrajectory(),
+    			AutoTrajectory_HopperToRight.getRightTrajectory(),
     			true));
     	
     	//addSequential(new Auto_Drive(AutoType.STRAIGHT, 4.5, 5));
@@ -27,7 +27,7 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     	addSequential(new Auto_WaitForFillup());
 
     	//Spin up the shooter wheel
-    	addParallel(new Shooter_SpinUp());
+    	addParallel(new Shooter_SpinUp(true));
     	
     	//Drive to the shooting position
     	/*addSequential(new Auto_FollowTrajectory(
@@ -36,7 +36,7 @@ public class AutoMode_HopperShootLeft extends CommandGroup {
     			true));
     	*/
     	addSequential(new Auto_Drive(AutoType.STRAIGHT, -1, -5));
-    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -6.63, -5, 2));
+    	addSequential(new Auto_Drive(AutoType.TURN_LEFT, -2.92, -5, 2));
     	
     	//Fire the agitator to feed the shooter
     	addParallel(new Shooter_Shoot());

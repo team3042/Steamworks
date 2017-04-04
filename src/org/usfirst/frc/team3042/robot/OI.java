@@ -2,6 +2,7 @@ package org.usfirst.frc.team3042.robot;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_DriveForward;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearCenter;
 import org.usfirst.frc.team3042.robot.commands.AutoMode_GearRight;
+import org.usfirst.frc.team3042.robot.commands.AutoMode_HopperShootLeft;
 import org.usfirst.frc.team3042.robot.commands.AutoTrajectory_BackFromLeft;
 import org.usfirst.frc.team3042.robot.commands.AutoTrajectory_HopperToRight;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive;
@@ -125,18 +126,18 @@ public class OI {
 		
 		// Shooter
 		gunner_RT.whileActive(new Shooter_Shoot());
-		gunner_RB.toggleWhenPressed(new Shooter_SpinUp());
+		gunner_RB.toggleWhenPressed(new Shooter_SpinUp(false));
 		
 		// Phone Commands
 		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new Auto_Drive(AutoType.STRAIGHT, 5, 3));
+		left_7.whenPressed(new AutoMode_HopperShootLeft());
 		left_8.whenPressed(new Auto_FollowTrajectory(
     			AutoTrajectory_HopperToRight.getLeftTrajectory(),
     			AutoTrajectory_HopperToRight.getRightTrajectory(),
-    			false));
+    			true));
 		left_9.whenPressed(new Auto_Drive(AutoType.TURN_RIGHT, -6, -5, 40));
 	}
 	

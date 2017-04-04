@@ -25,7 +25,7 @@ public class AutoMode_HopperShootRight extends CommandGroup {
     	addSequential(new Auto_WaitForFillup());
 
     	//Spin up the shooter wheel
-    	addParallel(new Shooter_SpinUp());
+    	addParallel(new Shooter_SpinUp(true));
     	
     	//Drive to the shooting position
     	/*addSequential(new Auto_FollowTrajectory(
@@ -34,7 +34,7 @@ public class AutoMode_HopperShootRight extends CommandGroup {
     			true));
     	*/
     	addSequential(new Auto_Drive(AutoType.STRAIGHT, -1, -5));
-    	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, -6.63, -5, 2));
+    	addSequential(new Auto_Drive(AutoType.TURN_RIGHT, -2.35, -5, 2));
     	
     	//Fire the agitator to feed the shooter
     	addParallel(new Shooter_Shoot());

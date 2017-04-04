@@ -13,11 +13,13 @@ public class Shooter_SpinUp extends Command {
 
 	Timer time = new Timer();
 	double timeLimit = 1.0;
-	Boolean PIDStarted;
+	boolean PIDStarted, isAuto;
 	
-    public Shooter_SpinUp() {
+    public Shooter_SpinUp(boolean isAuto) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	
+    	this.isAuto = isAuto;
     }
 
     // Called just before this Command runs the first time
@@ -35,7 +37,7 @@ public class Shooter_SpinUp extends Command {
     	SmartDashboard.putNumber("Shooter RPM", Robot.shooter.getRPM());
     	
     	if ((time.get() >= timeLimit) && (!PIDStarted)) {
-    		Robot.shooter.spin();
+    		Robot.shooter.spin(isAuto);
     		PIDStarted = true;
     	}
     }

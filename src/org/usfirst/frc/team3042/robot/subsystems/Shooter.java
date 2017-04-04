@@ -23,6 +23,8 @@ public class Shooter extends Subsystem {
 
 	public static double shooterSpeed = -2900, agitatorSpeed = 0.90;
 	
+	public static double shooterSpeedHopperBlue = -2950;
+	
 	public double maxSpeedError = 500;
 	
 	private int shooterTalonZero = 0;
@@ -78,9 +80,9 @@ public class Shooter extends Subsystem {
 		agitatorTalon.set(safetyTest(speed));
 	}
 	
-	public void spin() {
-		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
-		setShooterRPM(velocity);		
+	public void spin(boolean isAuto) {
+		double velocity = (isAuto)? shooterSpeedHopperBlue : shooterSpeed; //SmartDashboard.getNumber("Shooter speed", shooterSpeed);
+		setShooterRPM(velocity);	
 	}
 	
 	public void spinup() {
