@@ -153,7 +153,7 @@ public class Robot extends IterativeRobot {
         //Here is where you would put smart dashboard outputs, to put a number on the smart dashbard follow this format
         //SmartDashboard.putNumber("example number", number or variable here);
         
-        SmartDashboard.putNumber("PDP Amp Draw 14", pdp.getCurrent(14));
+        //SmartDashboard.putNumber("PDP Amp Draw 14", pdp.getCurrent(14));
         //System.out.println(pdp.getCurrent(14));
     }
     

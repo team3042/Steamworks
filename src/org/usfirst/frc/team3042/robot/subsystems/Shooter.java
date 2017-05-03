@@ -19,11 +19,11 @@ public class Shooter extends Subsystem {
 	private CANTalon shooterTalon = new CANTalon(RobotMap.SHOOTER_TALON);
 	private CANTalon agitatorTalon = new CANTalon(RobotMap.AGITATE_TALON);
 	  
-	public static double kP = 0.34, kI = 0.0, kD = 3.4, kF = .0271;
+	public static double kP = 0.06, kI = 0.0, kD = 0.6, kF = .0252;
 
-	public static double shooterSpeed = -2900, agitatorSpeed = 0.90;
+	public static double shooterSpeed = -3500, agitatorSpeed = 0.90;
 	
-	public static double shooterSpeedHopperBlue = -2950;
+	public static double shooterSpeedHopperBlue = -3520;
 	
 	public double maxSpeedError = 500;
 	
@@ -81,7 +81,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void spin(boolean isAuto) {
-		double velocity = (isAuto)? shooterSpeedHopperBlue : shooterSpeed; //SmartDashboard.getNumber("Shooter speed", shooterSpeed);
+		double velocity = SmartDashboard.getNumber("Shooter speed", shooterSpeed);
 		setShooterRPM(velocity);	
 	}
 	
@@ -107,6 +107,10 @@ public class Shooter extends Subsystem {
 		}
 		*/
 		spinAgitator(agitatorSpeed);
+	}
+	
+	public void reverseAgitator() {
+		spinAgitator(-agitatorSpeed);
 	}
 	
 	public void stop() {

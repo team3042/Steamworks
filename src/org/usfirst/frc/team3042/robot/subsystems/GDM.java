@@ -53,5 +53,11 @@ public class GDM extends Subsystem {
     public void setPlaceMode() {
     	GDMBackRelay.set(true);
     }
+    
+    public void setOpenFrontOnly(){
+    	GDMRelay.set(true);
+    	GDMBackRelay.set(false);
+    	isActive = true;
+    }
 }
 

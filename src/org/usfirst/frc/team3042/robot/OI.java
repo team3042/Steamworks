@@ -12,10 +12,12 @@ import org.usfirst.frc.team3042.robot.commands.DriveTrain_Calibrate;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_LiftAssist;
 import org.usfirst.frc.team3042.robot.commands.DriveTrain_ShiftGears;
 import org.usfirst.frc.team3042.robot.commands.GDM_Actuate;
+import org.usfirst.frc.team3042.robot.commands.GDM_OpenFront;
 import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOff;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
+import org.usfirst.frc.team3042.robot.commands.Shooter_ReverseAgitator;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Shooter_SpinUp;
 import org.usfirst.frc.team3042.robot.commands.Auto_Drive.AutoType;
@@ -116,6 +118,7 @@ public class OI {
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
+		gunner_X.whenPressed(new GDM_OpenFront());
 		
 		// Climber
 		gunner_POVUp.whileActive(new Climber_Climb());
@@ -127,13 +130,14 @@ public class OI {
 		// Shooter
 		gunner_RT.whileActive(new Shooter_Shoot());
 		gunner_RB.toggleWhenPressed(new Shooter_SpinUp(false));
+		gunner_B.whileHeld(new Shooter_ReverseAgitator());
 		
 		// Phone Commands
 		//gunner_POVLeft.whenActive(new Vision_TrackBoiler());
 		//gunner_POVRight.whenActive(new Vision_TrackLift());
 		
 		// Software Testing
-		left_7.whenPressed(new AutoMode_HopperShootLeft());
+		left_7.whenPressed(new LEDSwitch_SetOn());
 		left_8.whenPressed(new Auto_FollowTrajectory(
     			AutoTrajectory_HopperToRight.getLeftTrajectory(),
     			AutoTrajectory_HopperToRight.getRightTrajectory(),

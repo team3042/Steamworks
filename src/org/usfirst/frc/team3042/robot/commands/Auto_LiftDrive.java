@@ -29,7 +29,7 @@ public class Auto_LiftDrive extends Command {
     private int noTargetCounter = 0;
     
     // Parameters for logistic function
-    private static final double DISTANCE_OFFSET = 30; // Inches
+    private static final double DISTANCE_OFFSET = 8; // Inches
     private static final double MAX_SPEED = -48; // Inches/Second
     private static final double STEEPNESS = 1/3;
     private static final double X_OFFSET = 15;
@@ -51,7 +51,7 @@ public class Auto_LiftDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double encoderDistance = -Robot.driveTrain.getLeftPositionInches();
+        double encoderDistance = Robot.driveTrain.getLeftPositionInches();
         
         // Calculating the current goals based on vision if far enough away, otherwise using other sensor data
         if (useVision) {
@@ -74,6 +74,7 @@ public class Auto_LiftDrive extends Command {
             // If we are close enough, stop using vision as we will lose the target soon and transition to gyro driving
             if (distance < MIN_VIEW_DISTANCE) {
                 useVision = false;
+                Robot.logger.log("ETHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNNNNNNNNNNNNNNNNNNNNNN it stopped", 1);
             }
         } else {
             // Using encoders, determine remaining distance    
@@ -92,6 +93,7 @@ public class Auto_LiftDrive extends Command {
 		SmartDashboard.putNumber("Right Drivetrain FPS", Robot.driveTrain.getRightVelocityInchesPerSecond() / 12);
         
         oldEncoderDistance = encoderDistance;
+       // Robot.logger.log("Distance: " + distance, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -181,7 +183,7 @@ public class Auto_LiftDrive extends Command {
     	double leftSpeed = speed - correction;
     	double rightSpeed = speed + correction;
     	
-    	Robot.logger.log("Gyro error: " + gyroError + ", Correction: " + correction, 3);
+    	//Robot.logger.log("Distance: " + distance + "Gyro error: " + gyroError + ", Correction: " + correction, 3);
     	
     	oldGyroError = gyroError;
     	return new double[] {leftSpeed, rightSpeed};

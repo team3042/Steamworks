@@ -60,7 +60,7 @@ public class VisionServer implements Runnable {
      */
     protected class ServerThread implements Runnable {
         private Socket socket;
-        private VisionMode mode = VisionMode.None;
+        private VisionMode mode = VisionMode.Lift;
 
         public ServerThread(Socket socket) {
             this.socket = socket;
@@ -105,11 +105,11 @@ public class VisionServer implements Runnable {
             }
             if("boiler".equals(message.getMessage())){
             	System.out.println("A thread Mode is now boiler.");
-                mode = VisionMode.Boiler;
+                //mode = VisionMode.Boiler;
             }
             if("lift".equals(message.getMessage())){
             	System.out.println("A thread Mode is now lift.");
-                mode = VisionMode.Lift;
+                //mode = VisionMode.Lift;
             }
         }
 

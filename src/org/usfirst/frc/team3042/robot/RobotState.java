@@ -55,7 +55,7 @@ public class RobotState implements VisionUpdateReceiver {
 	private static boolean newVisionUpdate = false;
 	
 	private static final int CAMERA_X_OFFSET = 12;
-	private static final double CAMERA_Y_OFFSET = 9;
+	private static final double CAMERA_Y_OFFSET = 8;
 	private static final Translation2d ROBOT_TO_CAMERA = new Translation2d(CAMERA_X_OFFSET, CAMERA_Y_OFFSET);
 	
 	// TODO: Determine actual values
@@ -68,7 +68,7 @@ public class RobotState implements VisionUpdateReceiver {
 	private static final double RECENT_WEIGHT = 1.0;
 	private static final double STABILITY_WEIGHT = 2.0;
 	
-	
+	AimingParameters aim = new AimingParameters(Rotation2d.fromDegrees(0), 0, true);
 	
 	private RobotState() {
 		reset(0, new RigidTransform2d());
@@ -121,11 +121,11 @@ public class RobotState implements VisionUpdateReceiver {
 	    if (!(mostRecentUpdate == null || mostRecentUpdate.getTargets().isEmpty()) && newVisionUpdate){
 	        double timestamp = mostRecentUpdate.getCapturedAtTimestamp();
 	        TargetInfo target = mostRecentUpdate.getTargets().get(0);
-	        
+	        /*
 	        System.out.println(target.getX());
 		    System.out.println(target.getY());
 		    System.out.println(target.getDistance());
-	        
+	        */
 	        RigidTransform2d fieldToRobot = robotPose.getInterpolated(new InterpolatingDouble(timestamp));
 	        RigidTransform2d fieldToCamera = fieldToRobot.transformBy(RigidTransform2d.fromTranslation(ROBOT_TO_CAMERA.rotateBy(fieldToRobot.getRotation())));
 	        
@@ -135,14 +135,30 @@ public class RobotState implements VisionUpdateReceiver {
             Translation2d cameraToTarget = new Translation2d(cameraToTargetX, cameraToTargetY);
 	        
 	        fieldToTarget = fieldToCamera.transformBy(RigidTransform2d.fromTranslation(cameraToTarget)).getTranslation();
-	        
+            
+           /* Robot.logger.log("Transform X: " + fieldToTarget.getX() +
+	        		", Transform Y: " + fieldToTarget.getY(), 3);
+	        */
 	        targetTrack = new TargetTrack(timestamp, fieldToTarget,0);
 	        
 	        newVisionUpdate = false;
 	        
 	        getAimingParametersLift();
 	        
-	        //Robot.logger.log("Distance: " + target.getDistance(), 3);
+	        //Robot.logger.log("Distance: " + target.getDistance() + " Angle: " + target.getX(), 3);
+	        
+	        
+	        double D = target.getDistance();
+	        double theta = target.getX();
+	        double y = 10;
+	        double tanPhi = Math.tan(theta) + y/(D * Math.cos(theta));
+	        double phi = Math.atan(tanPhi);
+	        
+	        double distanceActual = Math.sqrt(Math.pow(D, 2) + 2 * D * y * Math.sin(theta) + Math.pow(y, 2));
+	        
+	        aim = new AimingParameters(Rotation2d.fromRadians(phi), distanceActual, true);
+	       // Robot.logger.log("Alt Distance: " + distanceActual + " Angle: " + phi, 3);
+			
 	    }
 	}
 	
@@ -161,7 +177,7 @@ public class RobotState implements VisionUpdateReceiver {
 	    double distance = robotToTarget.getTranslation().norm();
 	    Rotation2d angle = Rotation2d.fromRadians(Math.atan2(robotToTarget.getTranslation().getY(), robotToTarget.getTranslation().getX()));
 	    
-	    return new AimingParameters(angle, distance, true);
+	    return aim; //new AimingParameters(angle, distance, true);
 	}
 	
 	public synchronized AimingParameters getAimingParametersBoiler() {
