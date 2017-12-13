@@ -50,7 +50,7 @@ public class DriveTrain extends Subsystem {
     public double kFLowLeft = (RobotMap.isApollo)? 1.39: 1.41, kFLowRight = (RobotMap.isApollo)? 1.38: 1.39;
     public double kFHighLeft = 0.456, kFHighRight = 0.465;
 	public double kFLeft = kFLowLeft, kFRight = kFLowRight;
-	double pPos = 0, iPos = 0, fPos = 0;
+	double pPos = 3, iPos = 0, fPos = 1.41;
 	int iZone = 0;
 	
 	private static final double WHEEL_DIAMETER_IN = 3.95; // Measured

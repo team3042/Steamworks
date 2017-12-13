@@ -21,6 +21,7 @@ import org.usfirst.frc.team3042.robot.subsystems.GDM;
 import org.usfirst.frc.team3042.robot.subsystems.Intake;
 import org.usfirst.frc.team3042.robot.subsystems.LEDSwitch;
 import org.usfirst.frc.team3042.robot.subsystems.Shooter;
+import org.usfirst.frc.team3042.robot.subsystems.SoftwareBotServo;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot {
 	public static final Intake intake = new Intake();
 	public static final GDM gdm = new GDM();
 	public static final LEDSwitch ledSwitch = new LEDSwitch();
+	public static final SoftwareBotServo softwareBotServo = new SoftwareBotServo();
 	
 	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	

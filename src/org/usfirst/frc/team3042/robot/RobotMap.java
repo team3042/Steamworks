@@ -42,6 +42,8 @@ public class RobotMap {
 	
 	public static final int COMPRESSOR_PORT = 0;
 	
+	public static final int DRROBBY_SERVO = 1;
+	
 	
 	
 }

@@ -21,7 +21,7 @@ public class Shooter extends Subsystem {
 	  
 	public static double kP = 0.06, kI = 0.0, kD = 0.6, kF = .0252;
 
-	public static double shooterSpeed = -3500, agitatorSpeed = 0.90;
+	public static double shooterSpeed = -3400, agitatorSpeed = 0.90;
 	
 	public static double shooterSpeedHopperBlue = -3520;
 	

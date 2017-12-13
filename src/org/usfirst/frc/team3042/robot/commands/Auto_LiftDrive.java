@@ -23,7 +23,7 @@ public class Auto_LiftDrive extends Command {
     private double distance, oldEncoderDistance;
     private Rotation2d gyroGoal;
     //private double kDistanceP, kDistanceI, kDistanceD;
-    private double kAngleP = .6, kAngleI = 0.01, kAngleD = 4;
+    private double kAngleP = .6, kAngleI = 0.00, kAngleD = 4;
     private double maxCorrection = 8, correctionDeadzone = 3.5;
     private double oldGyroError = 0, sumGyroError = 0;
     private int noTargetCounter = 0;
@@ -78,7 +78,7 @@ public class Auto_LiftDrive extends Command {
             }
         } else {
             // Using encoders, determine remaining distance    
-            distance -= (encoderDistance - oldEncoderDistance);
+            distance += (encoderDistance - oldEncoderDistance);
         }
     	
 		//Robot.logger.log(((useVision)? "using vision" : "vision disabled") + " at distance: " + distance, 3);
@@ -183,7 +183,7 @@ public class Auto_LiftDrive extends Command {
     	double leftSpeed = speed - correction;
     	double rightSpeed = speed + correction;
     	
-    	//Robot.logger.log("Distance: " + distance + "Gyro error: " + gyroError + ", Correction: " + correction, 3);
+    	Robot.logger.log("Distance: " + distance + "Gyro error: " + gyroError + ", Correction: " + correction, 3);
     	
     	oldGyroError = gyroError;
     	return new double[] {leftSpeed, rightSpeed};

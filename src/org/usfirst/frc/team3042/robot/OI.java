@@ -17,6 +17,7 @@ import org.usfirst.frc.team3042.robot.commands.Intake_Exhaust;
 import org.usfirst.frc.team3042.robot.commands.Intake_Intake;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOff;
 import org.usfirst.frc.team3042.robot.commands.LEDSwitch_SetOn;
+import org.usfirst.frc.team3042.robot.commands.SetDrRobbieServo;
 import org.usfirst.frc.team3042.robot.commands.Shooter_ReverseAgitator;
 import org.usfirst.frc.team3042.robot.commands.Shooter_Shoot;
 import org.usfirst.frc.team3042.robot.commands.Shooter_SpinUp;
@@ -111,10 +112,17 @@ public class OI {
 	
 	public OI() {
 		
+		// DrRobbie_servo
+		left_1.whenPressed(new SetDrRobbieServo(0.0));
+		left_2.whenPressed(new SetDrRobbieServo(0.5));
+		left_3.whenPressed(new SetDrRobbieServo(1.0));
+
+
+		
 		// Drivetrain
 		right_1.whenPressed(new DriveTrain_ShiftGears());
 		//right_7.whenPressed(new DriveTrain_Calibrate());
-		left_1.whileHeld(new DriveTrain_LiftAssist());
+		//left_1.whileHeld(new DriveTrain_LiftAssist());
 		
 		// GDM
 		gunner_A.whenPressed(new GDM_Actuate());
